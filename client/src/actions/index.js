@@ -28,7 +28,7 @@ export const fetchMusicInstance = () => {
             build: '1.0.0'
         }
     });
-
+    console.log(process.env.REACT_APP_APPLE_DEV_KEY);
     window.MusicKit.getInstance();
 
     return { type: FETCH_MUSIC_INSTANCE, payload: res };
