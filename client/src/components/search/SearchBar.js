@@ -13,9 +13,9 @@ class SearchBar extends React.Component{
                     <form id="innerForm" onSubmit={this.props.handleSubmit(values => this.props.searchSongs(values.searchTerms))} className="ui form">
                         <Field  autoComplete="off" type="text" name="searchTerms" component="input" placeholder="Search"/>
                     </form>
-                    <button id="searchButton" className="ui inverted white icon button">
-                            <i id="searchIcon" className="search icon"></i>
-                        </button>
+                    <button onClick={this.props.handleSubmit(values => this.props.searchSongs(values.searchTerms))} id="searchButton" className="ui inverted white icon button">
+                        <i id="searchIcon" className="search icon"></i>
+                    </button>
                 </div>
             </div>
         )

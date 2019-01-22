@@ -44,7 +44,7 @@ class PostForm extends Component {
                 </div>
                 <div style={{ textAlign: 'center' }}>
                     <Link to="/search" className="negative ui button">Cancel</Link>
-                    <button type="submit" className="ui primary button">Submit</button>
+                    <button type="submit" className="ui primary button">Post</button>
                 </div>
             </div>
         );
