@@ -7,8 +7,9 @@ const userSchema = new Schema({
     googleId: String,
     username: String,
     name: String,
-    followers: { type: Number, default: 0 },
-    following: { type: Number, default: 0 },
+    profileImage: {type: String, default: "https://i.imgur.com/JeTiSHK.png"},
+    followersCount: { type: Number, default: 0 },
+    followingCount: { type: Number, default: 0 },
     postsNumber: {type: Number, default: 0 }
 });
 

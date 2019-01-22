@@ -1,0 +1,122 @@
+#player {
+    width: 100%;
+    margin: 0;
+    background-color: rgb(255, 255, 255);
+    border-top: 1px solid rgb(220, 220, 220);
+    text-align: center;
+    height: 55px;
+    box-shadow: 0px 0px 5px #ffffff;
+}
+
+#playerAlbumImage {
+    max-width: 50px;
+    margin: 0 auto;
+}
+
+#playerContentRow {
+    margin: auto;
+    padding: 0;
+}
+
+#muteButton {
+    margin: auto;
+    padding: 0;
+    text-align: right;
+    border: none;
+    
+}
+
+#volumeBar {
+    margin: auto;
+    padding: 0;
+    text-align: center;
+}
+
+#playerSongInfo {
+    margin: auto;
+    padding: 0;
+    text-align: center;
+}
+
+#playerAlbumArt {
+    margin: auto;
+    padding: 0;
+    text-align: center;
+}
+
+#playButton {
+    margin: auto;
+    padding: 0;
+    text-align: center;
+    border: none;
+    outline:none;
+}
+
+#progressBar {
+    margin: auto;
+    padding: 0;
+    text-align: center;
+}
+
+#currentTime {
+    margin: auto;
+    padding: 0 5px 0 0;
+    text-align: right;
+}
+
+#totalTime {
+    margin: auto;
+    padding: 0 0 0 5px;
+    text-align: left;
+}
+
+@media only screen and (max-width: 700px) {
+
+
+    #volumeBar {
+        display: none;
+    }
+
+    #muteButton {
+        display: none;
+    }
+
+    #playButton {
+        margin: auto auto auto 10px;
+        padding: 0;
+        text-align: center;
+        border: none;
+    }
+
+    #artistname {
+        display: none;
+    }
+
+    #progressBar {
+        display: none;
+    }
+
+    #playerSongInfo {
+        margin: auto auto auto 30px;
+        padding: 0;
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap; 
+        text-overflow: ellipsis;
+    }
+
+    #playerAlbumArt {
+        margin: 0 30px 0 5px;
+        padding: 0;
+        text-align: center;
+    }
+    
+    #currentTime {
+        display: none;
+    }
+    
+    #totalTime {
+        display: none;
+    }
+
+}

@@ -1,0 +1,39 @@
+#listPostCard {
+    width: 600px;
+    margin: auto;
+    box-shadow: 0px 0px 5px #ffffff;
+}
+
+#postItem {
+    margin: 0;
+    padding: 20px 0;
+}
+
+#postListContainer {
+    /* background-color: rgb(231, 231, 231); */
+}
+
+
+#imagePlayButton {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    border: none;
+    cursor: pointer;
+    background: none;
+    outline:none;
+}
+
+
+
+#buttonIcon {
+    color: white;
+    font-size: 5rem;
+    transition: font-size 1s;
+}
+
+#buttonIcon:hover {
+    font-size: 6rem;
+}

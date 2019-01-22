@@ -1,0 +1,14 @@
+#pageFooter {
+    /* height: 130px; */
+    height: 120px;
+    display: flex;
+    width: 100%;
+    bottom:0;
+    position: absolute;
+    box-shadow: 0px 0px 1px #ffffff;
+} 
+ 
+#footerContent {
+    margin: 0 auto 80px;
+    text-shadow: 0px 0px 3px #ffffff;
+}

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import './Header.css';
 
 class Header extends Component {
 
@@ -12,7 +13,7 @@ class Header extends Component {
                 return (
                     <div className="right menu">
                         <div className="ui item">
-                            <a href="/auth/google" className="ui button">
+                            <a href="/auth/google" className="ui inverted white button">
                                 Login With Google
                             </a>
                         </div>
@@ -22,7 +23,7 @@ class Header extends Component {
                 return (
                     <div className="right menu">
                         <div className="ui item">
-                            <a href="/api/logout" className="ui button">
+                            <a href="/api/logout" className="ui inverted white button">
                                 Sign Out
                             </a>
                         </div>
@@ -31,12 +32,17 @@ class Header extends Component {
         }
     }
 
+
+
     render() {
         return (
-            <div className="ui secondary pointing menu">
+            <div id="mainHeader" className="ui inverted menu">
                 <div className="ui container">
-                    <Link to={this.props.auth ? '/home' : '/'} className="active item">
+                    <Link to={this.props.auth ? '/home' : '/'} className="item">
                         Towers
+                    </Link>
+                    <Link to='/about' className="item">
+                        About
                     </Link>
                     <Link to='/search' className="item">
                         Search

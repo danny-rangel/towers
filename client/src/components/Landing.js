@@ -1,14 +1,29 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import history from '../history';
 
 
 class Landing extends Component {
+
+
     render() {
+
+        if (this.props.auth) {
+            history.push('/home');
+        }
+
         return(
             <div style={{ textAlign: 'center' }}>
-                <h1>music with community</h1>
+                <h2>music with community</h2>
             </div>
         );
     }
 }
 
-export default Landing;
+
+const mapStateToProps = (state) => {
+    return { auth: state.auth }
+}
+
+
+export default connect(mapStateToProps)(Landing);

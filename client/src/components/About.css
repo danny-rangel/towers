@@ -1,0 +1,11 @@
+#aboutSection {
+    display: flex;
+    min-height: 60vh;
+    position: relative;
+}
+
+#aboutContent {
+    margin: auto;
+    color: black;
+    text-shadow: 0px 0px 8px #ffffff;
+}
