@@ -5,8 +5,8 @@ const About = () => {
     return (
         <div className="ui container" id="aboutSection">
             <h4 id="aboutContent">
-                Towers is a music application created for anyone who wants to 
-                share their favorite songs with others
+                Towers is a social media music sharing app made for anyone who loves
+                 to share what's currently stuck in their head with friends
                 <br></br>
                 <br></br>
                 Send me a message if you'd like an invitation

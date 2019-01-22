@@ -67,6 +67,7 @@ class PostList extends Component {
                         </div>
                         <div 
                             onMouseOver={() => this.setState({ showButton: true})} 
+                            // onMouseOver={() => this.selectAndPlayPost(post)} AUTO PLAY FUNCTIONALITY???
                             onMouseOut={() => this.setState({ showButton: false})} 
                             id="imageContainer" 
                             onClick={() => this.selectAndPlayPost(post)} 

@@ -15,8 +15,8 @@ class ProgressBar extends Component {
 
         render() {
             return (
-                <div id="innerProgressBar" ref={this.myRef} onClick={(e) => this.toTime(e)} style={{ display: 'block', width: `100%`, height: 5, backgroundColor: '#ccc', borderRadius: '5px'}} >
-                    <div style={{ display: 'block', width: `${this.props.percentage * 100}%`, height: 5, backgroundColor: '#000000', borderRadius: '5px' }} />
+                <div id="innerProgressBar" ref={this.myRef} onClick={(e) => this.toTime(e)} >
+                    <div id="styledProgressBar" style={{width: `${this.props.percentage * 100}%`}} />
                 </div>
         );
     }
