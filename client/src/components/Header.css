@@ -2,5 +2,28 @@
     margin: 0;
     border-radius: 0px 0px 0px 0px;
     text-shadow: 0px 0px 2px #ffffff;
-    box-shadow: 0px 0px 1px #ffffff;
+    box-shadow: 0px 0px 20px #ffffff !important;
+}
+
+#logbutton {
+    margin: auto;
+    
+}
+
+
+
+@media only screen and (max-width: 767px) {
+
+    #homebutton {
+        margin: auto;
+    }
+
+    #aboutbutton {
+        margin: auto;
+    }
+
+    #searchbutton {
+        margin: auto;
+    }
+
 }

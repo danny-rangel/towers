@@ -13,8 +13,8 @@ class Header extends Component {
                 return (
                     <div className="right menu">
                         <div className="ui item">
-                            <a href="/auth/google" className="ui inverted white button">
-                                Login With Google
+                            <a id="logbutton" href="/auth/google" className="ui inverted white button">
+                                Log in With Google
                             </a>
                         </div>
                     </div>
@@ -23,7 +23,7 @@ class Header extends Component {
                 return (
                     <div className="right menu">
                         <div className="ui item">
-                            <a href="/api/logout" className="ui inverted white button">
+                            <a id="logbutton" href="/api/logout" className="ui inverted white button">
                                 Sign Out
                             </a>
                         </div>
@@ -36,19 +36,19 @@ class Header extends Component {
 
     render() {
         return (
-            <div id="mainHeader" className="ui inverted menu">
-                <div className="ui container">
+            <div id="mainHeader" className="ui inverted stackable menu">
+
                     <Link to={this.props.auth ? '/home' : '/'} className="item">
-                        Towers
+                        <div id="homebutton"><h2>Towers</h2></div>
                     </Link>
                     <Link to='/about' className="item">
-                        About
+                        <div id="aboutbutton"><h4>About</h4></div>
                     </Link>
                     <Link to='/search' className="item">
-                        Search
+                        <div id="searchbutton"><h4>Search</h4></div>
                     </Link>
                     {this.renderContent()}
-                </div>
+               
             </div>
         );
     }

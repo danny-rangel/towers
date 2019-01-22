@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import secondsFormatted from '../../utils/secondsFormatted';
 import moment from 'moment';
+import ProgressBar from '../player/ProgressBar';
 import { selectPost, songToPlay, setIsPlaying, setPercentage, setIntervalId, setIntervalIdFlag, setTime, setMusicKitIsPlaying } from '../../actions';
 import './PostList.css';
+
 
 
 class PostList extends Component {
@@ -20,7 +22,7 @@ class PostList extends Component {
             
         }
 
-        if (this.props.musicKit.player.isPlaying && this.props.intervalIdFlag === this.props.selectedPost._id)
+        if (this.props.isPlaying && this.props.intervalIdFlag === this.props.selectedPost._id)
         {
             
             this.props.musicKit.pause();
@@ -88,10 +90,13 @@ class PostList extends Component {
                             <div className="description">
                                 {post.caption}
                             </div>
-                            <span className="right floated">
-                            {/* <i className="heart outline like icon"></i>
-                            {post.likes} likes */}
-                            </span>
+                            {/* <span className="right floated">
+                            <i className="heart outline like icon"></i>
+                            {post.likes} likes
+                            </span> */}
+                        </div>
+                        <div className="ui bottom attached progress" style={{display: this.props.songPlaying._id === post._id ? 'block': 'none'}}>
+                            <ProgressBar />
                         </div>
                     </div>
                 </div>

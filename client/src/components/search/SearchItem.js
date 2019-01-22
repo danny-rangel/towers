@@ -16,12 +16,12 @@ class SearchItem extends Component {
             await this.props.musicKit.setQueue({ url: song.attributes.url });
         }
 
-        if (this.props.musicKit.player.isPlaying && this.props.intervalIdFlag === this.props.selectedSong.id)
+        if (this.props.isPlaying && this.props.intervalIdFlag === this.props.selectedSong.id)
         {
             this.props.musicKit.pause();
-            this.props.setIsPlaying(this.props.musicKit.player.isPlaying);
+            this.props.setIsPlaying(false);
             clearInterval(this.props.intervalId);
-        } else if (!this.props.musicKit.player.isPlaying || this.props.intervalIdFlag !== this.props.selectedSong.id) {
+        } else if (!this.props.isPlaying || this.props.intervalIdFlag !== this.props.selectedSong.id) {
             clearInterval(this.props.intervalId);
             let intervalId = setInterval(() => {
                 this.props.setPercentage(this.props.musicKit.player.currentPlaybackTime / this.props.musicKit.player.currentPlaybackDuration);
@@ -29,7 +29,7 @@ class SearchItem extends Component {
             }, 400);
             this.props.setIntervalId(intervalId);
             this.props.musicKit.play();
-            this.props.setIsPlaying(this.props.musicKit.player.isPlaying);
+            this.props.setIsPlaying(true);
             this.props.setIntervalIdFlag(this.props.selectedSong.id);
         }
     }
