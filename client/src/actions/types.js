@@ -17,3 +17,4 @@ export const SET_INTERVAL_ID = 'set_interval_id';
 export const SET_INTERVAL_ID_FLAG = 'set_interval_id_flag';
 export const SET_TIME = 'set_time';
 export const SET_MUSICKIT_IS_PLAYING = 'set_musickit_is_playing';
+export const IS_MUSIC_KIT_AUTHORIZED = 'is_music_kit_authorized';

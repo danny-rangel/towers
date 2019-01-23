@@ -2,8 +2,21 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './Header.css';
+import { isMusicKitAuthorized } from '../actions';
 
 class Header extends Component {
+
+
+    async authorizeUser() {
+        const res = await this.props.musicKit.authorize();
+        this.props.isMusicKitAuthorized(res);
+    }
+
+    async unauthorizeUser() {
+        const res = await this.props.musicKit.unauthorize();
+        this.props.isMusicKitAuthorized(res);
+    }
+
 
     renderContent() {
         switch (this.props.auth) {
@@ -11,24 +24,48 @@ class Header extends Component {
                 return;
             case false:
                 return (
-                    <div className="right menu">
                         <div className="ui item">
                             <a id="logbutton" href="/auth/google" className="ui inverted white button">
-                                <h2 id="buttonText">Log in With Google</h2>
+                                <div id="buttonText">Log in With Google</div>
                             </a>
                         </div>
-                    </div>
                 );
             default:
                 return (
-                    <div className="right menu">
                         <div className="ui item">
                             <a id="logbutton" href="/api/logout" className="ui inverted white button">
-                            <div id="buttonText">Sign Out</div>
+                                <div id="buttonText">Sign Out of Towers</div>
                             </a>
                         </div>
-                    </div>
                 );
+        }
+    }
+
+    renderAppleAuth() {
+        switch (this.props.authorized) {
+            case false:
+                return (
+                        <div className="ui item">
+                            <button onClick={() => this.authorizeUser()} id="appleButton"  className="ui inverted white button">
+                                <div id="buttonText">Listen with Apple Music
+                                    <img alt="applemusicicon" id="appleMusicIcon" src="Apple_Music_Icon.png"></img>
+                                </div>
+                            </button>
+                        </div>
+                );
+            default:
+            case true:
+            return (
+                <div className="ui item">
+                    <button onClick={() => this.unauthorizeUser()} id="appleButton"  className="ui inverted white button">
+                        <div id="buttonText">Sign Out of Apple Music
+                            <img alt="applemusicicon" id="appleMusicIcon" src="Apple_Music_Icon.png"></img>
+                        </div>
+                    </button>
+                </div>
+                );
+            case null:
+                return;
         }
     }
 
@@ -47,15 +84,18 @@ class Header extends Component {
                     <Link to='/search' className="item">
                         <div id="searchbutton"><h4 id="buttonText">Search</h4></div>
                     </Link>
-                    {this.renderContent()}
-               
+                    <div className="right menu">
+                        {this.renderAppleAuth()}
+                        {this.renderContent()}
+                    </div>
+                    
             </div>
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return { auth: state.auth };
+const mapStateToProps = ({auth, authorized, musicKit }) => {
+    return { auth, authorized, musicKit };
 }
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, { isMusicKitAuthorized } )(Header);

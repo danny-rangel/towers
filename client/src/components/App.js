@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchUser, fetchMusicInstance } from '../actions';
+import { fetchUser, fetchMusicInstance, isMusicKitAuthorized, setVolume } from '../actions';
 import history from '../history';
 import './App.css';
 
@@ -21,10 +21,24 @@ const PostDelete = () => {};
 
 class App extends Component {
 
-    componentDidMount() {
+    async componentDidMount() {
         this.props.fetchUser();
-        this.props.fetchMusicInstance();
+        await this.props.fetchMusicInstance();
+        this.props.isMusicKitAuthorized(this.props.musicKit.isAuthorized);
+        this.props.musicKit.volume = 1;
+        this.props.setVolume(this.props.musicKit.volume);
+
+
+
+
+        if (!this.props.authorized) 
+        {
+            await this.props.musicKit.unauthorize()
+            this.props.isMusicKitAuthorized(this.props.musicKit.isAuthorized);
+            
+        }
     }
+
 
     render() {
         return (
@@ -53,8 +67,8 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = ({ musicKit }) => {
-        return { musicKit };
+const mapStateToProps = ({ musicKit, authorized }) => {
+        return { musicKit, authorized };
 }
 
-export default connect(mapStateToProps, { fetchUser, fetchMusicInstance })(App);
+export default connect(mapStateToProps, { fetchUser, fetchMusicInstance, isMusicKitAuthorized, setVolume })(App);

@@ -6,7 +6,7 @@ const Post = mongoose.model('posts');
 module.exports = (app) => {
 
     app.post('/api/posts', requireLogin, async (req, res) => {
-        const { songName, artistName, albumArt, caption, username, songURL, durationInMillis } = req.body;
+        const { songName, artistName, albumArt, caption, username, songURL, durationInMillis, previewURL } = req.body;
 
         const post = new Post({
             username: username,
@@ -15,6 +15,7 @@ module.exports = (app) => {
             songName: songName,
             artistName: artistName,
             songURL: songURL,
+            previewURL: previewURL,
             albumArt: albumArt,
             _user: req.user.id,
             date: Date.now()

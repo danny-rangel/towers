@@ -3,7 +3,7 @@ import AppleMusic from '../apis/appleMusic';
 import history from '../history';
 import { FETCH_USER, FETCH_MUSIC_INSTANCE, SEARCH_SONGS, SELECT_SONG, SUBMIT_POST, 
     FETCH_POSTS, CHECK_USER, FETCH_ALL_POSTS, FETCH_USER_POSTS, FOLLOW_USER, SELECT_POST, SONG_TO_PLAY,
-    SET_PERCENTAGE, SET_IS_PLAYING, SET_VOLUME, SET_INTERVAL_ID, SET_INTERVAL_ID_FLAG, SET_TIME, SET_MUSICKIT_IS_PLAYING } from './types';
+    SET_PERCENTAGE, SET_IS_PLAYING, SET_VOLUME, SET_INTERVAL_ID, SET_INTERVAL_ID_FLAG, SET_TIME, SET_MUSICKIT_IS_PLAYING, IS_MUSIC_KIT_AUTHORIZED } from './types';
 
 export const fetchUser = () => async dispatch => {
     const res = await axios.get('/api/current_user');
@@ -32,6 +32,10 @@ export const fetchMusicInstance = () => {
 
     return { type: FETCH_MUSIC_INSTANCE, payload: res };
 };
+
+export const isMusicKitAuthorized = (authorization) => {
+    return { type : IS_MUSIC_KIT_AUTHORIZED, payload: authorization };
+}
 
 export const searchSongs = (term) => async dispatch => {
     const res = await AppleMusic.get('/search', {

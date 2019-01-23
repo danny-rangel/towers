@@ -18,7 +18,7 @@ class SearchItem extends Component {
 
         if (this.props.isPlaying && this.props.intervalIdFlag === this.props.selectedSong.id)
         {
-            this.props.musicKit.pause();
+            this.props.musicKit.player.pause();
             this.props.setIsPlaying(false);
             clearInterval(this.props.intervalId);
         } else if (!this.props.isPlaying || this.props.intervalIdFlag !== this.props.selectedSong.id) {
@@ -28,7 +28,7 @@ class SearchItem extends Component {
                 this.props.setTime(secondsFormatted(this.props.musicKit.player.currentPlaybackTime));
             }, 400);
             this.props.setIntervalId(intervalId);
-            this.props.musicKit.play();
+            this.props.musicKit.player.play();
             this.props.setIsPlaying(true);
             this.props.setIntervalIdFlag(this.props.selectedSong.id);
         }

@@ -9,8 +9,19 @@
     margin: auto;
 }
 
+#appleButton {
+    margin: auto;
+    padding: 8px 14px 10px;
+}
+
+#appleMusicIcon {
+    width: 16px;
+    margin-left: 5px;
+}
+
 #buttonText {
     text-shadow: 0px 0px 6px #ffffff;
+    
 }
 
 

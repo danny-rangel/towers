@@ -19,6 +19,7 @@ import setIntervalIdReducer from './setIntervalIdReducer';
 import setIntervalIdFlagReducer from './setIntervalIdFlagReducer';
 import setTimeReducer from './setTimeReducer';
 import setMusicKitIsPlayingReducer from './setMusicKitIsPlayingReducer';
+import isMusicKitAuthorizedReducer from './isMusicKitAuthorizedReducer';
 
 export default combineReducers({
     auth: authReducer,
@@ -40,5 +41,6 @@ export default combineReducers({
     intervalId: setIntervalIdReducer,
     intervalIdFlag: setIntervalIdFlagReducer,
     time: setTimeReducer,
-    musicKitIsPlaying: setMusicKitIsPlayingReducer
+    musicKitIsPlaying: setMusicKitIsPlayingReducer,
+    authorized: isMusicKitAuthorizedReducer
 });

@@ -18,6 +18,7 @@ class PostList extends Component {
         {
             this.props.selectPost(post);
             this.props.songToPlay(post);
+
             await this.props.musicKit.setQueue({ url: post.songURL });
             
         }
@@ -25,7 +26,7 @@ class PostList extends Component {
         if (this.props.isPlaying && this.props.intervalIdFlag === this.props.selectedPost._id)
         {
             
-            this.props.musicKit.pause();
+            this.props.musicKit.player.pause();
             this.props.setIsPlaying(false);
             this.props.setMusicKitIsPlaying(false);
             clearInterval(this.props.intervalId);
@@ -37,7 +38,7 @@ class PostList extends Component {
                 this.props.setTime(secondsFormatted(this.props.musicKit.player.currentPlaybackTime));
                 this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
                 if (this.props.percentage >= 1) {
-                    this.props.musicKit.stop();
+                    this.props.musicKit.player.stop();
                     this.props.setIsPlaying(false);
                     clearInterval(this.props.intervalId);
                 }
@@ -45,7 +46,7 @@ class PostList extends Component {
 
 
             this.props.setIntervalId(intervalId);
-            this.props.musicKit.play();
+            this.props.musicKit.player.play();
             this.props.setIsPlaying(true);
             this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
             this.props.setIntervalIdFlag(this.props.selectedPost._id);
