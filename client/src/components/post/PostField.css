@@ -1,4 +1,15 @@
 #caption-input {
-    padding-left: 0px !important;
-    text-align: center !important;
+    padding-left: 0px;
+    resize: none;
+    text-align: center;
+}
+
+#field {
+    margin: auto;
+    padding: 15px;
+}
+
+.button.postButton {
+    margin: 20px 28px 15px;
+    width: 100px;
 }

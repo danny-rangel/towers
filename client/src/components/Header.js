@@ -18,6 +18,8 @@ class Header extends Component {
     }
 
 
+    //TODO CREATE SEPERATE MENU WITH SUI SIDEBAR
+
     renderContent() {
         switch (this.props.auth) {
             case null:

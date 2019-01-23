@@ -13,9 +13,7 @@ class Landing extends Component {
         }
 
         return(
-            <div style={{ textAlign: 'center' }}>
-                <h2>hey, you found me ;)</h2>
-            </div>
+                <div></div>
         );
     }
 }

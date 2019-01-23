@@ -28,15 +28,6 @@ class App extends Component {
         this.props.musicKit.volume = 1;
         this.props.setVolume(this.props.musicKit.volume);
 
-
-
-
-        if (!this.props.authorized) 
-        {
-            await this.props.musicKit.unauthorize()
-            this.props.isMusicKitAuthorized(this.props.musicKit.isAuthorized);
-            
-        }
     }
 
 

@@ -85,11 +85,11 @@ class PostList extends Component {
                             </button>
                         </div>
                         <div className="content">
-                            <h1 className="header">{post.songName}</h1>
-                            <div className="meta">
+                            <h1 style={{wordWrap: 'break-word'}} className="header">{post.songName}</h1>
+                            <div style={{wordWrap: 'break-word'}}  className="meta">
                                 <span className="date">{post.artistName}</span>
                             </div>
-                            <div className="description">
+                            <div style={{wordWrap: 'break-word'}} className="description">
                                 {post.caption}
                             </div>
                             {/* <span className="right floated">

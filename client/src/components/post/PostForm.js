@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import PostField from './PostField';
 import { submitPost } from '../../actions';
 import './PostForm.css';
@@ -28,7 +27,7 @@ class PostForm extends Component {
 
     renderField() {
         return (
-            <div>
+            <div id="postCardContainer">
                 <div className="ui card" id="previewPostCard">
                     <div className="content" style={{ textAlign: 'center' }}>
                     </div>
@@ -42,10 +41,6 @@ class PostForm extends Component {
                             </div>
                     </div>
                     <Field autoComplete="off" type="text" name="caption" component={PostField} placeholder="Write a caption..." />  
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                    <Link to="/search" className="negative ui button">Cancel</Link>
-                    <button type="submit" className="ui primary button">Post</button>
                 </div>
             </div>
         );
