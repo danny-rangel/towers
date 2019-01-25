@@ -13,6 +13,7 @@ class PostForm extends Component {
         }
         const post =  {
             username: this.props.auth.username,
+            userId: this.props.auth._id,
             songId: selectedSong.attributes.id,
             caption: values.caption,
             songName: selectedSong.attributes.name,

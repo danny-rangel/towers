@@ -14,8 +14,7 @@ import About from './About';
 import Footer from './Footer';
 import Player from './player/Player';
 import Profile from './Profile';
-const PostEdit = () => {};
-const PostDelete = () => {};
+import PostDelete from './post/PostDelete';
 
 
 
@@ -27,7 +26,6 @@ class App extends Component {
         this.props.isMusicKitAuthorized(this.props.musicKit.isAuthorized);
         this.props.musicKit.volume = 1;
         this.props.setVolume(this.props.musicKit.volume);
-
     }
 
 
@@ -43,7 +41,6 @@ class App extends Component {
                                     <Route exact path="/home" component={Home}></Route>
                                     <Route exact path="/search" component={Search}></Route>
                                     <Route exact path="/posts/new" component={PostNew}></Route>
-                                    <Route exact path="/posts/edit/:id" component={PostEdit}></Route>
                                     <Route exact path="/posts/delete/:id" component={PostDelete}></Route>
                                     <Route exact path="/about" component={About}></Route>
                                     <Route exact path="/:username" component={Profile}></Route>

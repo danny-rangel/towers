@@ -15,7 +15,6 @@ class Profile extends Component {
 
         if (this.props.user) {
             this.props.fetchUserPosts(user);
-            
         }
     }
 
@@ -30,10 +29,7 @@ class Profile extends Component {
 
 
     renderProfile() {
-        if (!this.props.user) {
-            return <div>This user does not exist!</div>
-        }
-        else if (this.props.user._id === this.props.auth._id) {
+        if (this.props.user._id === this.props.auth._id) {
             return (
                 <div>
                     <div id="topProfileContainer" className="ui inverted vertical masthead center aligned segment">
@@ -48,8 +44,6 @@ class Profile extends Component {
                     </div>
                 </div>
             );
-
-
         } else {
             return (
                 <div>
@@ -70,8 +64,9 @@ class Profile extends Component {
     }
 
     render() {
+
         if (!this.props.user || !this.props.auth) {
-            return <div></div>
+            return <div>This user does not exist</div>
         } else {
         return (
             <div>{this.renderProfile()}</div>

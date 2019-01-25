@@ -34,14 +34,40 @@ class Header extends Component {
                 );
             default:
                 return (
-                        <div className="ui item">
+                        <div className="ui item">   
                             <a id="logbutton" href="/api/logout" className="ui inverted white button">
                                 <div id="buttonText">Sign Out of Towers</div>
                             </a>
                         </div>
+
                 );
         }
     }
+
+    renderAvatar() {
+        if (!this.props.auth)
+            return;
+        switch (this.props.auth) {
+            case null || false:
+                return;
+            default:
+                return (
+                    <div className="ui item">
+                        <div id="profileInfo">
+                            <Link to={`/${this.props.auth.username}`}><img className="ui avatar image" src={this.props.auth.profileImage}></img></Link>
+                            <Link to={`/${this.props.auth.username}`}><h4 id="headerUsername" className="header">{this.props.auth.username}</h4></Link>
+                        </div>
+                    </div>
+                );
+            
+        }
+    }
+    
+
+
+
+
+    
 
     renderAppleAuth() {
         switch (this.props.authorized) {
@@ -76,7 +102,6 @@ class Header extends Component {
     render() {
         return (
             <div id="mainHeader" className="ui inverted stackable menu">
-
                     <Link to={this.props.auth ? '/home' : '/'} className="item">
                         <div id="homebutton"><h2 id="buttonText">Towers</h2></div>
                     </Link>
@@ -88,6 +113,7 @@ class Header extends Component {
                     </Link>
                     <div className="right menu">
                         {this.renderAppleAuth()}
+                        {this.renderAvatar()}
                         {this.renderContent()}
                     </div>
                     

@@ -11,6 +11,7 @@
 
 # production
 /build
+/src/utils/music_token.py
 
 
 # misc

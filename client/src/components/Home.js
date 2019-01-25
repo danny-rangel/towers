@@ -3,7 +3,7 @@ import './Home.css';
 import PostList from './post/PostList';
 import history from '../history';
 import { connect } from 'react-redux';
-import { fetchAllPosts } from '../actions';
+import { fetchFollowerPosts } from '../actions';
 
 class Home extends Component {
 
@@ -13,21 +13,22 @@ class Home extends Component {
             history.push('/');
         }
 
-        await this.props.fetchAllPosts();
+        await this.props.fetchFollowerPosts();
     }
+
 
     render() {
         return (
             <div id="mainMiddleDiv">
-                <PostList posts={this.props.allPosts} />
+                <PostList posts={this.props.followerPosts} />
             </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    return { allPosts: state.allPosts, auth: state.auth }
+    return { followerPosts: state.followerPosts, auth: state.auth }
 }
 
 
-export default connect(mapStateToProps, { fetchAllPosts })(Home);
+export default connect(mapStateToProps, { fetchFollowerPosts })(Home);

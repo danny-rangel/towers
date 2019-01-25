@@ -6,6 +6,7 @@ import searchSongsReducer from './searchSongsReducer';
 import selectSongReducer from './selectSongReducer';
 import submitPostReducer from './submitPostReducer';
 import fetchPosts from './fetchPostsReducer';
+import fetchSinglePostReducer from './fetchSinglePostReducer';
 import checkUser from './checkUserReducer';
 import fetchAllPosts from './fetchAllPostsReducer';
 import fetchUserPosts from './fetchUserPostsReducer';
@@ -20,6 +21,9 @@ import setIntervalIdFlagReducer from './setIntervalIdFlagReducer';
 import setTimeReducer from './setTimeReducer';
 import setMusicKitIsPlayingReducer from './setMusicKitIsPlayingReducer';
 import isMusicKitAuthorizedReducer from './isMusicKitAuthorizedReducer';
+import deletePostReducer from './deletePostReducer';
+import fetchFollowerPostsReducer from './fetchFollowerPostsReducer';
+import likePostReducer from './likePostReducer';
 
 export default combineReducers({
     auth: authReducer,
@@ -28,11 +32,15 @@ export default combineReducers({
     form: reduxForm,
     selectedSong: selectSongReducer,
     submitPost: submitPostReducer,
+    deletePost: deletePostReducer,
     posts: fetchPosts,
     user: checkUser,
     allPosts: fetchAllPosts,
+    singlePost: fetchSinglePostReducer,
+    likePost: likePostReducer,
     userPosts: fetchUserPosts,
     followUser: followUserReducer,
+    followerPosts: fetchFollowerPostsReducer,
     selectedPost: selectPostReducer,
     songPlaying: songToPlayReducer,
     percentage: setPercentageReducer,

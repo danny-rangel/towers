@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectSong, songToPlay, setIsPlaying, setPercentage, setIntervalId, setIntervalIdFlag, setTime } from '../../actions';
+import { selectSong, songToPlay, setIsPlaying, setPercentage, setIntervalId, setIntervalIdFlag, setTime, setMusicKitIsPlaying } from '../../actions';
 import { Link } from 'react-router-dom';
 import secondsFormatted from '../../utils/secondsFormatted';
 import './SearchItem.css'
@@ -26,7 +26,14 @@ class SearchItem extends Component {
             let intervalId = setInterval(() => {
                 this.props.setPercentage(this.props.musicKit.player.currentPlaybackTime / this.props.musicKit.player.currentPlaybackDuration);
                 this.props.setTime(secondsFormatted(this.props.musicKit.player.currentPlaybackTime));
-            }, 400);
+                this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
+                if (this.props.percentage >= 1) {
+                    console.log('hi');
+                    this.props.musicKit.player.stop();
+                    this.props.setIsPlaying(false);
+                    clearInterval(this.props.intervalId);
+                }
+            }, 100);
             this.props.setIntervalId(intervalId);
             this.props.musicKit.player.play();
             this.props.setIsPlaying(true);
@@ -79,8 +86,8 @@ class SearchItem extends Component {
     }
 }
 
-const mapStateToProps = ({ musicKit, selectedSong, songPlaying, intervalId, intervalIdFlag, isPlaying }) => {
-    return { musicKit, selectedSong, songPlaying, intervalId, intervalIdFlag, isPlaying };
+const mapStateToProps = ({ musicKit, selectedSong, songPlaying, intervalId, intervalIdFlag, isPlaying, percentage }) => {
+    return { musicKit, selectedSong, songPlaying, intervalId, intervalIdFlag, isPlaying, percentage };
 }
 
-export default connect(mapStateToProps, { selectSong, songToPlay, setIsPlaying, setPercentage, setIntervalId, setIntervalIdFlag, setTime })(SearchItem);
+export default connect(mapStateToProps, { selectSong, songToPlay, setIsPlaying, setPercentage, setIntervalId, setIntervalIdFlag, setTime, setMusicKitIsPlaying })(SearchItem);

@@ -8,6 +8,7 @@ const postSchema = new Schema({
     durationInMillis: Number,
     songId: String,
     username: String,
+    userId: String,
     caption: String,
     songName: String,
     songURL: String,

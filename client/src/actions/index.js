@@ -2,8 +2,9 @@ import axios from 'axios';
 import AppleMusic from '../apis/appleMusic';
 import history from '../history';
 import { FETCH_USER, FETCH_MUSIC_INSTANCE, SEARCH_SONGS, SELECT_SONG, SUBMIT_POST, 
-    FETCH_POSTS, CHECK_USER, FETCH_ALL_POSTS, FETCH_USER_POSTS, FOLLOW_USER, SELECT_POST, SONG_TO_PLAY,
-    SET_PERCENTAGE, SET_IS_PLAYING, SET_VOLUME, SET_INTERVAL_ID, SET_INTERVAL_ID_FLAG, SET_TIME, SET_MUSICKIT_IS_PLAYING, IS_MUSIC_KIT_AUTHORIZED } from './types';
+    FETCH_POSTS, FETCH_SINGLE_POST, CHECK_USER, FETCH_ALL_POSTS, FETCH_USER_POSTS, FOLLOW_USER, SELECT_POST, SONG_TO_PLAY,
+    SET_PERCENTAGE, SET_IS_PLAYING, SET_VOLUME, SET_INTERVAL_ID, SET_INTERVAL_ID_FLAG, SET_TIME, 
+    SET_MUSICKIT_IS_PLAYING, IS_MUSIC_KIT_AUTHORIZED, DELETE_POST, FETCH_FOLLOWER_POSTS, LIKE_POST } from './types';
 
 export const fetchUser = () => async dispatch => {
     const res = await axios.get('/api/current_user');
@@ -63,9 +64,22 @@ export const submitPost = (post) => async dispatch => {
 }
 
 
+export const deletePost = (post) => async dispatch => {
+    console.log(post);
+    const res = await axios.delete('/api/postDelete',{ data: post});
+    dispatch({ type: DELETE_POST, payload: res.data });
+    history.push('/home');
+}
+
+
 export const fetchPosts = () => async dispatch => {
     const res = await axios.get('/api/posts/user');
     dispatch({ type: FETCH_POSTS, payload: res.data })
+}
+
+export const fetchSinglePost = (params) => async dispatch => {
+    const res = await axios.post(`/api/posts/${params.id}`, params);
+    dispatch({ type: FETCH_SINGLE_POST, payload: res.data[0] })
 }
 
 export const fetchUserPosts = (user) => async dispatch => {
@@ -73,9 +87,19 @@ export const fetchUserPosts = (user) => async dispatch => {
     dispatch({ type: FETCH_USER_POSTS, payload: res.data });
 }
 
+export const fetchFollowerPosts = () => async dispatch => {
+    const res = await axios.get('/api/followPosts');
+    dispatch({ type: FETCH_FOLLOWER_POSTS, payload: res.data });
+}
+
 export const followUser = (body) => async dispatch => {
     const res = await axios.post('/api/follow', body);
     dispatch({ type: FOLLOW_USER, payload: res.data });
+}
+
+export const likePost = (like) => async dispatch => {
+    const res = await axios.post('/api/postsLike', like);
+    dispatch({ type: LIKE_POST, payload: res.data }); 
 }
 
 export const songToPlay = (song) => {

@@ -17,7 +17,7 @@ const PostField = ({ input, placeholder }) => {
         <div id="field" className="extra content" style={{textAlign: 'center'}}>
             <div className="ui form">
                 <div className="field">
-                    <textarea maxlength="2000" rows="2" id="caption-input" placeholder={placeholder} {...input} />
+                    <textarea maxLength="2000" rows="2" id="caption-input" placeholder={placeholder} {...input} />
                 </div>
             </div>
             <div style={{ textAlign: 'center' }}>
