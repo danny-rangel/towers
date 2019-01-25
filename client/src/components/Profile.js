@@ -40,7 +40,7 @@ class Profile extends Component {
                             <p>{this.props.user.followingCount} following</p>
                     </div>
                     <div id="profilePostsContainer" className="ui container">
-                        <PostList posts={this.props.userPosts}/>
+                        <PostList posts={this.props.posts}/>
                     </div>
                 </div>
             );
@@ -56,7 +56,7 @@ class Profile extends Component {
                         <button onClick={() => this.follow(this.props.user, this.props.auth)} className="ui inverted button">Follow</button>
                     </div>
                     <div id="profilePostsContainer" className="ui container">
-                        <PostList posts={this.props.userPosts}/>
+                        <PostList posts={this.props.posts}/>
                     </div>
                 </div>
             );
@@ -76,7 +76,7 @@ class Profile extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return { user: state.user, userPosts: state.userPosts, auth: state.auth }
+    return { user: state.user, posts: state.posts, auth: state.auth }
 }
 
 export default connect(mapStateToProps, { checkUser, fetchUserPosts, followUser, fetchUser })(Profile);

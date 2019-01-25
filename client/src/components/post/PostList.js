@@ -7,7 +7,7 @@ class PostList extends Component {
     renderPosts() {
         return this.props.posts.map(post => {
             return (
-                <PostItem post={post}/>
+                <PostItem key={post._id} post={post}/>
             );
         })
     }
@@ -15,7 +15,7 @@ class PostList extends Component {
     render() {
         return (
             <div  className="ui container">
-                <div id="postListContainer" className="ui relaxed list">
+                <div id="postListContainer" className="ui relaxed list" >
                     {this.renderPosts()}
                 </div>
             </div>

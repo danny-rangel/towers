@@ -20,14 +20,14 @@ class Home extends Component {
     render() {
         return (
             <div id="mainMiddleDiv">
-                <PostList posts={this.props.followerPosts} />
+                <PostList posts={this.props.posts} />
             </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    return { followerPosts: state.followerPosts, auth: state.auth }
+    return { posts: state.posts, auth: state.auth }
 }
 
 

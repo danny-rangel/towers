@@ -54,7 +54,7 @@ class Header extends Component {
                 return (
                     <div className="ui item">
                         <div id="profileInfo">
-                            <Link to={`/${this.props.auth.username}`}><img className="ui avatar image" src={this.props.auth.profileImage}></img></Link>
+                            <Link to={`/${this.props.auth.username}`}><img alt={this.props.auth.username} className="ui avatar image" src={this.props.auth.profileImage}></img></Link>
                             <Link to={`/${this.props.auth.username}`}><h4 id="headerUsername" className="header">{this.props.auth.username}</h4></Link>
                         </div>
                     </div>

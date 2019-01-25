@@ -2,7 +2,7 @@ import axios from 'axios';
 import AppleMusic from '../apis/appleMusic';
 import history from '../history';
 import { FETCH_USER, FETCH_MUSIC_INSTANCE, SEARCH_SONGS, SELECT_SONG, SUBMIT_POST, 
-    FETCH_POSTS, FETCH_SINGLE_POST, CHECK_USER, FETCH_ALL_POSTS, FETCH_USER_POSTS, FOLLOW_USER, SELECT_POST, SONG_TO_PLAY,
+    FETCH_POSTS, FETCH_POST, CHECK_USER, FETCH_ALL_POSTS, FETCH_USER_POSTS, FOLLOW_USER, SELECT_POST, SONG_TO_PLAY,
     SET_PERCENTAGE, SET_IS_PLAYING, SET_VOLUME, SET_INTERVAL_ID, SET_INTERVAL_ID_FLAG, SET_TIME, 
     SET_MUSICKIT_IS_PLAYING, IS_MUSIC_KIT_AUTHORIZED, DELETE_POST, FETCH_FOLLOWER_POSTS, LIKE_POST } from './types';
 
@@ -57,9 +57,9 @@ export const selectPost = (post) => {
 }
 
 export const submitPost = (post) => async dispatch => {
-    const res = await axios.post('/api/posts', post);
+    await axios.post('/api/posts', post);
 
-    dispatch({ type: SUBMIT_POST, payload: res });
+    dispatch({ type: SUBMIT_POST });
     history.push('/home');
 }
 
@@ -77,9 +77,9 @@ export const fetchPosts = () => async dispatch => {
     dispatch({ type: FETCH_POSTS, payload: res.data })
 }
 
-export const fetchSinglePost = (params) => async dispatch => {
+export const fetchPost = (params) => async dispatch => {
     const res = await axios.post(`/api/posts/${params.id}`, params);
-    dispatch({ type: FETCH_SINGLE_POST, payload: res.data[0] })
+    dispatch({ type: FETCH_POST, payload: res.data[0] })
 }
 
 export const fetchUserPosts = (user) => async dispatch => {

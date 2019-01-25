@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 import secondsFormatted from '../../utils/secondsFormatted';
 import moment from 'moment';
 import ProgressBar from '../player/ProgressBar';
-import PostLike from './PostLike';
 import './PostItem.css';
 import { selectPost, songToPlay, setIsPlaying, setPercentage, setIntervalId, setIntervalIdFlag, setTime, 
-    setMusicKitIsPlaying, deletePost, likePost, fetchAllPosts, fetchFollowerPosts, fetchSinglePost} from '../../actions';
+    setMusicKitIsPlaying, deletePost, likePost } from '../../actions';
 
 class PostItem extends Component {
 
@@ -52,12 +51,21 @@ class PostItem extends Component {
     }
 
 
+    collectAndSubmitLike() {
+        const newLike =  {
+            postId: this.props.post._id,
+            likerId: this.props.auth._id,
+            username: this.props.auth.username
+        }
+        this.props.likePost(newLike);
+    }
+
 
 
     render() {
         return (
             
-            <div id="postItem" className="item" key={this.props.post._id} >
+            <div id="postItem" className="item" >
             <div className="ui card" id="listPostCard">
                 <div className="content" style={{padding: '10px 0px'}}>
                     <Link 
@@ -95,7 +103,10 @@ class PostItem extends Component {
                     <div style={{wordWrap: 'break-word'}} className="description">
                         {this.props.post.caption}
                     </div>
-                    <PostLike post={this.props.post} />
+                    <span className="left floated">
+                        <i className="heart outline like icon" onClick={() => this.collectAndSubmitLike()}></i>
+                        {this.props.post.likes} likes
+                    </span>
                 </div>
                 <div className="ui bottom attached progress" style={{display: this.props.songPlaying._id === this.props.post._id ? 'block': 'none'}}>
                     <ProgressBar /> 
@@ -111,4 +122,4 @@ const mapStateToProps = ({ musicKit, selectedPost, songPlaying, intervalId, inte
 }
 
 export default connect(mapStateToProps, { selectPost, songToPlay, setIsPlaying, setPercentage, setIntervalId, 
-    setIntervalIdFlag, setTime, setMusicKitIsPlaying, deletePost, likePost, fetchAllPosts, fetchFollowerPosts, fetchSinglePost })(PostItem);
+    setIntervalIdFlag, setTime, setMusicKitIsPlaying, deletePost, likePost })(PostItem);

@@ -51,7 +51,6 @@ module.exports = (app) => {
     //FETCH POST BY ID
     app.post(`/api/posts/:id`, async (req, res) => {
         const post = await Post.find({ _id: req.body.id });
-        console.log(post);
         res.send(post);
     });
 
@@ -93,12 +92,12 @@ module.exports = (app) => {
     //LIKE POST
     app.post('/api/postsLike', async (req, res) => {
         const { postId, likerId, username } = req.body;
-        const check = await PostLike.findOne({ postId: postId, likerId: likerId });
+        let check = await PostLike.findOne({ postId: postId, likerId: likerId });
         if (check !== null) {
             try {
                 await PostLike.findOneAndDelete({ postId: postId, likerId: likerId }).exec();
-                const post = await Post.findOneAndUpdate({ _id: like.postId },{ $inc : { likes: -1 }}).exec();
-                res.send(post);
+                let newPost = await Post.findOneAndUpdate({ _id: like.postId },{ $inc : { likes: -1 }}, {new: true}).exec();
+                res.send(newPost);
             } catch (err) {
                 res.status(422).send(err);
             }
@@ -112,8 +111,8 @@ module.exports = (app) => {
     
             try {
                 await like.save();
-                const post = await Post.findOneAndUpdate({ _id: like.postId },{ $inc : { likes: 1 }}).exec();
-                res.send(post);
+                let newPost = await Post.findOneAndUpdate({ _id: like.postId },{ $inc : { likes: 1 }}, {new: true}).exec();
+                res.send(newPost);
             } catch (err) {
                 res.status(422).send(err);
             }
