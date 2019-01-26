@@ -20,6 +20,7 @@ class SearchItem extends Component {
         {
             this.props.musicKit.player.pause();
             this.props.setIsPlaying(false);
+            this.props.setMusicKitIsPlaying(false);
             clearInterval(this.props.intervalId);
         } else if (!this.props.isPlaying || this.props.intervalIdFlag !== this.props.selectedSong.id) {
             clearInterval(this.props.intervalId);
@@ -32,10 +33,11 @@ class SearchItem extends Component {
                     this.props.setIsPlaying(false);
                     clearInterval(this.props.intervalId);
                 }
-            }, 100);
+            }, 400);
             this.props.setIntervalId(intervalId);
             this.props.musicKit.player.play();
             this.props.setIsPlaying(true);
+            this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
             this.props.setIntervalIdFlag(this.props.selectedSong.id);
         }
     }

@@ -27,7 +27,7 @@
 
 #buttonText {
     text-shadow: 0px 0px 6px #ffffff;
-    
+    cursor: pointer;
 }
 
 #profileInfo {
@@ -116,38 +116,38 @@
 
 
     #mobilehomebutton {
-        padding: 15px;
+        padding: 6px;
     }
 
     #mobileaboutbutton {
-        padding: 15px;
+        padding: 6px;
     }
 
     #mobilesearchbutton {
-        padding: 15px;
+        padding: 6px;
     }
 
     #mobileavatarbutton {
-        padding: 15px;
+        padding: 6px;
     }
 
     #profileAvatar {
         margin: 0;
-        font-size: 35px;
+        font-size: 25px;
         max-width: none;
         
     }
 
 
     #mobilehomeIcon {
-        font-size: 30px;
+        font-size: 20px;
         
     }
     #mobileaboutIcon{
-        font-size: 30px;
+        font-size: 20px;
     }
     #mobilesearchIcon {
-        font-size: 30px;
+        font-size: 20px;
     }
 
 

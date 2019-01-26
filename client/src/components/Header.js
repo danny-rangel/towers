@@ -23,16 +23,16 @@ class Header extends Component {
             case false:
                 return (
                         <div id="mobile" className="ui item">
-                            <a id="logbutton" href="/auth/google" className="ui inverted white button">
-                                <div id="buttonText">Log in With Google</div>
+                            <a id="logbutton" href="/auth/google">
+                                <h3 id="buttonText">Log in With Google</h3>
                             </a>
                         </div>
                 );
             default:
                 return (
                         <div id="mobile" className="ui item">   
-                            <a id="logbutton" href="/api/logout" className="ui inverted white button">
-                                <div id="buttonText">Sign Out of Towers</div>
+                            <a id="logbutton" href="/api/logout">
+                                <h3 id="buttonText">Sign Out of Towers</h3>
                             </a>
                         </div>
                 );
@@ -93,22 +93,22 @@ class Header extends Component {
             case false:
                 return (
                         <div id="mobile" className="ui item">
-                            <button onClick={() => this.authorizeUser()} id="appleButton"  className="ui inverted white button">
-                                <div id="buttonText">Listen with Apple Music
+                            <div onClick={() => this.authorizeUser()} id="appleButton">
+                                <h3 id="buttonText">Listen with Apple Music
                                     <img alt="applemusicicon" id="appleMusicIcon" src="Apple_Music_Icon.png"></img>
-                                </div>
-                            </button>
+                                </h3>
+                            </div>
                         </div>
                 );
             default:
             case true:
             return (
                 <div id="mobile" className="ui item">
-                    <button onClick={() => this.unauthorizeUser()} id="appleButton"  className="ui inverted white button">
-                        <div id="buttonText">Sign Out of Apple Music
+                    <div onClick={() => this.unauthorizeUser()} id="appleButton">
+                        <h3 id="buttonText">Sign Out of Apple Music
                             <img alt="applemusicicon" id="appleMusicIcon" src="Apple_Music_Icon.png"></img>
-                        </div>
-                    </button>
+                        </h3>
+                    </div>
                 </div>
                 );
             case null:
