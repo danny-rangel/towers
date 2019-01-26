@@ -192,6 +192,11 @@ class Header extends Component {
                         <div id="searchbutton"><h4 id="buttonText">Search</h4></div>
                     </Link>
                     <div className="right menu">
+                    <div style={{display: this.props.auth ? 'none' : 'block'}} id="mobile" className="ui item">
+                        <a id="logbutton" href="/auth/google" className="ui inverted white button">
+                            <div id="buttonText">Log in With Google</div>
+                        </a>
+                    </div>
                         {this.renderAvatar()}
                         {this.renderSidebar()}
                     </div>
