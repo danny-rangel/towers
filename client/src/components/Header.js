@@ -213,6 +213,11 @@ class Header extends Component {
                     <div><i id="mobilesearchIcon" className="search icon"></i></div>
                 </Link>
                 <div id="mobileavatarbutton" className="item">
+                <div style={{display: this.props.auth ? 'none' : 'block'}} id="mobile" className="ui item">
+                        <a id="logbutton" href="/auth/google" >
+                            <div id="buttonText">Log in</div>
+                        </a>
+                    </div>
                     {this.renderMobileAvatar()}
                     {this.renderMobileSidebar()}
                 </div>
