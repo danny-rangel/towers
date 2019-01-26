@@ -15,6 +15,7 @@ const postSchema = new Schema({
     previewURL: String,
     artistName: String,
     albumArt: String,
+    albumName: String,
     likes: { type: Number, default: 0 },
     date: Date
 });

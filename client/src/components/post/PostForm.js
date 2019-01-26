@@ -21,6 +21,7 @@ class PostForm extends Component {
             durationInMillis: selectedSong.attributes.durationInMillis,
             songURL: selectedSong.attributes.url,
             albumArt: window.MusicKit.formatArtworkURL(selectedSong.attributes.artwork, 800, 800),
+            albumName: selectedSong.attributes.albumName,
             previewURL: selectedSong.attributes.previews[0].url
         }
         this.props.submitPost(post);
