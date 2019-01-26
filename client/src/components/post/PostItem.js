@@ -70,10 +70,11 @@ class PostItem extends Component {
                 <div className="content" style={{padding: '10px 0px'}}>
                     <Link 
                         to={`/posts/delete/${this.props.post._id}`}
-                        style={{display: this.props.post.username === this.props.auth.username? 'block' : 'none'}}
+                        style={{display: this.props.post.username === this.props.auth.username? 'block' : 'none', float: 'right', margin: '0 10px 0 0', fontSize: '15px'}}
                         >
-                        <i id="rightTrashIcon" className="trash alternate outline icon"></i>
+                        <i id="rightTrashIcon" className="trash alternate outline icon meta"></i>
                     </Link>
+                    <br></br>
                     <div className="center floated meta"><h4><Link to={`/${this.props.post.username}`}>{this.props.post.username}</Link></h4></div>
                     <div className="center floated meta"><h5>{moment(this.props.post.date, moment.ISO_8601).fromNow()}</h5></div>
                 </div>

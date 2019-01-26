@@ -23,3 +23,4 @@ export const IS_MUSIC_KIT_AUTHORIZED = 'is_music_kit_authorized';
 export const DELETE_POST = 'delete_post';
 export const FETCH_FOLLOWER_POSTS = 'fetch_follower_posts';
 export const LIKE_POST = 'like_post';
+export const SHOW_SIDEBAR = 'show_sidebar';

@@ -28,7 +28,6 @@ class SearchItem extends Component {
                 this.props.setTime(secondsFormatted(this.props.musicKit.player.currentPlaybackTime));
                 this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
                 if (this.props.percentage >= 1) {
-                    console.log('hi');
                     this.props.musicKit.player.stop();
                     this.props.setIsPlaying(false);
                     clearInterval(this.props.intervalId);
