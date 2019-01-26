@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ProgressBar from './ProgressBar';
 import VolumeBar from './VolumeBar';
 import secondsFormatted from '../../utils/secondsFormatted';
-import { setPercentage, setIsPlaying, setIntervalId, setVolume, setTime } from '../../actions';
+import { setPercentage, setIsPlaying, setIntervalId, setVolume, setTime, setMusicKitIsPlaying } from '../../actions';
 
 class Player extends Component {
 
@@ -13,24 +13,25 @@ class Player extends Component {
     playSong = () => {
         if (this.props.isPlaying)
         {
-            this.props.musicKit.pause();
+            this.props.musicKit.player.pause();
             this.props.setIsPlaying(false);
             clearInterval(this.props.intervalId);
         } else if (!this.props.isPlaying) {
             let intervalId = setInterval(() => {
                 this.props.setPercentage(this.props.musicKit.player.currentPlaybackTime / this.props.musicKit.player.currentPlaybackDuration);
                 this.props.setTime(secondsFormatted(this.props.musicKit.player.currentPlaybackTime));
-
+                this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
                 if (this.props.percentage >= 1) {
-                    this.props.musicKit.stop();
+                    this.props.musicKit.player.stop();
                     this.props.setIsPlaying(false);
                     clearInterval(this.props.intervalId);
                 }
             }, 400);
 
             this.props.setIntervalId(intervalId);
-            this.props.musicKit.play();
+            this.props.musicKit.player.play();
             this.props.setIsPlaying(true);
+            this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
         }
     }
 
@@ -143,4 +144,4 @@ const mapStateToProps = ({ songPlaying, percentage, isPlaying, musicKit, interva
     return { songPlaying, percentage, isPlaying, musicKit, intervalId, volume, time }
 }
 
-export default connect(mapStateToProps, { setPercentage, setIsPlaying, setIntervalId, setVolume, setTime })(Player);
+export default connect(mapStateToProps, { setPercentage, setIsPlaying, setIntervalId, setVolume, setTime, setMusicKitIsPlaying })(Player);

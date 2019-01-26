@@ -44,7 +44,7 @@ class SearchItem extends Component {
 
     render() {
         return (
-            <div id="itemContainer" className="item" key={this.props.song.attributes.id}>
+            <div id="itemContainer" className="item">
                 <div id="searchListItem" onClick={() => this.selectAndPlaySong(this.props.song)} className="ui equal width grid">
                     <div id="albumImageContainer" className="column">
                         <img

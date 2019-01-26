@@ -24,7 +24,7 @@ module.exports = (app) => {
             try {
                 await follow.save();
                 await User.findOneAndUpdate({ _id: personFollowingId },{ $inc : { followingCount: 1 }}).exec();
-                const user = await User.findOneAndUpdate({ _id: personFollowedId },{ $inc : { followersCount: 1 }}).exec();
+                const user = await User.findOneAndUpdate({ _id: personFollowedId },{ $inc : { followersCount: 1 }}, { new: true }).exec();
                 res.send(user);
             } catch (err) {
                 res.status(422).send(err);
@@ -33,7 +33,7 @@ module.exports = (app) => {
             try {
                 await Follow.findOneAndRemove({ personFollowingId: personFollowingId, personFollowedId:personFollowedId }).exec();
                 await User.findOneAndUpdate({ _id: personFollowingId },{ $inc : { followingCount: -1 }}).exec();
-                const user = await User.findOneAndUpdate({ _id: personFollowedId },{ $inc : { followersCount: -1 }}).exec();
+                const user = await User.findOneAndUpdate({ _id: personFollowedId },{ $inc : { followersCount: -1 }}, { new: true }).exec();
                 res.send(user);
             } catch (err) {
                 res.status(422).send(err);

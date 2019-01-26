@@ -1,3 +1,4 @@
+export const IS_FETCHING = 'is_fetching';
 export const FETCH_USER = 'fetch_user';
 export const FETCH_MUSIC_INSTANCE = 'fetch_music_instance';
 export const SEARCH_SONGS = 'search_songs';

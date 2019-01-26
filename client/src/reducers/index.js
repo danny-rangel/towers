@@ -5,8 +5,7 @@ import authReducer from './authReducer';
 import musickitReducer from './musickitReducer';
 import searchSongsReducer from './searchSongsReducer';
 import selectSongReducer from './selectSongReducer';
-import checkUser from './checkUserReducer';
-import followUserReducer from './followUserReducer';
+import userReducer from './userReducer';
 import selectPostReducer from './selectPostReducer';
 import songToPlayReducer from './songToPlayReducer';
 import setPercentageReducer from './setPercentageReducer';
@@ -17,6 +16,7 @@ import setIntervalIdFlagReducer from './setIntervalIdFlagReducer';
 import setTimeReducer from './setTimeReducer';
 import setMusicKitIsPlayingReducer from './setMusicKitIsPlayingReducer';
 import isMusicKitAuthorizedReducer from './isMusicKitAuthorizedReducer';
+import isFetchingReducer from './isFetchingReducer';
 
 export default combineReducers({
     auth: authReducer,
@@ -25,8 +25,7 @@ export default combineReducers({
     songs: searchSongsReducer,
     form: reduxForm,
     selectedSong: selectSongReducer,
-    user: checkUser,
-    followUser: followUserReducer,
+    user: userReducer,
     selectedPost: selectPostReducer,
     songPlaying: songToPlayReducer,
     percentage: setPercentageReducer,
@@ -36,5 +35,6 @@ export default combineReducers({
     intervalIdFlag: setIntervalIdFlagReducer,
     time: setTimeReducer,
     musicKitIsPlaying: setMusicKitIsPlayingReducer,
-    authorized: isMusicKitAuthorizedReducer
+    authorized: isMusicKitAuthorizedReducer,
+    fetching: isFetchingReducer
 });

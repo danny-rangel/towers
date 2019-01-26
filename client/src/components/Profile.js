@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { checkUser, fetchUserPosts, followUser, fetchUser } from '../actions';
+import Spinner from './Spinner';
 import './Profile.css'
 
 import PostList from '../components/post/PostList';
@@ -24,7 +25,6 @@ class Profile extends Component {
             personFollowedId: user._id
         }
         await this.props.followUser(body);
-        await this.props.checkUser(user);
     }
 
 
@@ -65,6 +65,10 @@ class Profile extends Component {
 
     render() {
 
+        if (this.props.fetching) {
+            return <Spinner />
+        }
+
         if (!this.props.user || !this.props.auth) {
             return <div>This user does not exist</div>
         } else {
@@ -75,8 +79,8 @@ class Profile extends Component {
 }
 }
 
-const mapStateToProps = (state) => {
-    return { user: state.user, posts: state.posts, auth: state.auth }
+const mapStateToProps = ({ user, posts, auth, fetching }) => {
+    return { user, posts, auth, fetching }
 }
 
 export default connect(mapStateToProps, { checkUser, fetchUserPosts, followUser, fetchUser })(Profile);

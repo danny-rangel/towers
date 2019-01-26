@@ -7,6 +7,7 @@ import './SearchBar.css';
 class SearchBar extends React.Component{
 
     render() {
+        
         return (
             <div className="item">
                 <div id="searchBar" className="ui input">

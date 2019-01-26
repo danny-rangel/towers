@@ -3,6 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchUser, fetchMusicInstance, isMusicKitAuthorized, setVolume } from '../actions';
 import history from '../history';
+import ScrollToTop from './ScrollToTop';
 import './App.css';
 
 import Header from './Header';
@@ -20,7 +21,23 @@ import PostDelete from './post/PostDelete';
 
 class App extends Component {
 
+    authenticate(){
+        return new Promise(resolve => setTimeout(resolve, 2000))
+    }
+
     async componentDidMount() {
+        this.authenticate().then(() => {
+            const ele = document.getElementById('ipl-progress-indicator')
+            if (ele) {
+              // fade out
+                ele.classList.add('available')
+                setTimeout(() => {
+                // remove from DOM
+                ele.outerHTML = ''
+              }, 2000)
+            }
+          })
+
         this.props.fetchUser();
         await this.props.fetchMusicInstance();
         this.props.isMusicKitAuthorized(this.props.musicKit.isAuthorized);
@@ -33,6 +50,7 @@ class App extends Component {
         return (
             <div id="wrapper" className="mainWrapper">
                 <Router history={history}>
+                    <ScrollToTop>
                     <div style={{minHeight: '100vh'}}>
                         <Header />
                             <div id="bodyContainer">
@@ -49,6 +67,7 @@ class App extends Component {
                             <Footer />
                         <Player />
                     </div>
+                    </ScrollToTop>
                 </Router>
             </div>
         );
