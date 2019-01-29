@@ -26,9 +26,9 @@ class PostItem extends Component {
     }
 
 
-    collectAndSubmitLike() {
+    collectAndSubmitLike(post) {
         const newLike =  {
-            postId: this.props.post._id,
+            postId: post._id,
             likerId: this.props.auth._id,
             username: this.props.auth.username
         }
@@ -79,7 +79,7 @@ class PostItem extends Component {
                             {this.props.post.caption}
                         </div>
                         <span className="left floated">
-                            <i className="heart outline like icon" onClick={() => this.collectAndSubmitLike()}></i>
+                            <i className="heart outline like icon" onClick={() => this.collectAndSubmitLike(this.props.post)}></i>
                             {this.props.post.likes} likes
                         </span>
                     </div>

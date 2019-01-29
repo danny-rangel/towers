@@ -8,13 +8,15 @@ import Spinner from './Spinner';
 
 class Home extends Component {
 
-    async componentDidMount() {
+    componentDidMount() {
 
-        if (this.props.auth === false) {
+        if (!this.props.auth) {
             history.push('/');
+        } else if (this.props.auth.username === "") {
+            history.push('/signup');
         }
 
-        await this.props.fetchFollowerPosts();
+        this.props.fetchFollowerPosts();
     }
 
 
@@ -30,7 +32,7 @@ class Home extends Component {
     }
 }
 
-const mapStateToProps = ({posts, auth, fetching}) => {
+const mapStateToProps = ({ posts, auth, fetching }) => {
     return { posts, auth, fetching }
 }
 

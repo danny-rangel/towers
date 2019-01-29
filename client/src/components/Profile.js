@@ -17,6 +17,7 @@ class Profile extends Component {
         if (this.props.user) {
             this.props.fetchUserPosts(user);
         }
+
     }
 
     follow = async (user, auth) => {

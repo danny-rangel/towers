@@ -66,7 +66,7 @@ module.exports = (app) => {
 
 
     //FETCH FOLLOWER POSTS
-    app.get('/api/followPosts', async (req, res) => {
+    app.get('/api/followPosts', requireLogin, async (req, res) => {
         const follows = await Follow.find({ personFollowingId: req.user.id }).select({ "personFollowedId": 1 , "_id": 0});
         const followsArray = follows.map((follow) => {
             return follow.personFollowedId;
@@ -81,7 +81,7 @@ module.exports = (app) => {
 
 
     //DELETE POST
-    app.delete('/api/postDelete', async (req, res) => {
+    app.delete('/api/postDelete', requireLogin, async (req, res) => {
         await PostLike.deleteMany({ postId: req.body._id });
         const post = await Post.findOneAndDelete({ _id: req.body._id });
         req.user.postsNumber -= 1;
@@ -91,34 +91,32 @@ module.exports = (app) => {
     });
 
     //LIKE POST
-    app.post('/api/postsLike', async (req, res) => {
+    app.post('/api/postsLike', requireLogin, async (req, res) => {
+        
         const { postId, likerId, username } = req.body;
-        let check = await PostLike.findOne({ postId: postId, likerId: likerId });
-        if (check !== null) {
-            try {
-                await PostLike.findOneAndDelete({ postId: postId, likerId: likerId }).exec();
-                let newPost = await Post.findOneAndUpdate({ _id: like.postId },{ $inc : { likes: -1 }}, {new: true}).exec();
-                res.send(newPost);
-            } catch (err) {
-                res.status(422).send(err);
-            }
-        } else {
-            like = new PostLike({
-                postId: postId,
-                likerId: likerId,
-                username: username,
-                date: Date.now()
-            });
-    
-            try {
-                await like.save();
-                let newPost = await Post.findOneAndUpdate({ _id: like.postId },{ $inc : { likes: 1 }}, {new: true}).exec();
-                res.send(newPost);
-            } catch (err) {
-                res.status(422).send(err);
-            }
-        }
+            let check = await PostLike.findOne({ postId: postId, likerId: likerId }).exec();
+            if (check === null) {
+                try {
+                    like = new PostLike({
+                        postId: postId,
+                        likerId: likerId,
+                        username: username,
+                        date: Date.now()
+                    });
+                    await like.save();
+                    let newPost = await Post.findOneAndUpdate({ _id: like.postId },{ $inc : { likes: 1 }}, {new: true}).exec();
+                    res.send(newPost);
+                } catch (err) {
+                    res.status(422).send(err);
+                }
+            } else {
+                try {
+                    await PostLike.findOneAndDelete({ postId: postId, likerId: likerId }).exec();
+                    let newPost = await Post.findOneAndUpdate({ _id: postId },{ $inc : { likes: -1 }}, {new: true}).exec();
+                    res.send(newPost);
+                } catch (err) {
+                    res.status(422).send(err);
+                }
+            } 
     });
-
-
 };
