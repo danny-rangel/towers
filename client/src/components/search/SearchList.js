@@ -9,7 +9,7 @@ class SearchList extends Component {
     renderList() {
         return this.props.songs.map(song => {
             return (
-                    <SearchItem key={song.id} song={song} />
+                <SearchItem key={song.id} song={song} />
             );
         });
     }

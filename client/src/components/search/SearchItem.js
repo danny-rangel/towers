@@ -59,7 +59,7 @@ class SearchItem extends Component {
                         </div>
                     </div>
                     <div id="postButton" onClick={(e) => e.stopPropagation()} className="column">
-                        <Link onClick={() => this.props.selectSong(this.props.song)} to="/posts/new" className="ui inverted blue button">Post</Link>
+                        <Link style={{display: this.props.auth ? 'inline-block': 'none' }} onClick={() => this.props.selectSong(this.props.song)} to="/posts/new" className="ui inverted blue button">Post</Link>
                     </div>
                 </div>
             </div>
@@ -67,5 +67,9 @@ class SearchItem extends Component {
     }
 }
 
+const mapStateToProps = ({ auth }) => {
+    return { auth };
+}
 
-export default connect(null, { selectSong, songToPlay })(SearchItem);
+
+export default connect(mapStateToProps, { selectSong, songToPlay })(SearchItem);

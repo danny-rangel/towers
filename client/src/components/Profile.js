@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { checkUser, fetchUserPosts, followUser, fetchUser, isFollowing } from '../actions';
 import Spinner from './Spinner';
 import './Profile.css'
@@ -17,8 +18,23 @@ class Profile extends Component {
             this.props.fetchUserPosts(user);
             this.props.isFollowing(this.props.user._id);
         }
-
     }
+
+    async componentDidUpdate(prevProps) {
+        if (this.props.match.params.username !== prevProps.match.params.username) {
+            let user = this.props.match.params;
+            await this.props.checkUser(user);
+
+
+            if (this.props.user) {
+                this.props.fetchUserPosts(user);
+                this.props.isFollowing(this.props.user._id);
+            }
+        }
+        
+    }
+
+
 
     follow = async (user, auth) => {
         let body = {
@@ -31,22 +47,6 @@ class Profile extends Component {
 
 
     renderProfile() {
-        if (this.props.user._id === this.props.auth._id) {
-            return (
-                <div>
-                    <div id="topProfileContainer" className="ui inverted vertical masthead center aligned segment">
-                        <img alt={this.props.user.username} id="profileImage" className="ui medium circular image"src={this.props.user.profileImage}></img>
-                        <h2>{this.props.user.username}</h2>
-                        <h3>{this.props.user.postsNumber} {this.props.user.postsNumber === 1 ? 'song': 'songs'} </h3>
-                            <p>{this.props.user.followersCount} followers</p>
-                            <p>{this.props.user.followingCount} following</p>
-                    </div>
-                    <div id="profilePostsContainer" className="ui container">
-                        <PostList posts={this.props.posts}/>
-                    </div>
-                </div>
-            );
-        } else {
             return (
                 <div>
                     <div id="topProfileContainer" className="ui inverted vertical masthead center aligned segment">
@@ -55,7 +55,18 @@ class Profile extends Component {
                         <h4>{this.props.user.postsNumber} {this.props.user.postsNumber === 1 ? 'song': 'songs'} </h4>
                             <p>{this.props.user.followersCount} followers</p>
                             <p>{this.props.user.followingCount} following</p>
-                        <button onClick={() => this.follow(this.props.user, this.props.auth)} className={this.props.following ? 'ui button' : 'ui inverted button'}>{this.props.following ? 'Following' : 'Follow'}</button>
+                        { this.props.user._id !== this.props.auth._id ?
+                            <button 
+                                onClick={() => this.follow(this.props.user, this.props.auth)} 
+                                className={this.props.following ? 'ui button' : 'ui inverted button'}>
+                                {this.props.following ? 'Following' : 'Follow'}
+                            </button> : 
+                            <Link 
+                                to="/editProfile" 
+                                className="ui inverted button">
+                                Edit Profile
+                            </Link>
+                        }
                     </div>
                     <div id="profilePostsContainer" className="ui container">
                         <PostList posts={this.props.posts}/>
@@ -63,7 +74,6 @@ class Profile extends Component {
                 </div>
             );
         }
-    }
 
     render() {
 
