@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { checkUser, fetchUserPosts, followUser, fetchUser } from '../actions';
+import { checkUser, fetchUserPosts, followUser, fetchUser, isFollowing } from '../actions';
 import Spinner from './Spinner';
 import './Profile.css'
 
 import PostList from '../components/post/PostList';
-// TO DO: TEST TO SEE WHY AUTH ID IS UNDEFINED WHEN RENDERING COMPONENT
 class Profile extends Component {
 
     async componentDidMount() {
-        this.props.fetchUser();
+        await this.props.fetchUser();
         let user = this.props.match.params;
         await this.props.checkUser(user);
         
 
         if (this.props.user) {
             this.props.fetchUserPosts(user);
+            this.props.isFollowing(this.props.user._id);
         }
 
     }
@@ -26,6 +26,7 @@ class Profile extends Component {
             personFollowedId: user._id
         }
         await this.props.followUser(body);
+        this.props.isFollowing(this.props.user._id);
     }
 
 
@@ -54,7 +55,7 @@ class Profile extends Component {
                         <h4>{this.props.user.postsNumber} {this.props.user.postsNumber === 1 ? 'song': 'songs'} </h4>
                             <p>{this.props.user.followersCount} followers</p>
                             <p>{this.props.user.followingCount} following</p>
-                        <button onClick={() => this.follow(this.props.user, this.props.auth)} className="ui inverted button">Follow</button>
+                        <button onClick={() => this.follow(this.props.user, this.props.auth)} className={this.props.following ? 'ui button' : 'ui inverted button'}>{this.props.following ? 'Following' : 'Follow'}</button>
                     </div>
                     <div id="profilePostsContainer" className="ui container">
                         <PostList posts={this.props.posts}/>
@@ -80,8 +81,8 @@ class Profile extends Component {
 }
 }
 
-const mapStateToProps = ({ user, posts, auth, fetching }) => {
-    return { user, posts, auth, fetching }
+const mapStateToProps = ({ user, posts, auth, fetching, following }) => {
+    return { user, posts, auth, fetching, following }
 }
 
-export default connect(mapStateToProps, { checkUser, fetchUserPosts, followUser, fetchUser })(Profile);
+export default connect(mapStateToProps, { checkUser, fetchUserPosts, followUser, fetchUser, isFollowing })(Profile);

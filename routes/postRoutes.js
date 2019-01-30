@@ -57,7 +57,6 @@ module.exports = (app) => {
 
 
 
-
     //FETCH ALL POSTS
     app.get('/api/posts', async (req, res) => {
         const posts = await Post.find({}).sort({date: -1});
@@ -119,4 +118,23 @@ module.exports = (app) => {
                 }
             } 
     });
+
+
+
+
+
+    app.get('/api/postsLike/:id/:postId', requireLogin, async (req, res) => {
+        const { postId, id } = req.params;
+        const post = await PostLike.findOne({ postId: postId, likerId: id }).exec();
+
+        if (post) {
+            res.send(true);
+        } else {
+            res.send(false);
+        }
+
+    });
+
+
+
 };

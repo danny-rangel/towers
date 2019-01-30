@@ -18,6 +18,7 @@ import setMusicKitIsPlayingReducer from './setMusicKitIsPlayingReducer';
 import isMusicKitAuthorizedReducer from './isMusicKitAuthorizedReducer';
 import isFetchingReducer from './isFetchingReducer';
 import showSidebarReducer from './showSidebarReducer';
+import isFollowingReducer from './isFollowingReducer';
 
 export default combineReducers({
     auth: authReducer,
@@ -38,5 +39,6 @@ export default combineReducers({
     musicKitIsPlaying: setMusicKitIsPlayingReducer,
     authorized: isMusicKitAuthorizedReducer,
     fetching: isFetchingReducer,
-    sidebar: showSidebarReducer
+    sidebar: showSidebarReducer,
+    following: isFollowingReducer
 });

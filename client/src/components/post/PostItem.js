@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import moment from 'moment';
 import ProgressBar from '../player/ProgressBar';
 import './PostItem.css';
@@ -8,7 +9,15 @@ import { songToPlay, likePost } from '../../actions';
 
 class PostItem extends Component {
 
-    state = {showButton: false, edit: false};
+    _isMounted = false;
+
+    state = {showButton: false, edit: false, liked: false};
+
+    async componentDidMount() {
+        this._isMounted = true;
+        const res = await axios.get(`/api/postsLike/${this.props.auth._id}/${this.props.post._id}`);
+        if (this._isMounted) {this.setState({ liked: res.data })};
+    }
 
 
     selectAndPlayPost = (post) => {
@@ -26,15 +35,20 @@ class PostItem extends Component {
     }
 
 
-    collectAndSubmitLike(post) {
+    async collectAndSubmitLike(post) {
         const newLike =  {
             postId: post._id,
             likerId: this.props.auth._id,
             username: this.props.auth.username
         }
-        this.props.likePost(newLike);
+        await this.props.likePost(newLike);
+        const res = await axios.get(`/api/postsLike/${this.props.auth._id}/${this.props.post._id}`);
+        if (this._isMounted) {this.setState({ liked: res.data })};
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
 
 
     render() {
@@ -79,7 +93,11 @@ class PostItem extends Component {
                             {this.props.post.caption}
                         </div>
                         <span className="left floated">
-                            <i className="heart outline like icon" onClick={() => this.collectAndSubmitLike(this.props.post)}></i>
+                            <i 
+                                style={{color: 'red'}}
+                                className={this.state.liked ? 'heart like icon' : 'heart outline like icon'} 
+                                onClick={() => this.collectAndSubmitLike(this.props.post)}>
+                            </i>
                             {this.props.post.likes} likes
                         </span>
                     </div>

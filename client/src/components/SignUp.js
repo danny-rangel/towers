@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchUser } from '../actions';
+import form from 'redux-form';
 
 class SignUp extends Component {
+
+    componentDidMount() {
+        this.props.fetchUser();
+    }
+
     render() {
-        return<div style={{color: 'white'}}>SignUp</div>;
+        return<div></div>;
     }
 }
 
+const mapStateToProps = ({ auth }) => {
+    return { auth };
+}
 
-export default SignUp;
+export default connect(mapStateToProps, { fetchUser })(SignUp);

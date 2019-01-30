@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const requireLogin = require('../middlewares/requireLogin');
 const User = mongoose.model('users');
 const Follow = mongoose.model('follow');
 
@@ -8,6 +9,18 @@ module.exports = (app) => {
         const user = await User.findOne({ username: req.body.username });
         res.send(user);
     });
+
+
+    app.get('/api/follow/:id', async (req, res) => {
+        const isFollowing = await Follow.findOne({personFollowingId: req.user._id, personFollowedId:req.params.id});
+        if (isFollowing) {
+            res.send(true);
+        } else {
+            res.send(false);
+        }
+    })
+
+
 
     app.post('/api/follow', async (req, res) => {
         // TODO MAKE SURE YOU CANT FOLLOW YOURSELF
@@ -42,5 +55,6 @@ module.exports = (app) => {
 
     
     });
+
 
 };

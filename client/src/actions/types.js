@@ -24,3 +24,4 @@ export const DELETE_POST = 'delete_post';
 export const FETCH_FOLLOWER_POSTS = 'fetch_follower_posts';
 export const LIKE_POST = 'like_post';
 export const SHOW_SIDEBAR = 'show_sidebar';
+export const IS_FOLLOWING = 'is_following';

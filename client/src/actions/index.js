@@ -5,7 +5,7 @@ import { FETCH_USER, FETCH_MUSIC_INSTANCE, SEARCH_SONGS, SELECT_SONG, SUBMIT_POS
     FETCH_POSTS, FETCH_POST, CHECK_USER, FETCH_ALL_POSTS, FETCH_USER_POSTS, FOLLOW_USER, SELECT_POST, SONG_TO_PLAY,
     SET_PERCENTAGE, SET_IS_PLAYING, SET_VOLUME, SET_INTERVAL_ID, SET_INTERVAL_ID_FLAG, SET_TIME, 
     SET_MUSICKIT_IS_PLAYING, IS_MUSIC_KIT_AUTHORIZED, DELETE_POST, FETCH_FOLLOWER_POSTS, LIKE_POST, IS_FETCHING,
-    SHOW_SIDEBAR } from './types';
+    SHOW_SIDEBAR, IS_FOLLOWING } from './types';
 
 
 export const showSidebar = (bool) => {
@@ -125,6 +125,16 @@ export const followUser = (body) => async dispatch => {
 export const likePost = (like) => async dispatch => {
     const res = await axios.post('/api/postsLike', like);
     dispatch({ type: LIKE_POST, payload: res.data }); 
+}
+
+// export const isLiked = (id, postId) => async dispatch => {
+//     const res = await axios.get(`/api/postsLike/${id}/${postId}`)
+//     dispatch({ type: IS_LIKED, payload: res.data });
+// }
+
+export const isFollowing = (id) => async dispatch => {
+    const res = await axios.get(`/api/follow/${id}`)
+    dispatch({ type: IS_FOLLOWING, payload: res.data });
 }
 
 export const songToPlay = (song) => {
