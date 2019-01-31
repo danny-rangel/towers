@@ -5,7 +5,9 @@ const Footer = () => {
     return (
         <div id="pageFooter" className="ui inverted vertical footer segment">
             <p id="footerContent">
-                &#9825; created by daniel rangel &#9825;
+                <i id="mobileaboutIcon" className="chess rook icon"></i> 
+                    created by daniel rangel
+                <i id="mobileaboutIcon" className="chess rook icon"></i> 
                 <br></br>
                 contact: hello@danielrangel.io
             </p>

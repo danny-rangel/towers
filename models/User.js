@@ -5,9 +5,9 @@ const { Schema } = mongoose;
 // User Schema
 const userSchema = new Schema({
     googleId: String,
-    username: String,
+    username: { type: String, default: "" },
     name: String,
-    aboutme: String,
+    aboutme: { type: String, default: "" },
     profileImage: {type: String, default: "https://i.imgur.com/JeTiSHK.png"},
     followersCount: { type: Number, default: 0 },
     followingCount: { type: Number, default: 0 },

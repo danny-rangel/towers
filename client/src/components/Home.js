@@ -12,7 +12,7 @@ class Home extends Component {
         this.props.isFetching(true);
         if (!this.props.auth) {
             history.push('/');
-        } else if (this.props.auth.username === "") {
+        } else if (this.props.auth.username === "" || this.props.auth.username === null) {
             history.push(`/edit/${this.props.auth._id}`);
         }
 

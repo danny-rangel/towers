@@ -11,7 +11,7 @@ import Landing from './Landing';
 import Home from './Home';
 import PostNew from '../components/post/PostNew';
 import Search from '../components/search/Search';
-import About from './About';
+import Notifications from './Notifications';
 import Footer from './Footer';
 import Player from './player/Player';
 import Profile from './Profile';
@@ -62,7 +62,7 @@ class App extends Component {
                                     <Route exact path="/search" component={Search}></Route>
                                     <Route exact path="/posts/new" component={PostNew}></Route>
                                     <Route exact path="/posts/delete/:id" component={PostDelete}></Route>
-                                    <Route exact path="/about" component={About}></Route>
+                                    <Route exact path="/notifications" component={Notifications}></Route>
                                     <Route exact path="/:username" component={Profile}></Route>
                                 </Switch>
                             </div>

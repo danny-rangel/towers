@@ -192,11 +192,11 @@ class Header extends Component {
                 <Link id="mobilehomebutton" to={this.props.auth ? '/home' : '/'} className="item">
                     <div><i id="mobilehomeIcon" className="home icon"></i></div>
                 </Link>
-                <Link id="mobileaboutbutton" to='/about' className="item">
-                    <div><i id="mobileaboutIcon" className="chess rook icon"></i></div>
-                </Link>
                 <Link id="mobilesearchbutton" to='/search' className="item">
                     <div><i id="mobilesearchIcon" className="search icon"></i></div>
+                </Link>
+                <Link id="mobileaboutbutton" to='/notifications' className="item">
+                    <div><i id="mobileaboutIcon" className="bell icon"></i></div>
                 </Link>
                 <div id="mobileavatarbutton" className="item">
                 <div style={{display: this.props.auth ? 'none' : 'block'}} id="mobile" className="ui item">

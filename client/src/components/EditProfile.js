@@ -3,8 +3,9 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router-dom';
-import { fetchUser, isFetching } from '../actions';
+import { fetchUser, isFetching, updateProfile } from '../actions';
 import history from '../history';
+import { format } from 'path';
 
 class EditProfile extends Component {
 
@@ -19,7 +20,12 @@ class EditProfile extends Component {
     }
 
     onSubmit = (formValues) => {
-        console.log(formValues);
+        let profile = {
+            id: this.props.auth._id,
+            username: formValues.username,
+            aboutme: formValues.aboutme
+        }
+        this.props.updateProfile(profile);
     }
 
     render() {
@@ -63,4 +69,4 @@ const mapStateToProps = ({ auth }) => {
 
 export default reduxForm({
     form: 'profileForm'
-})(connect(mapStateToProps, { fetchUser, isFetching })(EditProfile));
+})(connect(mapStateToProps, { fetchUser, isFetching, updateProfile })(EditProfile));

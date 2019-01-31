@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { checkUser, fetchUserPosts, followUser, fetchUser, isFollowing, isFetching } from '../actions';
+import history from '../history';
 
 import PostList from '../components/post/PostList';
 import Spinner from './Spinner';
@@ -14,6 +15,10 @@ class Profile extends Component {
         await this.props.fetchUser();
         let user = this.props.match.params;
         await this.props.checkUser(user);
+
+        if (this.props.auth.username === "" || this.props.auth.username === null) {
+            history.push(`/edit/${this.props.auth._id}`);
+        }
         
 
         if (this.props.user) {
@@ -55,6 +60,7 @@ class Profile extends Component {
                     <div id="topProfileContainer" className="ui inverted vertical masthead center aligned segment">
                         <img alt={this.props.user.username} id="profileImage" className="ui medium circular image"src={this.props.user.profileImage}></img>
                         <h2>{this.props.user.username}</h2>
+                        <h5 style={{margin: '0'}}>{this.props.auth.aboutme}</h5>
                         <div className="ui container">
                             <div id="profileStats" className="ui equal width grid">
                                 <div className="column">

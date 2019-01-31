@@ -158,7 +158,8 @@ export const setTime = (time) => {
     return { type: SET_TIME, payload: time }
 }
 
-export const updateProfile = (profileInfo) => async dispatch => {
-    const res = await axios.patch(`/api/user/${profileInfo.id}`, profileInfo);
+export const updateProfile = (profile) => async dispatch => {
+    const res = await axios.patch(`/api/user/${profile.id}`, profile);
     dispatch({ type: UPDATE_PROFILE, payload: res.data });
+    history.push(`/${profile.username}`);
 }

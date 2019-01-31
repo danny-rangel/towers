@@ -20,6 +20,14 @@ module.exports = (app) => {
         }
     })
 
+    app.patch('/api/user/:id', requireLogin, async (req, res) => {
+        const profile = await User.findByIdAndUpdate(req.body.id, { $set: {
+            username: req.body.username,
+            aboutme: req.body.aboutme
+        }}, { new: true }).exec();
+        res.send(profile);
+    })
+
 
 
     app.post('/api/follow', async (req, res) => {
