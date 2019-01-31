@@ -3,20 +3,21 @@ import './Home.css';
 import PostList from './post/PostList';
 import history from '../history';
 import { connect } from 'react-redux';
-import { fetchFollowerPosts } from '../actions';
+import { fetchFollowerPosts, isFetching } from '../actions';
 import Spinner from './Spinner';
 
 class Home extends Component {
 
-    componentDidMount() {
-
+    async componentDidMount() {
+        this.props.isFetching(true);
         if (!this.props.auth) {
             history.push('/');
         } else if (this.props.auth.username === "") {
-            history.push('/signup');
+            history.push(`/edit/${this.props.auth._id}`);
         }
 
-        this.props.fetchFollowerPosts();
+        await this.props.fetchFollowerPosts();
+        this.props.isFetching(false);
     }
 
 
@@ -37,4 +38,4 @@ const mapStateToProps = ({ posts, auth, fetching }) => {
 }
 
 
-export default connect(mapStateToProps, { fetchFollowerPosts })(Home);
+export default connect(mapStateToProps, { fetchFollowerPosts, isFetching })(Home);

@@ -16,7 +16,7 @@ import Footer from './Footer';
 import Player from './player/Player';
 import Profile from './Profile';
 import PostDelete from './post/PostDelete';
-import SignUp from './SignUp';
+import EditProfile from './EditProfile';
 
 
 
@@ -57,7 +57,7 @@ class App extends Component {
                             <div id="bodyContainer">
                                 <Switch>
                                     <Route exact path="/" component={Landing}></Route>
-                                    <Route exact path="/signup" component={SignUp}></Route>
+                                    <Route exact path="/edit/:id" component={EditProfile}></Route>
                                     <Route exact path="/home" component={Home}></Route>
                                     <Route exact path="/search" component={Search}></Route>
                                     <Route exact path="/posts/new" component={PostNew}></Route>

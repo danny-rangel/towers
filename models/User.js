@@ -7,6 +7,7 @@ const userSchema = new Schema({
     googleId: String,
     username: String,
     name: String,
+    aboutme: String,
     profileImage: {type: String, default: "https://i.imgur.com/JeTiSHK.png"},
     followersCount: { type: Number, default: 0 },
     followingCount: { type: Number, default: 0 },

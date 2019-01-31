@@ -73,7 +73,7 @@ class Player extends Component {
                 <div id="player" className="ui fixed bottom sticky">
                     <div id="playerContentRow" className="ui grid">
                         <div id="muteButton" className="left aligned column two wide column player">
-                            <button id="muteButton" onClick={() => this.changeSongVolume()} ><i className={this.props.volume === 0 ? 'volume off icon': 'volume up icon'}></i></button>
+                            <button style={{color: 'white', background: 'none'}} id="muteButton" onClick={() => this.changeSongVolume()} ><i className={this.props.volume === 0 ? 'volume off icon': 'volume up icon'}></i></button>
                         </div>
                         <div id="volumeBar" className="left aligned column two wide column player">
                             <VolumeBar />
@@ -92,7 +92,7 @@ class Player extends Component {
                             </img>
                         </div>
                         <div id="playButton" className="left aligned column three wide column player">
-                            <button id="playButton" onClick={() => this.playSong()} ><i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i></button>
+                            <button style={{color: 'white', background: 'none'}} id="playButton" onClick={() => this.playSong()} ><i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i></button>
                         </div>
                         <div id="currentTime" className="center aligned column one wide column player">
                             {this.props.time}

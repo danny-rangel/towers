@@ -4,16 +4,6 @@ import { Link } from 'react-router-dom';
 
 const PostField = ({ input, placeholder }) => {
     return (
-        // <div id="field" className="extra content" style={{textAlign: 'center'}}>
-        //     <div className="ui large transparent left icon input">
-        //         <input id="caption-input" placeholder={placeholder} {...input} />
-        //     </div>
-        //     <div style={{ textAlign: 'center' }}>
-        //             <Link to="/search" className="negative ui primary button postButton">Cancel</Link>
-        //             <button type="submit" className="ui primary button postButton">Post</button>
-        //     </div>
-        // </div>
-
         <div id="field" className="extra content" style={{textAlign: 'center'}}>
             <div className="ui form">
                 <div className="field">
