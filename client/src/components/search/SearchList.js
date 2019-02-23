@@ -15,6 +15,9 @@ class SearchList extends Component {
     }
 
     render() {
+        if (!this.props.songs) {
+            return <div>No results found</div>
+        }
         return (
             <div key="searchList" id="searchList" className="ui celled list">
                 {this.renderList()}

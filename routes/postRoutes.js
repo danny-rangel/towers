@@ -4,6 +4,7 @@ const requireLogin = require('../middlewares/requireLogin');
 const Post = mongoose.model('posts');
 const Follow = mongoose.model('follow');
 const PostLike = mongoose.model('postLikes');
+const Notification = mongoose.model('notification');
 
 module.exports = (app) => {
 
@@ -42,9 +43,12 @@ module.exports = (app) => {
         res.send(posts);
     });
 
+    
+
     //FETCH POSTS BY USERNAME
     app.post('/api/posts/user', async (req, res) => {
-        const posts = await Post.find({ username: req.body.username }).sort({date: -1});
+        const { username } = req.body;
+        const posts = await Post.find({ username }).sort({date: -1});
         res.send(posts);
     });
 
@@ -66,23 +70,27 @@ module.exports = (app) => {
 
     //FETCH FOLLOWER POSTS
     app.get('/api/followPosts', requireLogin, async (req, res) => {
-        const follows = await Follow.find({ personFollowingId: req.user.id }).select({ "personFollowedId": 1 , "_id": 0});
+
+        const { id } = req.user;
+
+        const follows = await Follow.find({ personFollowingId: id }).select({ "personFollowedId": 1 , "_id": 0});
         const followsArray = follows.map((follow) => {
             return follow.personFollowedId;
         });
 
-        followsArray.push(req.user.id);
+        followsArray.push(id);
         
         const posts = await Post.find({'userId': {$in: followsArray}}).sort({date: -1});
         res.send(posts);
     });
 
 
-
     //DELETE POST
     app.delete('/api/postDelete', requireLogin, async (req, res) => {
-        await PostLike.deleteMany({ postId: req.body._id });
-        const post = await Post.findOneAndDelete({ _id: req.body._id });
+
+        const { _id } = req.body;
+        await PostLike.deleteMany({ postId: _id });
+        const post = await Post.findOneAndDelete({ _id: _id });
         req.user.postsNumber -= 1;
         await req.user.save();
 
@@ -92,17 +100,32 @@ module.exports = (app) => {
     //LIKE POST
     app.post('/api/postsLike', requireLogin, async (req, res) => {
         
-        const { postId, likerId, username } = req.body;
+        const { postId, likerId, username, image } = req.body;
             let check = await PostLike.findOne({ postId: postId, likerId: likerId }).exec();
             if (check === null) {
                 try {
+                    //REDO LATER TO NOT LOOK FOR POST TWICE!
+                    let post = await Post.findOne({ _id: postId });
+
                     like = new PostLike({
-                        postId: postId,
-                        likerId: likerId,
-                        username: username,
+                        postId,
+                        likerId,
+                        username,
                         date: Date.now()
                     });
+
+                    const notification = new Notification({
+                        action: "Like",
+                        from: likerId,
+                        to: post.userId,
+                        fromUsername: username,
+                        toUsername: post.username,
+                        image: post.albumArt,
+                        date: Date.now()
+                    });
+
                     await like.save();
+                    await notification.save();
                     let newPost = await Post.findOneAndUpdate({ _id: like.postId },{ $inc : { likes: 1 }}, {new: true}).exec();
                     res.send(newPost);
                 } catch (err) {

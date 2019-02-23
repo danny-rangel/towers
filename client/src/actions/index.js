@@ -5,7 +5,7 @@ import { FETCH_USER, FETCH_MUSIC_INSTANCE, SEARCH_SONGS, SELECT_SONG, SUBMIT_POS
     FETCH_POSTS, FETCH_POST, CHECK_USER, FETCH_ALL_POSTS, FETCH_USER_POSTS, FOLLOW_USER, SELECT_POST, SONG_TO_PLAY,
     SET_PERCENTAGE, SET_IS_PLAYING, SET_VOLUME, SET_INTERVAL_ID, SET_INTERVAL_ID_FLAG, SET_TIME, 
     SET_MUSICKIT_IS_PLAYING, IS_MUSIC_KIT_AUTHORIZED, DELETE_POST, FETCH_FOLLOWER_POSTS, LIKE_POST, IS_FETCHING,
-    SHOW_SIDEBAR, IS_FOLLOWING, UPDATE_PROFILE } from './types';
+    SHOW_SIDEBAR, IS_FOLLOWING, UPDATE_PROFILE, FETCH_NOTIFICATIONS } from './types';
 
 
 export const showSidebar = (bool) => {
@@ -57,8 +57,9 @@ export const searchSongs = (term) => async dispatch => {
             limit: 20
         }
     });
+    //FIX UNDEFINED RES.DATA IF NO RESULTS, CHECK API
     dispatch(isFetching(false));
-    dispatch({ type: SEARCH_SONGS, payload: res.data.results.songs.data });
+    dispatch({ type: SEARCH_SONGS, payload: res.data.results.songs.data});
 };
 
 export const selectSong = (song) => {
@@ -88,6 +89,11 @@ export const fetchPosts = () => async dispatch => {
     dispatch({ type: FETCH_POSTS, payload: res.data })
 }
 
+export const fetchNotifications = () => async dispatch => {
+    const res = await axios.get('/api/notifications/user');
+    dispatch({ type: FETCH_NOTIFICATIONS, payload: res.data })
+}
+
 export const fetchPost = (params) => async dispatch => {
     const res = await axios.post(`/api/posts/${params.id}`, params);
     dispatch({ type: FETCH_POST, payload: res.data[0] })
@@ -113,10 +119,6 @@ export const likePost = (like) => async dispatch => {
     dispatch({ type: LIKE_POST, payload: res.data }); 
 }
 
-// export const isLiked = (id, postId) => async dispatch => {
-//     const res = await axios.get(`/api/postsLike/${id}/${postId}`)
-//     dispatch({ type: IS_LIKED, payload: res.data });
-// }
 
 export const isFollowing = (id) => async dispatch => {
     const res = await axios.get(`/api/follow/${id}`);

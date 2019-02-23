@@ -2,17 +2,19 @@ const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
 const User = mongoose.model('users');
 const Follow = mongoose.model('follow');
+const Notification = mongoose.model('notification');
 
 module.exports = (app) => {
 
     app.post('/api/users', async (req, res) => {
-        const user = await User.findOne({ username: req.body.username });
+        const { username } = req.body; 
+        const user = await User.findOne({ username });
         res.send(user);
     });
 
 
     app.get('/api/follow/:id', async (req, res) => {
-        const isFollowing = await Follow.findOne({personFollowingId: req.user._id, personFollowedId:req.params.id});
+        const isFollowing = await Follow.findOne({personFollowingId: req.user._id, personFollowedId: req.params.id});
         if (isFollowing) {
             res.send(true);
         } else {
@@ -21,9 +23,11 @@ module.exports = (app) => {
     })
 
     app.patch('/api/user/:id', requireLogin, async (req, res) => {
-        const profile = await User.findByIdAndUpdate(req.body.id, { $set: {
-            username: req.body.username,
-            aboutme: req.body.aboutme
+
+        const { id, username, aboutme } = req.body;
+        const profile = await User.findByIdAndUpdate(id, { $set: {
+            username,
+            aboutme
         }}, { new: true }).exec();
         res.send(profile);
     })
@@ -31,19 +35,31 @@ module.exports = (app) => {
 
 
     app.post('/api/follow', async (req, res) => {
-        // TODO MAKE SURE YOU CANT FOLLOW YOURSELF
-        const { personFollowingId, personFollowedId } = req.body;
+        
+        const { personFollowingId, personFollowedId, personFollowingUsername, personFollowedUsername, image } = req.body;
 
-        const follow = await Follow.findOne({personFollowingId: personFollowingId, personFollowedId:personFollowedId});
+        const follow = await Follow.findOne({ personFollowingId, personFollowedId });
 
         if (follow === null) {
             const follow = new Follow({
-                personFollowingId: personFollowingId,
-                personFollowedId: personFollowedId
+                personFollowingId,
+                personFollowedId
+            });
+
+            const notification = new Notification({
+                action: "Follow",
+                from: personFollowingId,
+                to: personFollowedId,
+                fromUsername: personFollowingUsername,
+                toUsername: personFollowedUsername,
+                image: image,
+                date: Date.now()
             });
     
+
             try {
                 await follow.save();
+                await notification.save();
                 await User.findOneAndUpdate({ _id: personFollowingId },{ $inc : { followingCount: 1 }}).exec();
                 const user = await User.findOneAndUpdate({ _id: personFollowedId },{ $inc : { followersCount: 1 }}, { new: true }).exec();
                 res.send(user);
@@ -52,7 +68,7 @@ module.exports = (app) => {
                 }
             } else {
             try {
-                await Follow.findOneAndRemove({ personFollowingId: personFollowingId, personFollowedId:personFollowedId }).exec();
+                await Follow.findOneAndRemove({ personFollowingId, personFollowedId }).exec();
                 await User.findOneAndUpdate({ _id: personFollowingId },{ $inc : { followingCount: -1 }}).exec();
                 const user = await User.findOneAndUpdate({ _id: personFollowedId },{ $inc : { followersCount: -1 }}, { new: true }).exec();
                 res.send(user);
@@ -60,9 +76,13 @@ module.exports = (app) => {
                 res.status(422).send(err);
                 }
             }
-
-    
     });
 
+
+    //FETCH NOTIFICATIONS BY ID
+    app.get('/api/notifications/user', async (req, res) => {
+        const notifications = await Notification.find({ to : req.user.id }).sort({date: -1});
+        res.send(notifications);
+    });
 
 };

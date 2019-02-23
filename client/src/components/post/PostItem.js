@@ -14,14 +14,17 @@ class PostItem extends Component {
     state = {showButton: false, edit: false, liked: false};
 
     async componentDidMount() {
+        if (!this.props.post) {
+            return null;
+        } else {
         this._isMounted = true;
         const res = await axios.get(`/api/postsLike/${this.props.auth._id}/${this.props.post._id}`);
         if (this._isMounted) {this.setState({ liked: res.data })};
+        }
     }
 
 
     selectAndPlayPost = (post) => {
-
         let nowPlaying = {
             url : post.songURL,
             id : post._id,
@@ -39,7 +42,8 @@ class PostItem extends Component {
         const newLike =  {
             postId: post._id,
             likerId: this.props.auth._id,
-            username: this.props.auth.username
+            username: this.props.auth.username,
+            image: this.props.auth.profileImage
         }
         await this.props.likePost(newLike);
         const res = await axios.get(`/api/postsLike/${this.props.auth._id}/${this.props.post._id}`);
@@ -52,6 +56,9 @@ class PostItem extends Component {
 
 
     render() {
+        if (!this.props.post) {
+            return null;
+        } else {
         return (
             <div id="postItem" className="item" >
                 <div className="ui card" id="listPostCard">
@@ -108,6 +115,7 @@ class PostItem extends Component {
             </div>
         );
     }
+}
 }
 
 const mapStateToProps = ({ songPlaying, isPlaying, auth, likePost }) => {

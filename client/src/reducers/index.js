@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { reducer as reduxForm } from 'redux-form';
 import postsReducer from './postsReducer';
+import notificationsReducer from './notificationsReducer';
 import authReducer from './authReducer';
 import musickitReducer from './musickitReducer';
 import searchSongsReducer from './searchSongsReducer';
@@ -23,6 +24,7 @@ import isFollowingReducer from './isFollowingReducer';
 export default combineReducers({
     auth: authReducer,
     posts: postsReducer,
+    notifications: notificationsReducer,
     musicKit: musickitReducer,
     songs: searchSongsReducer,
     form: reduxForm,

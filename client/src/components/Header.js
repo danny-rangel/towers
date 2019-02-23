@@ -159,23 +159,19 @@ class Header extends Component {
 
 
 
-
-
-
-
-
     render() {
         return (
         <div>
             <div id="mainHeader" className="ui inverted stackable menu">
+                <div className="ui container">
                     <Link to={this.props.auth ? '/home' : '/'} className="item">
-                        <div id="homebutton"><h2 id="buttonText">Towers</h2></div>
-                    </Link>
-                    <Link to='/about' className="item">
-                        <div id="aboutbutton"><h4 id="buttonText">About</h4></div>
+                        <div id="homebutton"><i className="chess rook icon"></i></div>
                     </Link>
                     <Link to='/search' className="item">
-                        <div id="searchbutton"><h4 id="buttonText">Search</h4></div>
+                        <div id="searchbutton"><i className="search icon"></i></div>
+                    </Link>
+                    <Link to='/notifications' className="item">
+                        <div id="notificationbutton"><i className="bell icon"></i></div>
                     </Link>
                     <div className="right menu">
                     <div style={{display: this.props.auth ? 'none' : 'block'}} id="mobile" className="ui item">
@@ -186,6 +182,7 @@ class Header extends Component {
                         {this.renderAvatar()}
                         {this.renderSidebar()}
                     </div>
+                </div>
             </div>
 
             <div id="mobileHeader" className="ui inverted fluid four item menu">

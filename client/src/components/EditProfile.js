@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { fetchUser, isFetching, updateProfile } from '../actions';
 import history from '../history';
-import { format } from 'path';
 
 class EditProfile extends Component {
 

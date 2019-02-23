@@ -9,6 +9,7 @@ require('./models/Post');
 require('./models/Follow');
 require('./models/PostComments');
 require('./models/PostLikes');
+require('./models/Notifications');
 require('./services/passport');
 
 

@@ -11,7 +11,7 @@ import Landing from './Landing';
 import Home from './Home';
 import PostNew from '../components/post/PostNew';
 import Search from '../components/search/Search';
-import Notifications from './Notifications';
+import Notifications from './notifications/Notifications';
 import Footer from './Footer';
 import Player from './player/Player';
 import Profile from './Profile';

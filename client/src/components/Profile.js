@@ -22,7 +22,8 @@ class Profile extends Component {
         
 
         if (this.props.user) {
-            this.props.fetchUserPosts(user);
+            
+            await this.props.fetchUserPosts(user);
             this.props.isFollowing(this.props.user._id);
         }
         this.props.isFetching(false);
@@ -43,11 +44,13 @@ class Profile extends Component {
     }
 
 
-
     follow = async (user, auth) => {
         let body = {
             personFollowingId: auth._id,
-            personFollowedId: user._id
+            personFollowedId: user._id,
+            personFollowingUsername: auth.username,
+            personFollowedUsername: user.username,
+            image: auth.profileImage
         }
         await this.props.followUser(body);
         this.props.isFollowing(this.props.user._id);
@@ -67,10 +70,10 @@ class Profile extends Component {
                                     <h4 id="profileStatsText" >{this.props.user.postsNumber} {this.props.user.postsNumber === 1 ? 'song': 'songs'} </h4>
                                 </div>
                                 <div className="column">
-                                    <h4 id="profileStatsText">{`${this.props.user.followersCount} followers`}</h4>
+                                    <h4 id="profileStatsText">{`${this.props.user.followersCount} listeners`}</h4>
                                 </div>
                                 <div className="column">
-                                    <h4 id="profileStatsText">{`${this.props.user.followingCount} following`}</h4>
+                                    <h4 id="profileStatsText">{`${this.props.user.followingCount} listening`}</h4>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +82,7 @@ class Profile extends Component {
                                 <button 
                                     onClick={() => this.follow(this.props.user, this.props.auth)} 
                                     className={this.props.following ? 'ui button' : 'ui inverted button'}>
-                                    {this.props.following ? 'Following' : 'Follow'}
+                                    {this.props.following ? 'Listening' : 'Listen'}
                                 </button> : 
                                 <Link 
                                     to={`/edit/${this.props.auth._id}`} 

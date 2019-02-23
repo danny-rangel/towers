@@ -27,7 +27,7 @@ class Home extends Component {
         }
         return (
             <div id="mainMiddleDiv">
-                <PostList posts={this.props.posts} />
+                <PostList posts={this.props.posts}/>
             </div>
         );
     }

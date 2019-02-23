@@ -58,7 +58,7 @@ class Player extends Component {
         if (this.props.volume === 0)
         {
             this.props.musicKit.player.volume = this.state.oldVolume;
-            this.props.setVolume(0.5);
+            this.props.setVolume(this.props.musicKit.player.volume);
         } else {
             this.setState({ oldVolume:  this.props.musicKit.player.volume});
             this.props.musicKit.player.mute();

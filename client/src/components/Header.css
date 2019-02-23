@@ -10,6 +10,24 @@
     margin: auto;
 }
 
+#homebutton {
+    margin: auto;
+    padding: 0 20px;
+    font-size: 20px;
+}
+
+#notificationbutton {
+    margin: auto;
+    padding: 0 20px;
+    font-size: 20px;
+}
+
+#searchbutton {
+    margin: auto;
+    padding: 0 20px;
+    font-size: 20px;
+}
+
 #appleButton {
     margin: auto;
     padding: 8px 14px 10px;
@@ -71,7 +89,7 @@
         margin: auto;
     }
 
-    #aboutbutton {
+    #notificationbutton {
         margin: auto;
     }
 

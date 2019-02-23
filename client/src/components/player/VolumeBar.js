@@ -15,7 +15,6 @@ class VolumeBar extends Component {
 
         render() {
             return (
-
                 <input 
                     style={{ display: 'block', width: `100%`, height: 5, backgroundColor: '#ccc', borderRadius: '5px'}} 
                     ref={this.myRef} onChange={() => this.changeVol()} 
