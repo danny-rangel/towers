@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PostItem from './PostItem';
-import { List, AutoSizer, CellMeasurer } from 'react-virtualized';
+// import { List, AutoSizer, CellMeasurer } from 'react-virtualized';
 import './PostList.css';
 
 
@@ -46,8 +46,6 @@ class PostList extends Component {
     // }
 
 
-
-
     renderPosts() {
         return this.props.posts.map(post => {
             return (
@@ -57,7 +55,6 @@ class PostList extends Component {
     }
 
     render() {
-        console.log(this.props.posts);
         return (
             <div className="ui container">
                 <div id="postListContainer" className="ui relaxed list" >

@@ -14,16 +14,15 @@ module.exports = (app) => {
 
 
     app.get('/api/follow/:id', async (req, res) => {
-        const isFollowing = await Follow.findOne({personFollowingId: req.user._id, personFollowedId: req.params.id});
+        const isFollowing = await Follow.findOne({ personFollowingId: req.user._id, personFollowedId: req.params.id });
         if (isFollowing) {
             res.send(true);
         } else {
             res.send(false);
         }
-    })
+    });
 
     app.patch('/api/user/:id', requireLogin, async (req, res) => {
-
         const { id, username, aboutme } = req.body;
         const profile = await User.findByIdAndUpdate(id, { $set: {
             username,
@@ -56,7 +55,6 @@ module.exports = (app) => {
                 date: Date.now()
             });
     
-
             try {
                 await follow.save();
                 await notification.save();

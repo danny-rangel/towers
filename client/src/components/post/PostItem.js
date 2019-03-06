@@ -11,7 +11,7 @@ class PostItem extends Component {
 
     _isMounted = false;
 
-    state = {showButton: false, edit: false, liked: false};
+    state = { showButton: false, edit: false, liked: false };
 
     async componentDidMount() {
         if (!this.props.post) {
