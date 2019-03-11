@@ -12,13 +12,15 @@ import Home from './Home';
 import PostNew from '../components/post/PostNew';
 import Search from '../components/search/Search';
 import Notifications from './notifications/Notifications';
-import Footer from './Footer';
+// import Footer from './Footer';
 import Player from './player/Player';
 import Profile from './Profile';
 import PostDelete from './post/PostDelete';
 import EditProfile from './EditProfile';
 
-
+// import socket from '../utils/socket';
+import io from 'socket.io-client';
+import socket from '../utils/socket';
 
 class App extends Component {
 
@@ -66,7 +68,7 @@ class App extends Component {
                                     <Route exact path="/:username" component={Profile}></Route>
                                 </Switch>
                             </div>
-                            <Footer />
+                            {/* <Footer /> */}
                         <Player />
                     </div>
                     </ScrollToTop>
