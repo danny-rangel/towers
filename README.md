@@ -6,4 +6,4 @@ Check out my profile page to see what it looks like!
 
 Will be open to anyone logging in soon!
 
-[Demo](towersmusic.io/dannyrangel)
+[Demo](www.towersmusic.io/dannyrangel)
