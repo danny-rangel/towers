@@ -19,7 +19,7 @@ class Search extends Component {
     }
 }
 
-const mapStateToProps = ({fetching}) => {
+const mapStateToProps = ({ fetching }) => {
     return { fetching }; 
 }
 

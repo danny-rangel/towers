@@ -58,8 +58,8 @@ class SearchItem extends Component {
                             </div>
                         </div>
                     </div>
-                    <div id="postButton" onClick={(e) => e.stopPropagation()} className="column">
-                        <Link style={{display: this.props.auth ? 'inline-block': 'none' }} onClick={() => this.props.selectSong(this.props.song)} to="/posts/new" className="ui inverted blue button">Post</Link>
+                    <div style={{display: this.props.auth ? 'inline-block': 'none' }} id="postButton" onClick={(e) => e.stopPropagation()} className="column">
+                        <Link onClick={() => this.props.selectSong(this.props.song)} to="/posts/new" className="ui inverted blue button">Post</Link>
                     </div>
                 </div>
             </div>

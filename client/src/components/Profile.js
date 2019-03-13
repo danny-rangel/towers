@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { checkUser, fetchUserPosts, followUser, fetchUser, isFollowing, isFetching } from '../actions';
 import history from '../history';
 
@@ -56,29 +56,30 @@ class Profile extends Component {
         this.props.isFollowing(this.props.user._id);
     }
 
-
+//FIX SECTION WITH AUTH._ID TO CHECK IF THERE IS AN AUTH IN THE FIRST PLACE
+//NEED TO BE ABLE TO SEE PROFILES EVEN IF NOT LOGGED IN?
     renderProfile() {
             return (
                 <div>
                     <div id="topProfileContainer" className="ui inverted vertical masthead center aligned segment">
                         <img alt={this.props.user.username} id="profileImage" className="ui medium circular image"src={this.props.user.profileImage}></img>
                         <h2>{this.props.user.username}</h2>
-                        <h5 style={{margin: '0'}}>{this.props.auth.aboutme}</h5>
+                        <h5 style={{margin: '0'}}>{this.props.user.aboutme}</h5>
                         <div className="ui container">
                             <div id="profileStats" className="ui equal width grid">
                                 <div className="column">
                                     <h4 id="profileStatsText" >{this.props.user.postsNumber} {this.props.user.postsNumber === 1 ? 'song': 'songs'} </h4>
                                 </div>
-                                <div className="column">
+                                {/* <div className="column">
                                     <h4 id="profileStatsText">{`${this.props.user.followersCount} listeners`}</h4>
                                 </div>
                                 <div className="column">
                                     <h4 id="profileStatsText">{`${this.props.user.followingCount} listening`}</h4>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         
-                        { this.props.user._id !== this.props.auth._id ?
+                        {/* { this.props.user._id !== this.props.auth._id ?
                                 <button 
                                     onClick={() => this.follow(this.props.user, this.props.auth)} 
                                     className={this.props.following ? 'ui button' : 'ui inverted button'}>
@@ -89,7 +90,7 @@ class Profile extends Component {
                                     className="ui inverted button">
                                     Edit Profile
                                 </Link>
-                            }
+                            } */}
                     </div>
                     <div id="profilePostsContainer" className="ui container">
                         <PostList posts={this.props.posts}/>
@@ -104,8 +105,8 @@ class Profile extends Component {
             return <Spinner />
         }
 
-        if (!this.props.user || !this.props.auth) {
-            return <div>This user does not exist</div>
+        if (!this.props.user) {
+            return <div style={{ color: 'white', margin: '40px 0 0 0'}}><h3>This is not the user you're looking for...</h3></div>
         } else {
         return (
             <div>{this.renderProfile()}</div>

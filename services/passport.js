@@ -29,7 +29,8 @@ passport.use(new GoogleStrategy({
         } 
 
         // we dont have a record with this id, make a new one
-        const user = await new User({ googleId: profile.id }).save();
-        done(null, user);
+        // const user = await new User({ googleId: profile.id }).save();
+        // done(null, user);
+        return done(null);
     })
 );

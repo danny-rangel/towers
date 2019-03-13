@@ -83,4 +83,8 @@ module.exports = (app) => {
         res.send(notifications);
     });
 
+    // app.get('/api/hi', (req, res) => {
+    //     console.log('Session: ', req.session);
+    // });
+
 };

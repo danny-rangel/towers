@@ -16,11 +16,12 @@ class PostItem extends Component {
     async componentDidMount() {
         if (!this.props.post) {
             return null;
-        } else {
-        this._isMounted = true;
-        const res = await axios.get(`/api/postsLike/${this.props.auth._id}/${this.props.post._id}`);
-        if (this._isMounted) {this.setState({ liked: res.data })};
-        }
+        } 
+        // else {
+        // this._isMounted = true;
+        // const res = await axios.get(`/api/postsLike/${this.props.auth._id}/${this.props.post._id}`);
+        // if (this._isMounted) {this.setState({ liked: res.data })};
+        // }
     }
 
 

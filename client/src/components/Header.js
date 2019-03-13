@@ -164,17 +164,17 @@ class Header extends Component {
         <div>
             <div id="mainHeader" className="ui inverted stackable menu">
                 <div className="ui container">
-                    <Link to={this.props.auth ? '/home' : '/'} className="item">
+                    <Link style={{ display: this.props.auth ? 'flex' : 'none' }} to={this.props.auth ? '/home' : '/'} className="item">
                         <div id="homebutton"><i className="chess rook icon"></i></div>
                     </Link>
                     <Link to='/search' className="item">
                         <div id="searchbutton"><i className="search icon"></i></div>
                     </Link>
-                    <Link to='/notifications' className="item">
+                    <Link style={{ display: this.props.auth ? 'flex' : 'none' }} to='/notifications' className="item">
                         <div id="notificationbutton"><i className="bell icon"></i></div>
                     </Link>
                     <div className="right menu">
-                    <div style={{display: this.props.auth ? 'none' : 'block'}} id="mobile" className="ui item">
+                    <div style={{display: this.props.auth ? 'none' : 'flex'}} id="mobile" className="ui item">
                         <a id="logbutton" href="/auth/google" className="ui inverted white button">
                             <div id="buttonText">Log in With Google</div>
                         </a>
@@ -185,19 +185,19 @@ class Header extends Component {
                 </div>
             </div>
 
-            <div id="mobileHeader" className="ui inverted fluid four item menu">
-                <Link id="mobilehomebutton" to={this.props.auth ? '/home' : '/'} className="item">
-                    <div><i id="mobilehomeIcon" className="home icon"></i></div>
+            <div id="mobileHeader" className={this.props.auth ? "ui inverted fluid four item menu" : "ui inverted fluid two item menu"}>
+                <Link style={{ display: this.props.auth ? 'flex' : 'none' }} id="mobilehomebutton" to={this.props.auth ? '/home' : '/'} className="item">
+                    <div><i id="mobilehomeIcon" className="chess rook icon"></i></div>
                 </Link>
                 <Link id="mobilesearchbutton" to='/search' className="item">
                     <div><i id="mobilesearchIcon" className="search icon"></i></div>
                 </Link>
-                <Link id="mobileaboutbutton" to='/notifications' className="item">
+                <Link style={{ display: this.props.auth ? 'flex' : 'none' }} id="mobileaboutbutton" to='/notifications' className="item">
                     <div><i id="mobileaboutIcon" className="bell icon"></i></div>
                 </Link>
                 <div id="mobileavatarbutton" className="item">
-                <div style={{display: this.props.auth ? 'none' : 'block'}} id="mobile" className="ui item">
-                        <a id="logbutton" href="/auth/google" >
+                <div style={{display: this.props.auth ? 'none' : 'flex'}} id="mobile" className="ui item">
+                        <a style={{ float: 'right'}} id="logbutton" href="/auth/google" >
                             <div id="buttonText">Log in</div>
                         </a>
                     </div>
