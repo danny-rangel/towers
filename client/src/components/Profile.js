@@ -64,18 +64,18 @@ class Profile extends Component {
                     <div id="topProfileContainer" className="ui inverted vertical masthead center aligned segment">
                         <img alt={this.props.user.username} id="profileImage" className="ui medium circular image"src={this.props.user.profileImage}></img>
                         <h2>{this.props.user.username}</h2>
-                        <h5 style={{margin: '0'}}>{this.props.user.aboutme}</h5>
+                        {/* <h5 style={{margin: '0'}}>{this.props.user.aboutme}</h5> */}
                         <div className="ui container">
                             <div id="profileStats" className="ui equal width grid">
                                 <div className="column">
-                                    <h4 id="profileStatsText" >{this.props.user.postsNumber} {this.props.user.postsNumber === 1 ? 'song': 'songs'} </h4>
-                                </div>
-                                {/* <div className="column">
-                                    <h4 id="profileStatsText">{`${this.props.user.followersCount} listeners`}</h4>
+                                    <h4 id="profileStatsText" ><h3>{this.props.user.postsNumber}</h3> {this.props.user.postsNumber === 1 ? 'song': 'songs'} </h4>
                                 </div>
                                 <div className="column">
-                                    <h4 id="profileStatsText">{`${this.props.user.followingCount} listening`}</h4>
-                                </div> */}
+                                    <h4 id="profileStatsText"><h3>{this.props.user.followersCount}</h3> {" listeners"}</h4>
+                                </div>
+                                <div className="column">
+                                    <h4 id="profileStatsText"><h3>{this.props.user.followingCount}</h3> {" listening"}</h4>
+                                </div>
                             </div>
                         </div>
                         
