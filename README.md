@@ -1,9 +1,7 @@
 # towers
 
-Work in progress social media music app.
+Social media music app.
 
-Check out my profile page to see what it looks like!
-
-Will be open to anyone logging in soon!
+Check out a glimpse! vvv
 
 [Demo](https://towersmusic.io/dannyrangel)
