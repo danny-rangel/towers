@@ -18,11 +18,11 @@ class Header extends Component {
     }
 
     componentDidMount() {
-        // FIX: ONLY CALL ACTION CREATOR IF AUTH EXISTS
-        // this.props.haveNewNotifications();
-        // socket.on('notification', (data) => {
-        //     this.props.haveNewNotifications();
-        // })
+        FIX: ONLY CALL ACTION CREATOR IF AUTH EXISTS
+        this.props.haveNewNotifications();
+        socket.on('notification', (data) => {
+            this.props.haveNewNotifications();
+        })
     }
 
     renderContent() {
