@@ -3,9 +3,9 @@ import io from 'socket.io-client';
 let URL = "";
 
 if (process.env.NODE_ENV === 'production') {
-    URL = `https://towersmusic.io:${process.env.PORT}`;
+    URL = `https://towersmusic.io/`;
   } else if (process.env.NODE_ENV !== 'production') {
-    URL = '/';
+    URL = 'http://localhost:5000';
   }
 
 const socket = io.connect(URL);
