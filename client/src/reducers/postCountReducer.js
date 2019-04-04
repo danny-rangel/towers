@@ -6,7 +6,7 @@ import {
 export default (state = 0, action) => {
     switch(action.type) {
         case FETCH_ALL_FOLLOWER_POSTS_COUNT:
-            return action.payload.postsCount;
+            return {...state, ...action.payload.postsCount};
         case FETCH_ALL_USER_POSTS_COUNT:
             return action.payload.postsCount;
         default:
