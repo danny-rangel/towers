@@ -49,6 +49,10 @@ class App extends Component {
         if (this.props.auth.username === "") {
             history.push(`/edit/${this.props.auth._id}`);
         }
+
+        if (!this.props.auth) {
+            history.push('/');
+        }
     }
 
     
