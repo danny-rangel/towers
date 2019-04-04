@@ -40,7 +40,7 @@ class App extends Component {
               }, 2000)
             }
         });
-        // await this.props.fetchUser();
+        await this.props.fetchUser();
         await this.props.fetchMusicInstance();
         this.props.isMusicKitAuthorized(this.props.musicKit.isAuthorized);
         this.props.musicKit.volume = 1;
