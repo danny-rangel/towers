@@ -2,6 +2,6 @@
 
 Social media music app.
 
-Check out a glimpse! vvv
+Sign up and follow me!
 
-[Demo](https://towersmusic.io/dannyrangel)
+[towersmusic.io](https://towersmusic.io/dannyrangel)
