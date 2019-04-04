@@ -60,7 +60,7 @@ io.use(passportSocketIo.authorize({
 
 
   io.on('connection', socket => {
-    console.log('Connected!', socket.id, socket.request.user.username);
+    // console.log('Connected!', socket.id, socket.request.user.username);
     socket.join(socket.request.user._id);
 });
 
