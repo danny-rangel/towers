@@ -217,7 +217,9 @@ module.exports = (app) => {
 
     //CHECK IF USER HAS ANY NOTIFICATIONS THAT ARE NOT VIEWED
     app.get('/api/notifications', requireLogin, async (req, res) => {
+        console.log(req.user);
         const notification = await Notification.findOne({ to: req.user.id, viewed: false }).exec();
+        console.log(notification);
         if (notification) {
             res.send(true);
         } else {
