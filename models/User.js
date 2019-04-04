@@ -6,6 +6,7 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
     googleId: String,
     username: { type: String, default: "", text: true },
+    emails: [],
     name: String,
     aboutme: { type: String, default: "" },
     profileImage: { type: String, default: "https://i.imgur.com/JeTiSHK.png" },
