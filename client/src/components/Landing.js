@@ -5,11 +5,11 @@ import history from '../history';
 
 const Landing = ({ auth }) => {
 
-    useEffect(() => {
-        if (auth) {
-            history.push('/home');
-        }
-    }, [auth])
+    // useEffect(() => {
+    //     if (auth) {
+    //         history.push('/home');
+    //     }
+    // }, [auth])
     
 
     return (
