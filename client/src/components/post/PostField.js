@@ -10,7 +10,7 @@ const PostField = ({ input, placeholder }) => {
                     <textarea maxLength="2000" rows="2" id="caption-input" placeholder={placeholder} {...input} />
                 </div>
             </div>
-            <div style={{ textAlign: 'center' }}>
+            <div style={{ textAlign: 'center' }} id="actionButtons" >
                     <Link to="/search" className="negative ui primary button postButton">Cancel</Link>
                     <button type="submit" className="ui primary button postButton">Post</button>
             </div>

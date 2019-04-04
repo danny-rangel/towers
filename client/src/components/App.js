@@ -16,9 +16,11 @@ import Player from './player/Player';
 import Profile from './Profile';
 import PostDelete from './post/PostDelete';
 import EditProfile from './EditProfile';
+import UserList from './UserList';
+import FollowerList from './FollowerList';
+import FollowingList from './FollowingList';
+import EditAVI from './EditAVI';
 
-// import io from 'socket.io-client';
-// import socket from '../utils/socket';
 
 class App extends Component {
 
@@ -37,15 +39,19 @@ class App extends Component {
                 ele.outerHTML = ''
               }, 2000)
             }
-          })
-
-        this.props.fetchUser();
+        });
+        await this.props.fetchUser();
         await this.props.fetchMusicInstance();
         this.props.isMusicKitAuthorized(this.props.musicKit.isAuthorized);
         this.props.musicKit.volume = 1;
         this.props.setVolume(this.props.musicKit.volume);
+
+        if (this.props.auth.username === "") {
+            history.push(`/edit/${this.props.auth._id}`);
+        }
     }
 
+    
 
     render() {
         return (
@@ -58,12 +64,16 @@ class App extends Component {
                                 <Switch>
                                     <Route exact path="/" component={Landing}></Route>
                                     <Route exact path="/edit/:id" component={EditProfile}></Route>
+                                    <Route exact path="/edit/avi/:id" component={EditAVI}></Route>
                                     <Route exact path="/home" component={Home}></Route>
-                                    <Route exact path="/search" component={Search}></Route>
+                                    <Route path="/search" component={Search}></Route>
                                     <Route exact path="/posts/new" component={PostNew}></Route>
                                     <Route exact path="/posts/delete/:id" component={PostDelete}></Route>
                                     <Route exact path="/notifications" component={Notifications}></Route>
                                     <Route exact path="/:username" component={Profile}></Route>
+                                    <Route exact path="/users/:id" component={UserList}></Route>
+                                    <Route exact path="/followers/:id" component={FollowerList}></Route>
+                                    <Route exact path="/following/:id" component={FollowingList}></Route>
                                 </Switch>
                             </div>
                         <Player />
@@ -75,8 +85,8 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = ({ musicKit, authorized }) => {
-        return { musicKit, authorized };
+const mapStateToProps = ({ musicKit, authorized, auth }) => {
+    return { musicKit, authorized, auth };
 }
 
 export default connect(mapStateToProps, { fetchUser, fetchMusicInstance, isMusicKitAuthorized, setVolume })(App);

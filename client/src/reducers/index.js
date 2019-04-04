@@ -20,6 +20,12 @@ import isMusicKitAuthorizedReducer from './isMusicKitAuthorizedReducer';
 import isFetchingReducer from './isFetchingReducer';
 import showSidebarReducer from './showSidebarReducer';
 import isFollowingReducer from './isFollowingReducer';
+import haveNewNotificationsReducer from './haveNewNotificationsReducer';
+import fetchUsersReducer from './fetchUsersReducer';
+import postCountReducer from './postCountReducer';
+import searchUsersReducer from './searchUsersReducer';
+import fetchedPostReducer from './fetchedPostReducer';
+
 
 export default combineReducers({
     auth: authReducer,
@@ -42,5 +48,10 @@ export default combineReducers({
     authorized: isMusicKitAuthorizedReducer,
     fetching: isFetchingReducer,
     sidebar: showSidebarReducer,
-    following: isFollowingReducer
+    following: isFollowingReducer,
+    newNotifications: haveNewNotificationsReducer,
+    users: fetchUsersReducer,
+    postCount: postCountReducer,
+    searchedUsers: searchUsersReducer,
+    fetchedPost: fetchedPostReducer
 });

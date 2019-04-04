@@ -1,11 +1,20 @@
 #notificationSection {
-    display: flex;
+    display: block;
     min-height: 60vh;
     position: relative;
+    color: white !important;
+}
+
+#notificationFeed {
+    margin: 20px !important;
 }
 
 #notificationContent {
     margin: auto;
     color: white;
     text-shadow: 0px 0px 16px #ffffff;
+}
+
+#searchError {
+    color: white !important;
 }

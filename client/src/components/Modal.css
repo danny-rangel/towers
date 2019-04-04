@@ -1,0 +1,11 @@
+#modalContent {
+    padding: 20px !important;
+}
+
+@media only screen and (max-width: 800px) {
+
+    .ui.standard.modal.visible.active {
+        max-width: 100% !important;
+    }
+
+} 

@@ -1,11 +1,16 @@
 import axios from 'axios';
 import AppleMusic from '../apis/appleMusic';
 import history from '../history';
+
+
 import { FETCH_USER, FETCH_MUSIC_INSTANCE, SEARCH_SONGS, SELECT_SONG, SUBMIT_POST, 
-    FETCH_POSTS, FETCH_POST, CHECK_USER, FETCH_ALL_POSTS, FETCH_USER_POSTS, FOLLOW_USER, SELECT_POST, SONG_TO_PLAY,
+    FETCH_POST, CHECK_USER, FETCH_ALL_POSTS, FETCH_USER_POSTS, FOLLOW_USER, SELECT_POST, SONG_TO_PLAY,
     SET_PERCENTAGE, SET_IS_PLAYING, SET_VOLUME, SET_INTERVAL_ID, SET_INTERVAL_ID_FLAG, SET_TIME, 
     SET_MUSICKIT_IS_PLAYING, IS_MUSIC_KIT_AUTHORIZED, DELETE_POST, FETCH_FOLLOWER_POSTS, LIKE_POST, IS_FETCHING,
-    SHOW_SIDEBAR, IS_FOLLOWING, UPDATE_PROFILE, FETCH_NOTIFICATIONS } from './types';
+    SHOW_SIDEBAR, IS_FOLLOWING, UPDATE_PROFILE, FETCH_NOTIFICATIONS, VIEW_NOTIFICATIONS, HAVE_NEW_NOTIFICATIONS, FETCH_POST_LIKES,
+    FETCH_FOLLOWERS, FETCH_FOLLOWING, UPDATE_AVI, CONTINUE_FETCH_FOLLOWER_POSTS, CONTINUE_FETCH_USER_POSTS, 
+    FETCH_ALL_FOLLOWER_POSTS_COUNT, FETCH_ALL_USER_POSTS_COUNT, SEARCH_USERS } from './types';
+
 
 
 export const showSidebar = (bool) => {
@@ -25,10 +30,11 @@ export const fetchUser = () => async dispatch => {
 export const fetchAllPosts = () => async dispatch => {
     const res = await axios.get('/api/posts');
     dispatch({ type: FETCH_ALL_POSTS, payload: res.data })
-}
+};
 
-export const checkUser = (user) => async dispatch => {
-    const res = await axios.post('/api/users',user);
+
+export const checkUser = (username) => async dispatch => {
+    const res = await axios.get(`/api/user/${username}`);
     dispatch({ type: CHECK_USER, payload: res.data });
 };
 
@@ -47,7 +53,10 @@ export const fetchMusicInstance = () => {
 
 export const isMusicKitAuthorized = (authorization) => {
     return { type : IS_MUSIC_KIT_AUTHORIZED, payload: authorization };
-}
+};
+
+
+
 
 export const searchSongs = (term) => async dispatch => {
     dispatch(isFetching(true));
@@ -61,6 +70,16 @@ export const searchSongs = (term) => async dispatch => {
     dispatch(isFetching(false));
     dispatch({ type: SEARCH_SONGS, payload: res.data.results.songs.data});
 };
+
+export const searchUsers = (username) => async dispatch => {
+    dispatch(isFetching(true));
+    const res = await axios.get(`/api/users/${username}`);
+    
+    dispatch(isFetching(false));
+    dispatch({ type: SEARCH_USERS, payload: res.data });
+};
+
+
 
 export const selectSong = (song) => {
     return { type: SELECT_SONG, payload: song}
@@ -84,10 +103,6 @@ export const deletePost = (post) => async dispatch => {
 }
 
 
-export const fetchPosts = () => async dispatch => {
-    const res = await axios.get('/api/posts/user');
-    dispatch({ type: FETCH_POSTS, payload: res.data })
-}
 
 export const fetchNotifications = () => async dispatch => {
     const res = await axios.get('/api/notifications/user');
@@ -99,14 +114,40 @@ export const fetchPost = (params) => async dispatch => {
     dispatch({ type: FETCH_POST, payload: res.data[0] })
 }
 
-export const fetchUserPosts = (user) => async dispatch => {
-    const res = await axios.post('/api/posts/user', user);
+
+export const fetchAllFollowerPostsCount = () => async dispatch => {
+    const res = await axios.get(`/api/followPosts`);
+    dispatch({ type: FETCH_ALL_FOLLOWER_POSTS_COUNT, payload: res.data });
+}
+
+
+export const fetchFollowerPosts = (page = 0, take = 20) => async dispatch => {
+    const res = await axios.get(`/api/followPosts/${page}/${take}`);
+    dispatch({ type: FETCH_FOLLOWER_POSTS, payload: res.data });
+}
+
+export const continuefetchFollowerPosts = (page, take) => async dispatch => {
+    const res = await axios.get(`/api/followPosts/${page}/${take}`);
+    dispatch({ type: CONTINUE_FETCH_FOLLOWER_POSTS, payload: res.data });
+}
+
+
+
+export const fetchUserPosts = (username, page = 0, take = 20) => async dispatch => {
+    const res = await axios.get(`/api/posts/${username}/${page}/${take}`);
     dispatch({ type: FETCH_USER_POSTS, payload: res.data });
 }
 
-export const fetchFollowerPosts = () => async dispatch => {
-    const res = await axios.get('/api/followPosts');
-    dispatch({ type: FETCH_FOLLOWER_POSTS, payload: res.data });
+export const continuefetchUserPosts = (username, page, take) => async dispatch => {
+    const res = await axios.get(`/api/posts/${username}/${page}/${take}`);
+    dispatch({ type: CONTINUE_FETCH_USER_POSTS, payload: res.data });
+}
+
+
+
+export const fetchAllUserPostsCount = (username) => async dispatch => {
+    const res = await axios.get(`/api/posts/${username}`);
+    dispatch({ type: FETCH_ALL_USER_POSTS_COUNT, payload: res.data });
 }
 
 export const followUser = (body) => async dispatch => {
@@ -114,14 +155,29 @@ export const followUser = (body) => async dispatch => {
     dispatch({ type: FOLLOW_USER, payload: res.data });
 }
 
+export const fetchFollowers = (id) => async dispatch => {
+    const res = await axios.get(`/api/followers/${id}`);
+    dispatch({ type: FETCH_FOLLOWERS, payload: res.data });
+}
+
+export const fetchFollowing = (id) => async dispatch => {
+    const res = await axios.get(`/api/following/${id}`);
+    dispatch({ type: FETCH_FOLLOWING, payload: res.data });
+}
+
 export const likePost = (like) => async dispatch => {
     const res = await axios.post('/api/postsLike', like);
     dispatch({ type: LIKE_POST, payload: res.data }); 
 }
 
+export const fetchPostLikes = (id) => async dispatch => {
+    const res = await axios.get(`/api/postsLike/${id}`);
+    dispatch({ type: FETCH_POST_LIKES, payload: res.data }); 
+}
 
-export const isFollowing = (id) => async dispatch => {
-    const res = await axios.get(`/api/follow/${id}`);
+
+export const isFollowing = (username) => async dispatch => {
+    const res = await axios.get(`/api/follow/${username}`);
     dispatch({ type: IS_FOLLOWING, payload: res.data });
 }
 
@@ -161,7 +217,31 @@ export const setTime = (time) => {
 }
 
 export const updateProfile = (profile) => async dispatch => {
-    const res = await axios.patch(`/api/user/${profile.id}`, profile);
-    dispatch({ type: UPDATE_PROFILE, payload: res.data });
-    history.push(`/${profile.username}`);
+    try {
+        const res = await axios.patch(`/api/user/${profile.id}`, profile);
+        dispatch({ type: UPDATE_PROFILE, payload: res.data });
+        history.push(`/${profile.username}`);
+    } catch (err) {
+        console.log('ERR', err);
+        
+    }
+    
+}
+
+// export const updateAVI = (formData, username) => async dispatch => {
+export const updateAVI = (user) => async dispatch => {
+    // const res = await axios.patch(`/api/avi`, formData, config);
+    
+    dispatch({ type: UPDATE_AVI, payload: user });
+    history.push(`/${user.username}`);
+}
+
+export const viewNotifications = () => async dispatch => {
+    await axios.post('/api/notifications');
+    dispatch({ type: VIEW_NOTIFICATIONS })
+}
+
+export const haveNewNotifications = () => async dispatch => {
+    const res = await axios.get('/api/notifications');
+    dispatch({ type: HAVE_NEW_NOTIFICATIONS, payload: res.data });
 }

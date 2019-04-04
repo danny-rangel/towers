@@ -1,26 +1,28 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import history from '../history';
 
 
-class Landing extends Component {
+const Landing = ({ auth }) => {
 
-
-    render() {
-
-        if (this.props.auth) {
+    useEffect(() => {
+        if (auth) {
             history.push('/home');
         }
+    }, [auth])
+    
 
-        return(
-                <div></div>
-        );
-    }
+    return (
+        <div>
+            <h1 style={{color: 'white', margin: '240px 0', fontWeight: '100', letterSpacing: '-6px', fontSize: '4rem'}}>towers</h1>
+        </div>
+    );
+
 }
 
 
-const mapStateToProps = (state) => {
-    return { auth: state.auth }
+const mapStateToProps = ({ auth }) => {
+    return { auth }
 }
 
 

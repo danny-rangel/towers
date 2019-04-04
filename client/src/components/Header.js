@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './Header.css';
-import { isMusicKitAuthorized, showSidebar } from '../actions';
+import { isMusicKitAuthorized, showSidebar, haveNewNotifications } from '../actions';
+import socket from '../utils/socketClient';
 
 class Header extends Component {
 
@@ -14,6 +15,14 @@ class Header extends Component {
     async unauthorizeUser() {
         const res = await this.props.musicKit.unauthorize();
         this.props.isMusicKitAuthorized(res);
+    }
+
+    componentDidMount() {
+        // FIX: ONLY CALL ACTION CREATOR IF AUTH EXISTS
+        this.props.haveNewNotifications();
+        socket.on('notification', (data) => {
+            this.props.haveNewNotifications();
+        })
     }
 
     renderContent() {
@@ -95,7 +104,7 @@ class Header extends Component {
                         <div id="mobile" className="ui item">
                             <div onClick={() => this.authorizeUser()} id="appleButton">
                                 <h3 id="buttonText">Listen with Apple Music
-                                    <img alt="applemusicicon" id="appleMusicIcon" src="Apple_Music_Icon.png"></img>
+                                    {/* <img alt="applemusicicon" id="appleMusicIcon" src="Apple_Music_Icon.png"></img> */}
                                 </h3>
                             </div>
                         </div>
@@ -106,7 +115,7 @@ class Header extends Component {
                 <div id="mobile" className="ui item">
                     <div onClick={() => this.unauthorizeUser()} id="appleButton">
                         <h3 id="buttonText">Sign Out of Apple Music
-                            <img alt="applemusicicon" id="appleMusicIcon" src="Apple_Music_Icon.png"></img>
+                            {/* <img alt="applemusicicon" id="appleMusicIcon" src="Apple_Music_Icon.png"></img> */}
                         </h3>
                     </div>
                 </div>
@@ -167,11 +176,17 @@ class Header extends Component {
                     <Link style={{ display: this.props.auth ? 'flex' : 'none' }} to={this.props.auth ? '/home' : '/'} className="item">
                         <div id="homebutton"><i className="chess rook icon"></i></div>
                     </Link>
-                    <Link to='/search' className="item">
+                    <Link style={{ display: this.props.auth ? 'flex' : 'none' }} to='/search/songs' className="item">
                         <div id="searchbutton"><i className="search icon"></i></div>
                     </Link>
                     <Link style={{ display: this.props.auth ? 'flex' : 'none' }} to='/notifications' className="item">
-                        <div id="notificationbutton"><i className="bell icon"></i></div>
+                        <div id="notificationbutton">
+                            <i 
+                                className="bell icon"
+                                style={{textShadow: this.props.newNotifications ? '0px 0px 30px white' : '0px 0px 2px white'}}
+                            >
+                            </i>
+                        </div>
                     </Link>
                     <div className="right menu">
                     <div style={{display: this.props.auth ? 'none' : 'flex'}} id="mobile" className="ui item">
@@ -189,13 +204,20 @@ class Header extends Component {
                 <Link style={{ display: this.props.auth ? 'flex' : 'none' }} id="mobilehomebutton" to={this.props.auth ? '/home' : '/'} className="item">
                     <div id="buttonText"><i id="mobilehomeIcon" className="chess rook icon"></i></div>
                 </Link>
-                <Link id="mobilesearchbutton" to='/search' className="item">
+                <Link style={{ display: this.props.auth ? 'flex' : 'none' }} id="mobilesearchbutton" to='/search/songs' className="item">
                     <div id="buttonText">
                         <i id="mobilesearchIcon" className="search icon"></i>
                     </div>
                 </Link>
                 <Link style={{ display: this.props.auth ? 'flex' : 'none' }} id="mobileaboutbutton" to='/notifications' className="item">
-                    <div id="buttonText"><i id="mobileaboutIcon" className="bell icon"></i></div>
+                    <div id="buttonText">
+                        <i 
+                            id="mobileaboutIcon" 
+                            className="bell icon"
+                            style={{textShadow: this.props.newNotifications ? '0px 0px 30px white' : '0px 0px 2px white'}}
+                        >
+                        </i>
+                    </div>
                 </Link>
                 <div id="mobileavatarbutton" className="item">
                 <div style={{display: this.props.auth ? 'none' : 'flex'}} id="mobile" className="ui item">
@@ -212,8 +234,8 @@ class Header extends Component {
     }
 }
 
-const mapStateToProps = ({ auth, authorized, musicKit, sidebar }) => {
-    return { auth, authorized, musicKit, sidebar };
+const mapStateToProps = ({ auth, authorized, musicKit, sidebar, newNotifications }) => {
+    return { auth, authorized, musicKit, sidebar, newNotifications };
 }
 
-export default connect(mapStateToProps, { isMusicKitAuthorized, showSidebar } )(Header);
+export default connect(mapStateToProps, { isMusicKitAuthorized, showSidebar, haveNewNotifications } )(Header);

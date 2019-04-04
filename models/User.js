@@ -5,14 +5,16 @@ const { Schema } = mongoose;
 // User Schema
 const userSchema = new Schema({
     googleId: String,
-    username: { type: String, default: "" },
+    username: { type: String, default: "", text: true },
     name: String,
     aboutme: { type: String, default: "" },
-    profileImage: {type: String, default: "https://i.imgur.com/JeTiSHK.png"},
+    profileImage: { type: String, default: "https://i.imgur.com/JeTiSHK.png" },
     followersCount: { type: Number, default: 0 },
     followingCount: { type: Number, default: 0 },
     postsNumber: {type: Number, default: 0 }
 });
+
+userSchema.index({ username: 'text' });
 
 // Create a new collection called users with userSchema
 // and load into mongoose

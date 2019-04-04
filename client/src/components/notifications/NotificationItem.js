@@ -6,36 +6,42 @@ import './NotificationItem.css';
 class NotificationItem extends Component {
 
     renderSummary() {
-        if (this.props.notification.action === "Follow") {
+        const { notification } = this.props;
+
+        if (notification.action === "Follow") {
             return (
                 <div className="summary" id="summaryText">
-                    {`${this.props.notification.fromUsername} started listening to you.`}
+                    <Link to={`/${notification.fromUsername}`} style={{color: 'white'}} >
+                        {notification.fromUsername}
+                    </Link>
+                    {` started listening to you.`}
                 </div>
             );
-        } else if (this.props.notification.action === "Like") {
+        } else if (notification.action === "Like") {
             return(
                 <div className="summary" id="summaryText">
-                    {`${this.props.notification.fromUsername} liked your post.`}
+                    <Link to={`/${notification.fromUsername}`} style={{color: 'white'}} >
+                        {notification.fromUsername}
+                    </Link>
+                    {` liked your post.`}
                 </div>
             );
         }
     }
 
-
     render() {
+        const { notification } = this.props;
         return (
             <div className="event">
                 <div className="label">
-                    <Link to={`/${this.props.notification.fromUsername}`} >
-                        <img 
-                            alt={this.props.notification.fromUsername} 
-                            src={this.props.notification.image}>
-                        </img>
-                    </Link>
+                    <img 
+                        alt={notification.fromUsername} 
+                        src={`${notification.image}`}>
+                    </img>
                 </div>
                 <div className="content">
                     <div className="date" id="dateText" >
-                        {moment(this.props.notification.date, moment.ISO_8601).fromNow()}
+                        {moment(notification.date, moment.ISO_8601).fromNow()}
                     </div>
                     {this.renderSummary()}
                 </div>

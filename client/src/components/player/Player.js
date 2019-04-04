@@ -14,34 +14,53 @@ class Player extends Component {
     playSong = async () => {
         if (this.props.intervalIdFlag === null || this.props.intervalIdFlag !== this.props.songPlaying.id)
         {
-            await this.props.musicKit.setQueue({ url: this.props.songPlaying.url });
+            try {
+                await this.props.musicKit.setQueue({ url: this.props.songPlaying.url });
+            } catch(err) {
+                console.log(err);
+            }
         }
 
         if (this.props.isPlaying && this.props.intervalIdFlag === this.props.songPlaying.id)
         {
-            this.props.musicKit.player.pause();
-            this.props.setIsPlaying(false);
-            this.props.setMusicKitIsPlaying(false);
-            clearInterval(this.props.intervalId);
+            try {
+                await this.props.musicKit.player.pause();
+                this.props.setIsPlaying(false);
+                this.props.setMusicKitIsPlaying(false);
+                clearInterval(this.props.intervalId);
+            } catch (err) {
+                console.log(err);
+            }
+            
             
         } else if (!this.props.isPlaying || this.props.intervalIdFlag !== this.props.songPlaying.id) {
             clearInterval(this.props.intervalId);
-            let intervalId = setInterval(() => {
+            let intervalId = setInterval(async () => {
                 this.props.setPercentage(this.props.musicKit.player.currentPlaybackTime / this.props.musicKit.player.currentPlaybackDuration);
                 this.props.setTime(secondsFormatted(this.props.musicKit.player.currentPlaybackTime));
                 this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
                 if (this.props.percentage >= 1) {
-                    this.props.musicKit.player.stop();
-                    this.props.setIsPlaying(false);
-                    clearInterval(this.props.intervalId);
+                    try {
+                        await this.props.musicKit.player.stop();
+                        this.props.setIsPlaying(false);
+                        clearInterval(this.props.intervalId);
+                    } catch(err) {
+                        console.log(err);
+                    }
+                    
                 }
-            }, 400);
+            }, 1000);
 
-            this.props.setIntervalId(intervalId);
-            this.props.musicKit.player.play();
-            this.props.setIsPlaying(true);
-            this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
-            this.props.setIntervalIdFlag(this.props.songPlaying.id);
+            try {
+                this.props.setIntervalId(intervalId);
+                await this.props.musicKit.player.play();
+                this.props.setIsPlaying(true);
+                this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
+                this.props.setIntervalIdFlag(this.props.songPlaying.id);
+            } catch(err) {
+                console.log(err);
+            }
+            
         } 
     }
 
@@ -73,7 +92,7 @@ class Player extends Component {
                 <div id="player" className="ui fixed bottom sticky">
                     <div id="playerContentRow" className="ui grid">
                         <div id="muteButton" className="left aligned column two wide column player">
-                            <button style={{color: 'white', background: 'none'}} id="muteButton" onClick={() => this.changeSongVolume()} ><i className={this.props.volume === 0 ? 'volume off icon': 'volume up icon'}></i></button>
+                            <button style={{color: 'white', background: 'none'}} id="muteButton" onClick={this.changeSongVolume} ><i className={this.props.volume === 0 ? 'volume off icon': 'volume up icon'}></i></button>
                         </div>
                         <div id="volumeBar" className="left aligned column two wide column player">
                             <VolumeBar />

@@ -10,7 +10,8 @@ const notificationSchema = new Schema({
     toUsername: String,
     viewed: {type: Boolean, default: false},
     image: String,
-    date: Date
+    date: Date,
+    postId: String
 });
 
 mongoose.model('notification', notificationSchema);

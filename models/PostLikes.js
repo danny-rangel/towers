@@ -5,7 +5,7 @@ const postLikesSchema = new Schema({
     postId: String,
     likerId: String,
     username: String,
-    profilePicture: String,
+    profileImage: String,
     date: Date
 });
 

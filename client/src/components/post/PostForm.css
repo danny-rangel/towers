@@ -5,6 +5,11 @@
 }
 
 #postCardContainer {
-    padding: 40px 0 0 0;
+    padding: 0;
 }
+
+#postFormHeader {
+    margin: 0;
+}
+
 

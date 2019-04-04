@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
-
 const Post = mongoose.model('posts');
 const Follow = mongoose.model('follow');
 const PostLike = mongoose.model('postLikes');
 const Notification = mongoose.model('notification');
+
 
 module.exports = (app) => {
 
@@ -39,21 +39,12 @@ module.exports = (app) => {
 
     //FETCH POSTS BY ID
     app.get('/api/posts/user', async (req, res) => {
-        const posts = await Post.find({ _user: req.user.id }).sort({date: -1});
-        res.send(posts);
-    });
-
-    
-
-    //FETCH POSTS BY USERNAME
-    app.post('/api/posts/user', async (req, res) => {
-        const { username } = req.body;
-        const posts = await Post.find({ username }).sort({date: -1});
+        const posts = await Post.find({ _user: req.user.id }).sort({date: -1}).limit(20);
         res.send(posts);
     });
 
 
-    //FETCH POST BY ID
+    //FETCH POST BY POST ID
     app.post(`/api/posts/:id`, async (req, res) => {
         const post = await Post.find({ _id: req.body.id });
         res.send(post);
@@ -63,14 +54,47 @@ module.exports = (app) => {
 
     //FETCH ALL POSTS
     app.get('/api/posts', async (req, res) => {
-        const posts = await Post.find({}).sort({date: -1});
+        const posts = await Post.find({}).sort({date: -1}).limit(20);
         res.send(posts);
     });
 
 
-    //FETCH FOLLOWER POSTS
-    app.get('/api/followPosts', requireLogin, async (req, res) => {
 
+
+
+
+
+    
+
+    //FETCH POSTS BY USERNAME
+    app.get('/api/posts/:username/:page/:take', async (req, res) => {
+        const { username, page, take } = req.params;
+        const posts = await Post.find({ username }).skip(page * take).limit(parseInt(take)).sort({date: -1}).exec();
+
+        res.send(posts);
+    });
+
+
+    //FETCH ALL USER POSTS COUNT
+    app.get('/api/posts/:username/', async (req, res) => {
+        const { username } = req.params;
+
+        const postsCount = await Post.countDocuments({ username });
+        res.send({postsCount});
+    });
+
+    
+
+
+
+
+
+
+
+
+    //FETCH ALL FOLLOWER POSTS COUNT
+    app.get('/api/followPosts', requireLogin, async (req, res) => {
+        
         const { id } = req.user;
 
         const follows = await Follow.find({ personFollowingId: id }).select({ "personFollowedId": 1 , "_id": 0});
@@ -79,10 +103,36 @@ module.exports = (app) => {
         });
 
         followsArray.push(id);
-        
-        const posts = await Post.find({'userId': {$in: followsArray}}).sort({date: -1});
+
+        const postsCount = await Post.countDocuments({'userId': {$in: followsArray}});
+        res.send({postsCount});
+    });
+
+
+
+    //FETCH FOLLOWER POSTS
+    app.get('/api/followPosts/:page/:take', requireLogin, async (req, res) => {
+        const { id } = req.user;
+        const { page, take } = req.params;
+
+        const follows = await Follow.find({ personFollowingId: id }).select({ "personFollowedId": 1 , "_id": 0});
+        const followsArray = follows.map((follow) => {
+            return follow.personFollowedId;
+        });
+
+        followsArray.push(id);
+
+        const posts = await Post.find({'userId': {$in: followsArray}}).skip(page * take).limit(parseInt(take)).sort({date: -1}).exec();
         res.send(posts);
     });
+
+
+
+
+
+
+
+
 
 
     //DELETE POST
@@ -90,6 +140,7 @@ module.exports = (app) => {
 
         const { _id } = req.body;
         await PostLike.deleteMany({ postId: _id });
+        await Notification.deleteMany({ postId: _id });
         const post = await Post.findOneAndDelete({ _id: _id });
         req.user.postsNumber -= 1;
         await req.user.save();
@@ -100,7 +151,7 @@ module.exports = (app) => {
     //LIKE POST
     app.post('/api/postsLike', requireLogin, async (req, res) => {
         
-        const { postId, likerId, username, image } = req.body;
+        const { postId, likerId, username, profileImage } = req.body;
             let check = await PostLike.findOne({ postId: postId, likerId: likerId }).exec();
             if (check === null) {
                 try {
@@ -111,21 +162,36 @@ module.exports = (app) => {
                         postId,
                         likerId,
                         username,
-                        date: Date.now()
-                    });
-
-                    const notification = new Notification({
-                        action: "Like",
-                        from: likerId,
-                        to: post.userId,
-                        fromUsername: username,
-                        toUsername: post.username,
-                        image: post.albumArt,
+                        profileImage,
                         date: Date.now()
                     });
 
                     await like.save();
-                    await notification.save();
+
+                    // IF NOT AUTH USER AND SUCCESSFUL VVV
+
+                    if (post.userId !== likerId) {
+                        
+                        const notification = new Notification({
+                            action: "Like",
+                            from: likerId,
+                            to: post.userId,
+                            fromUsername: username,
+                            toUsername: post.username,
+                            image: post.albumArt,
+                            postId,
+                            date: Date.now()
+                        });
+    
+                        
+                        await notification.save();
+
+                        const socketio = req.app.get('socketio');        
+                        socketio.to(`${post.userId}`).emit('notification', notification);
+                    }
+
+                    //////////////////////////////////////
+
                     let newPost = await Post.findOneAndUpdate({ _id: like.postId },{ $inc : { likes: 1 }}, {new: true}).exec();
                     res.send(newPost);
                 } catch (err) {
@@ -134,6 +200,7 @@ module.exports = (app) => {
             } else {
                 try {
                     await PostLike.findOneAndDelete({ postId: postId, likerId: likerId }).exec();
+                    await Notification.findOneAndDelete({ postId: postId }).exec();
                     let newPost = await Post.findOneAndUpdate({ _id: postId },{ $inc : { likes: -1 }}, {new: true}).exec();
                     res.send(newPost);
                 } catch (err) {
@@ -145,6 +212,7 @@ module.exports = (app) => {
 
 
 
+    // CHECK IF PERSON THAT IS LOGGED IN HAS LIKED THE POST
 
     app.get('/api/postsLike/:id/:postId', requireLogin, async (req, res) => {
         const { postId, id } = req.params;
@@ -159,5 +227,11 @@ module.exports = (app) => {
     });
 
 
+    // FETCH ALL USERS WHO LIKED GIVEN POST
+    app.get('/api/postsLike/:id', async (req, res) => {
+        const { id } = req.params;
+        const likes = await PostLike.find({ postId: id }).exec();
+        res.send(likes);
+    });
 
 };

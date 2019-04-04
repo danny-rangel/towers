@@ -7,6 +7,9 @@ import './SearchList.css';
 class SearchList extends Component {
 
     renderList() {
+        if (this.props.songs.length === 0) {
+            return <div>No songs found</div>;
+        }
         return this.props.songs.map(song => {
             return (
                 <SearchItem key={song.id} song={song} />
@@ -15,12 +18,15 @@ class SearchList extends Component {
     }
 
     render() {
+
         if (!this.props.songs) {
-            return <div>No results found</div>
+            return null
         }
         return (
-            <div key="searchList" id="searchList" className="ui celled list">
-                {this.renderList()}
+            <div>
+                <div key="searchList" id="searchList" className="ui celled list">
+                    {this.renderList()}
+                </div>
             </div>
         );
     }

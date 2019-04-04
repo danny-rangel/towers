@@ -7,25 +7,28 @@ import ProgressBar from '../player/ProgressBar';
 import './PostItem.css';
 import { songToPlay, likePost } from '../../actions';
 
+
 class PostItem extends Component {
 
     _isMounted = false;
 
-    state = { showButton: false, edit: false, liked: false };
+    state = { showButton: false, edit: false, liked: false, showModal: false };
 
     async componentDidMount() {
-        if (!this.props.post) {
-            return null;
-        } 
-        // else {
-        // this._isMounted = true;
-        // const res = await axios.get(`/api/postsLike/${this.props.auth._id}/${this.props.post._id}`);
-        // if (this._isMounted) {this.setState({ liked: res.data })};
-        // }
+        const { post, auth } = this.props;
+
+        if (auth) {
+            this._isMounted = true;
+            const res = await axios.get(`/api/postsLike/${auth._id}/${post._id}`);
+            if (this._isMounted) {this.setState({ liked: res.data })};
+        }
+
     }
 
 
     selectAndPlayPost = (post) => {
+        const { songToPlay } = this.props;
+
         let nowPlaying = {
             url : post.songURL,
             id : post._id,
@@ -35,21 +38,24 @@ class PostItem extends Component {
             artwork : post.albumArt,
             played: Math.floor((Math.random() * 1000) + 1)
         }
-        this.props.songToPlay(nowPlaying);
+        songToPlay(nowPlaying);
     }
 
 
-    async collectAndSubmitLike(post) {
+    async collectAndSubmitLike(likedPost) {
+        const { auth, likePost, post } = this.props;
+
         const newLike =  {
-            postId: post._id,
-            likerId: this.props.auth._id,
-            username: this.props.auth.username,
-            image: this.props.auth.profileImage
+            postId: likedPost._id,
+            likerId: auth._id,
+            username: auth.username,
+            profileImage: auth.profileImage
         }
-        await this.props.likePost(newLike);
-        const res = await axios.get(`/api/postsLike/${this.props.auth._id}/${this.props.post._id}`);
+        await likePost(newLike);
+        const res = await axios.get(`/api/postsLike/${auth._id}/${post._id}`);
         if (this._isMounted) {this.setState({ liked: res.data })};
     }
+
 
     componentWillUnmount() {
         this._isMounted = false;
@@ -57,66 +63,77 @@ class PostItem extends Component {
 
 
     render() {
-        if (!this.props.post) {
+        const { post, auth, songPlaying, isPlaying } = this.props;
+        const { showButton, liked } = this.state;
+
+        if (!post) {
             return null;
-        } else {
+        } 
+        else {
         return (
             <div id="postItem" className="item" >
                 <div className="ui card" id="listPostCard">
                     <div className="content" style={{padding: '10px 0px'}}>
                         <Link 
-                            to={`/posts/delete/${this.props.post._id}`}
+                            to={`/posts/delete/${post._id}`}
                             className="right aligned meta"
-                            style={{display: this.props.post.userId === this.props.auth._id ? 'block' : 'none', margin: '0 10px 0 0', fontSize: '16px'}}
+                            id="imTrash"
+                            style={{display: post.userId === auth._id ? 'block' : 'none', margin: '0 10px 0 0', fontSize: '16px'}}
                             >
                             <i id="rightTrashIcon" className="trash alternate outline icon meta"></i>
                         </Link>
-                        <div className="center aligned meta"><h4><Link to={`/${this.props.post.username}`}>{this.props.post.username}</Link></h4></div>
-                        <div className="center aligned meta"><h5>{moment(this.props.post.date, moment.ISO_8601).fromNow()}</h5></div>
+                        <div className="center aligned meta">
+                            <h4><Link to={`/${post.username}`}>{post.username}</Link></h4>
+                        </div>
+                        <div className="center aligned meta">
+                            <h5>{moment(post.date, moment.ISO_8601).fromNow()}</h5>
+                        </div>
                     </div>
                     <div 
                         onMouseOver={() => this.setState({ showButton: true})} 
-                        // onMouseOver={() => this.selectAndPlayPost(post)} AUTO PLAY FUNCTIONALITY???
+                        // onMouseOver={() => this.selectAndPlayPost(post)} AUTO PLAY FUNCTIONALITY ?
                         onMouseOut={() => this.setState({ showButton: false})} 
                         id="imageContainer" 
-                        onClick={() => this.selectAndPlayPost(this.props.post)} 
-                        className="image">
-                        <img alt={this.props.post.songName} src={this.props.post.albumArt}></img>
+                        onClick={() => this.selectAndPlayPost(post)} 
+                        className="image"
+                        >
+                        <img alt={post.songName} src={post.albumArt}></img>
                         <button 
                             style={{
-                                visibility: this.state.showButton? 'visible' : 'hidden',
-                                opacity: this.state.showButton? '1' : '0',
-                                transition: this.state.showButton? 'all .2s ease-in-out' : 'all .2s ease-in-out'
+                                visibility: showButton ? 'visible' : 'hidden',
+                                opacity: showButton ? '1' : '0',
+                                transition: showButton ? 'all .2s ease-in-out' : 'all .2s ease-in-out'
                             }}
-                            id="imagePlayButton" >
-                            <i id="buttonIcon" className={this.props.isPlaying && this.props.songPlaying.id === this.props.post._id ? "pause icon": "play icon"}></i>
+                            id="imagePlayButton" 
+                            >
+                        <i id="buttonIcon" className={isPlaying && songPlaying.id === post._id ? "pause icon": "play icon"}></i>
                         </button>
                     </div>
                     <div className="content">
-                        <h1 style={{wordWrap: 'break-word'}} className="header">{this.props.post.songName}</h1>
+                        <h1 style={{wordWrap: 'break-word', margin: '0px'}} className="header">{post.songName}</h1>
                         <div style={{wordWrap: 'break-word'}}  className="meta">
-                            <span className="date">{this.props.post.artistName}</span>
+                            <span className="date">{post.artistName}</span>
                         </div>
                         <div style={{wordWrap: 'break-word'}} className="description">
-                            {this.props.post.caption}
+                            {post.caption}
                         </div>
-                        <span className="left floated">
+                        <span  className="left floated">
                             <i 
                                 style={{color: 'red'}}
-                                className={this.state.liked ? 'heart like icon' : 'heart outline like icon'} 
-                                onClick={() => this.collectAndSubmitLike(this.props.post)}>
+                                className={liked ? 'heart like icon' : 'heart outline like icon'} 
+                                onClick={() => this.collectAndSubmitLike(post)}>
                             </i>
-                            {this.props.post.likes} likes
+                            <Link to={`/users/${post._id}`} style={{cursor: 'pointer', display: 'inline-block', color: 'black'}} >{post.likes} likes</Link>
                         </span>
                     </div>
-                    <div className="ui bottom attached progress" style={{display: this.props.songPlaying.id === this.props.post._id ? 'block': 'none'}}>
+                    <div className="ui bottom attached progress" style={{display: songPlaying.id === post._id ? 'block': 'none'}}>
                         <ProgressBar /> 
                     </div>
                 </div>
             </div>
-        );
+            );
+        }
     }
-}
 }
 
 const mapStateToProps = ({ songPlaying, isPlaying, auth, likePost }) => {
