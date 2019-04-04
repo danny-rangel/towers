@@ -1,6 +1,13 @@
 import io from 'socket.io-client';
 
-let socket = io.connect('http://localhost:5000');
+let URL = "";
 
+if (process.env.NODE_ENV === 'production') {
+    URL = `https://towersmusic.io/${process.env.PORT}`;
+  } else if (process.env.NODE_ENV !== 'production') {
+    URL = 'http://localhost:5000';
+  }
+
+const socket = io.connect(URL);
 
 export default socket;
