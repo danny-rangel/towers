@@ -10,8 +10,8 @@ class NotificationItem extends Component {
 
         if (notification.action === "Follow") {
             return (
-                <div className="summary" id="summaryText">
-                    <Link to={`/${notification.fromUsername}`} style={{color: 'white'}} >
+                <div className="summary" id="summaryText" style={{color: 'white', fontSize: '1.2rem',fontWeight: '800'}}>
+                    <Link to={`/${notification.fromUsername}`} style={{color: 'white', fontSize: '1.5rem'}} >
                         {notification.fromUsername}
                     </Link>
                     {` started listening to you.`}
@@ -19,8 +19,8 @@ class NotificationItem extends Component {
             );
         } else if (notification.action === "Like") {
             return(
-                <div className="summary" id="summaryText">
-                    <Link to={`/${notification.fromUsername}`} style={{color: 'white'}} >
+                <div className="summary" id="summaryText" style={{color: 'white', fontSize: '1.2rem', fontWeight: '800'}}>
+                    <Link to={`/${notification.fromUsername}`} style={{color: 'white', fontSize: '1.5rem'}}>
                         {notification.fromUsername}
                     </Link>
                     {` liked your post.`}
@@ -36,7 +36,9 @@ class NotificationItem extends Component {
                 <div className="label">
                     <img 
                         alt={notification.fromUsername} 
-                        src={`${notification.image}`}>
+                        src={`${notification.image}`}
+                        style={{width: '40px'}}    
+                    >
                     </img>
                 </div>
                 <div className="content">

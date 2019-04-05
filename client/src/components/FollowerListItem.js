@@ -10,12 +10,14 @@ class FollowerListItem extends Component {
                     <Link to={`/${user.personFollowingUsername}`} >
                         <img 
                             alt={user.personFollowingUsername} 
-                            src={`${user.personFollowingImage}`}>
+                            src={`${user.personFollowingImage}`}
+                            style={{width: '40px'}}    
+                        >
                         </img>
                     </Link>
                 </div>
                 <div className="content">
-                    <Link to={`/${user.personFollowingUsername}`} style={{color: 'white'}}>{user.personFollowingUsername}</Link>
+                    <Link to={`/${user.personFollowingUsername}`} style={{color: 'white', fontSize: '2rem'}}>{user.personFollowingUsername}</Link>
                 </div>
             </div>
         );

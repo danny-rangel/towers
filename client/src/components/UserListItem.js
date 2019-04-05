@@ -12,6 +12,7 @@ class UserListItem extends Component {
                         <img 
                             alt={user.username} 
                             src={user.profileImage}
+                            style={{width: '40px'}}
                         >
                         </img>
                     </Link>

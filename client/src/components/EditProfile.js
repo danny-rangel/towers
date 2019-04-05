@@ -124,6 +124,15 @@ const validate = (formValues) => {
         errors.username = 'You must enter a username!';
     }
 
+
+    if (formValues.username) {
+        if (!formValues.username.match(/^\w+$/)) {
+            errors.username = 'Usernames can only use letters, numbers, and underscores.';
+        }
+    }
+
+    
+
     return errors;
 };
 

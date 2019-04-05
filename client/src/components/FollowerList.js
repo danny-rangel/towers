@@ -32,6 +32,9 @@ class FollowerList extends Component {
     render() {
         return (
             <div className="ui container" id="notificationSection">
+                <div style={{color: 'white', textAlign: 'left', margin: '20px 0 0 0'}}>
+                    <h1 style={{fontSize: '4rem', fontWeight: '800'}}>Listeners</h1>
+                </div>
                 <div className="ui feed" id="notificationFeed">
                     {this.renderList()}
                 </div>
