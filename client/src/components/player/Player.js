@@ -14,24 +14,15 @@ class Player extends Component {
     playSong = async () => {
         if (this.props.intervalIdFlag === null || this.props.intervalIdFlag !== this.props.songPlaying.id)
         {
-            try {
-                await this.props.musicKit.setQueue({ url: this.props.songPlaying.url });
-            } catch(err) {
-                console.log(err);
-            }
+            await this.props.musicKit.setQueue({ url: this.props.songPlaying.url });
         }
 
         if (this.props.isPlaying && this.props.intervalIdFlag === this.props.songPlaying.id)
         {
-            try {
                 await this.props.musicKit.player.pause();
                 this.props.setIsPlaying(false);
                 this.props.setMusicKitIsPlaying(false);
                 clearInterval(this.props.intervalId);
-            } catch (err) {
-                console.log(err);
-            }
-            
             
         } else if (!this.props.isPlaying || this.props.intervalIdFlag !== this.props.songPlaying.id) {
             clearInterval(this.props.intervalId);
@@ -39,27 +30,18 @@ class Player extends Component {
                 this.props.setPercentage(this.props.musicKit.player.currentPlaybackTime / this.props.musicKit.player.currentPlaybackDuration);
                 this.props.setTime(secondsFormatted(this.props.musicKit.player.currentPlaybackTime));
                 await this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
-                if (this.props.percentage >= 1 || !this.props.musicKit.player.isPlaying) {
-                    try {
-                        await this.props.musicKit.player.stop();
-                        this.props.setIsPlaying(false);
-                        clearInterval(this.props.intervalId);
-                    } catch(err) {
-                        console.log(err);
-                    }
-                    
+                if (this.props.percentage >= 1) {
+                    await this.props.musicKit.player.stop();
+                    this.props.setIsPlaying(false);
+                    clearInterval(this.props.intervalId);
+                     
                 }
-            }, 1000);
-
-            try {
+            }, 500);
                 this.props.setIntervalId(intervalId);
                 await this.props.musicKit.player.play();
-                this.props.setIsPlaying(true);
+                await this.props.setIsPlaying(true);
                 this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
                 this.props.setIntervalIdFlag(this.props.songPlaying.id);
-            } catch(err) {
-                console.log(err);
-            }
             
         } 
     }
