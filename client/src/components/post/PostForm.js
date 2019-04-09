@@ -9,6 +9,8 @@ import history from '../../history';
 
 class PostForm extends Component {
 
+    state = { loaded: false };
+
     collectValues(selectedSong, values) {
         if (!values.caption) {
             values.caption = null;
@@ -29,14 +31,22 @@ class PostForm extends Component {
         this.props.submitPost(post);
     }
 
-    content = (
-        <form onSubmit={this.props.handleSubmit((values) => this.collectValues(this.props.selectedSong, values))}>
+    header = (
+        'New Post'
+    );
+
+    renderContent = () => {
+        return (
+            <form onSubmit={this.props.handleSubmit((values) => this.collectValues(this.props.selectedSong, values))}>
             <div id="postCardContainer">
                 <div className="ui card" id="previewPostCard">
                     <div className="content" style={{ textAlign: 'center' }}>
                     </div>
-                    <div className="image">
-                        <img alt={this.props.selectedSong.attributes.name} src={window.MusicKit.formatArtworkURL(this.props.selectedSong.attributes.artwork, 800, 800)}></img>
+                    <div className="ui placeholder image" style={{display: this.state.loaded ? 'none' : 'block'}}>
+                        <div className="square image" style={{width: '100%', height: 'auto'}}></div>
+                    </div>
+                    <div className="image" style={{display: this.state.loaded ? 'block' : 'none'}}>
+                        <img onLoad={() => this.setState({ loaded: true })} alt={this.props.selectedSong.attributes.name} src={window.MusicKit.formatArtworkURL(this.props.selectedSong.attributes.artwork, 800, 800)}></img>
                     </div>
                     <div className="content" style={{ textAlign: 'center' }} >
                             <h1  href="/home" className="header" id="postFormHeader" >{this.props.selectedSong.attributes.name}</h1>
@@ -48,12 +58,14 @@ class PostForm extends Component {
                 </div>
             </div>
         </form>
-    );
+        );
+    }
+
 
     render() {
         return (
             <>
-                <Modal onDismiss={() => history.goBack()} content={this.content} />
+                <Modal style={{width: '420px'}} onDismiss={() => history.push('/search')} content={this.renderContent()} header={this.header} />
             </>
         );
     }
