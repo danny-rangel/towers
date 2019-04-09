@@ -205,8 +205,10 @@ class Header extends Component {
                                     width: '10px', 
                                     display: this.props.newNotifications ? 'inline-block' : 'none', 
                                     position: 'absolute', 
-                                    top: '23px', 
-                                    right: '26px'}}>
+                                    top: '26px', 
+                                    right: '28px',
+                                    boxShadow: '0px 0px 2px #ffffff'
+                                    }}>
                             </div>
                         </div>
                     </Link>
@@ -248,8 +250,10 @@ class Header extends Component {
                                 width: '10px', 
                                 display: this.props.newNotifications ? 'inline-block' : 'none', 
                                 position: 'absolute', 
-                                top: '23px', 
-                                right: '26px'}}>
+                                top: '26px', 
+                                right: '28px',
+                                boxShadow: '0px 0px 2px #ffffff'
+                                }}>
                         </div>
                     </div>
                 </Link>
