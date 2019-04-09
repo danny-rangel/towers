@@ -1,6 +1,6 @@
 import React from 'react';
 import './PostField.css';
-import { Link } from 'react-router-dom';
+import history from '../../history';
 
 const PostField = ({ input, placeholder }) => {
     return (
@@ -11,7 +11,7 @@ const PostField = ({ input, placeholder }) => {
                 </div>
             </div>
             <div style={{ textAlign: 'center' }} id="actionButtons" >
-                    <Link to="/search" className="negative ui primary button postButton">Cancel</Link>
+                    <button type="button" onClick={() => history.goBack()} className="negative ui primary button postButton">Cancel</button>
                     <button type="submit" className="ui primary button postButton">Post</button>
             </div>
         </div>

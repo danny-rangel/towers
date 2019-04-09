@@ -53,7 +53,7 @@ class PostForm extends Component {
     render() {
         return (
             <>
-                <Modal onDismiss={() => history.push('/search')} content={this.content} />
+                <Modal onDismiss={() => history.goBack()} content={this.content} />
             </>
         );
     }
