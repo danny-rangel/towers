@@ -37,103 +37,6 @@ module.exports = (app) => {
 
     });
 
-    //FETCH POSTS BY ID
-    app.get('/api/posts/user', async (req, res) => {
-        const posts = await Post.find({ _user: req.user.id }).sort({date: -1}).limit(20);
-        res.send(posts);
-    });
-
-
-    //FETCH POST BY POST ID
-    app.post(`/api/posts/:id`, async (req, res) => {
-        const post = await Post.find({ _id: req.body.id });
-        res.send(post);
-    });
-
-
-
-    //FETCH ALL POSTS
-    app.get('/api/posts', async (req, res) => {
-        const posts = await Post.find({}).sort({date: -1}).limit(20);
-        res.send(posts);
-    });
-
-
-
-
-
-
-
-    
-
-    //FETCH POSTS BY USERNAME
-    app.get('/api/posts/:username/:page/:take', async (req, res) => {
-        const { username, page, take } = req.params;
-        const posts = await Post.find({ username }).skip(page * take).limit(parseInt(take)).sort({date: -1}).exec();
-
-        res.send(posts);
-    });
-
-
-    //FETCH ALL USER POSTS COUNT
-    app.get('/api/posts/:username/', async (req, res) => {
-        const { username } = req.params;
-
-        const postsCount = await Post.countDocuments({ username });
-        res.send({postsCount});
-    });
-
-    
-
-
-
-
-
-
-
-
-    //FETCH ALL FOLLOWER POSTS COUNT
-    app.get('/api/followPosts', requireLogin, async (req, res) => {
-        
-        const { id } = req.user;
-
-        const follows = await Follow.find({ personFollowingId: id }).select({ "personFollowedId": 1 , "_id": 0});
-        const followsArray = follows.map((follow) => {
-            return follow.personFollowedId;
-        });
-
-        followsArray.push(id);
-
-        const postsCount = await Post.countDocuments({'userId': {$in: followsArray}});
-        res.send({postsCount});
-    });
-
-
-
-    //FETCH FOLLOWER POSTS
-    app.get('/api/followPosts/:page/:take', requireLogin, async (req, res) => {
-        const { id } = req.user;
-        const { page, take } = req.params;
-
-        const follows = await Follow.find({ personFollowingId: id }).select({ "personFollowedId": 1 , "_id": 0});
-        const followsArray = follows.map((follow) => {
-            return follow.personFollowedId;
-        });
-
-        followsArray.push(id);
-
-        const posts = await Post.find({'userId': {$in: followsArray}}).skip(page * take).limit(parseInt(take)).sort({date: -1}).exec();
-        res.send(posts);
-    });
-
-
-
-
-
-
-
-
-
 
     //DELETE POST
     app.delete('/api/postDelete', requireLogin, async (req, res) => {
@@ -208,6 +111,92 @@ module.exports = (app) => {
                 }
             } 
     });
+
+
+
+
+    
+
+
+
+    //FETCH POSTS BY ID
+    app.get('/api/posts/user', async (req, res) => {
+        const posts = await Post.find({ _user: req.user.id }).sort({date: -1}).limit(20);
+        res.send(posts);
+    });
+
+
+    //FETCH POST BY POST ID
+    app.post(`/api/posts/:id`, async (req, res) => {
+        const post = await Post.find({ _id: req.body.id });
+        res.send(post);
+    });
+
+
+
+    //FETCH ALL POSTS
+    app.get('/api/posts', async (req, res) => {
+        const posts = await Post.find({}).sort({date: -1}).limit(20);
+        res.send(posts);
+    });
+    
+
+    //FETCH POSTS BY USERNAME
+    app.get('/api/posts/:username/:page/:take', async (req, res) => {
+        const { username, page, take } = req.params;
+        const posts = await Post.find({ username }).skip(page * take).limit(parseInt(take)).sort({date: -1}).exec();
+
+        res.send(posts);
+    });
+
+
+    //FETCH ALL USER POSTS COUNT
+    app.get('/api/posts/:username/', async (req, res) => {
+        const { username } = req.params;
+
+        const postsCount = await Post.countDocuments({ username });
+        res.send({postsCount});
+    });
+
+
+
+    //FETCH ALL FOLLOWER POSTS COUNT
+    app.get('/api/followPosts', requireLogin, async (req, res) => {
+        
+        const { id } = req.user;
+
+        const follows = await Follow.find({ personFollowingId: id }).select({ "personFollowedId": 1 , "_id": 0});
+        const followsArray = follows.map((follow) => {
+            return follow.personFollowedId;
+        });
+
+        followsArray.push(id);
+
+        const postsCount = await Post.countDocuments({'userId': {$in: followsArray}});
+        res.send({postsCount});
+    });
+
+
+
+    //FETCH FOLLOWER POSTS
+    app.get('/api/followPosts/:page/:take', requireLogin, async (req, res) => {
+        const { id } = req.user;
+        const { page, take } = req.params;
+
+        const follows = await Follow.find({ personFollowingId: id }).select({ "personFollowedId": 1 , "_id": 0});
+        const followsArray = follows.map((follow) => {
+            return follow.personFollowedId;
+        });
+
+        followsArray.push(id);
+
+        const posts = await Post.find({'userId': {$in: followsArray}}).skip(page * take).limit(parseInt(take)).sort({date: -1}).exec();
+        res.send(posts);
+    });
+
+
+
+
 
 
 

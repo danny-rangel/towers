@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import FollowerListItem from './FollowerListItem';
-import { fetchFollowers } from '../actions';
+import { fetchFollowers, isFetching } from '../actions';
 import { connect } from 'react-redux';
 import './notifications/Notifications.css';
 
 class FollowerList extends Component {
 
-    componentDidMount() {
-        this.props.fetchFollowers(this.props.match.params.id);
+    async componentDidMount() {
+        this.props.isFetching(true);
+        await this.props.fetchFollowers(this.props.match.params.id);
+        this.props.isFetching(false);
     }
 
     renderList() {
@@ -30,23 +32,30 @@ class FollowerList extends Component {
 
 
     render() {
+        const { fetching } = this.props;
         return (
             <div className="ui container" id="notificationSection">
                 <div style={{color: 'white', textAlign: 'left', margin: '20px 0 0 0'}}>
                     <h1 style={{fontSize: '4rem', fontWeight: '800'}}>Listeners</h1>
                 </div>
                 <div className="ui feed" id="notificationFeed">
-                    {this.renderList()}
+                    {fetching ? 
+                        (
+                            <div className="ui active centered inline loader" style={{margin: '200px auto'}}></div>
+                        ):
+                        (
+                            this.renderList()
+                        )}
                 </div>
             </div>
         );
     }
 }
 
-const mapStateToProps = ({ users }) => {
+const mapStateToProps = ({ users, fetching }) => {
     return {
-        users
+        users, fetching
     };
 }
 
-export default connect(mapStateToProps, { fetchFollowers })(FollowerList);
+export default connect(mapStateToProps, { fetchFollowers, isFetching })(FollowerList);

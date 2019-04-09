@@ -21,21 +21,28 @@ class Notifications extends Component {
     }
 
     render() {
-        const { notifications } = this.props;
+        const { notifications, fetching } = this.props;
         return (
             <div className="ui container" id="notificationSection">
                 <div style={{color: 'white', textAlign: 'left', margin: '20px 0 0 0'}}>
                     <h1 style={{fontSize: '4rem', fontWeight: '800'}}>Notifications</h1>
                 </div>
-                <NotificationList notifications={notifications}/>
+                {fetching ? 
+                    (
+                        <div className="ui active centered inline loader" style={{margin: '200px auto'}}></div>
+                    ) : 
+                    (
+                        <NotificationList notifications={notifications}/>
+                    )
+                }
+                
             </div>
-            
         );
     }
 }
 
-const mapStateToProps = ({ notifications }) => {
-    return { notifications };
+const mapStateToProps = ({ notifications, fetching }) => {
+    return { notifications, fetching };
 }
 
 export default connect(mapStateToProps, { isFetching, fetchNotifications, viewNotifications, haveNewNotifications } )(Notifications);

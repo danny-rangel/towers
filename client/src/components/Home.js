@@ -18,10 +18,8 @@ const Home = ({ posts, auth, fetching, fetchFollowerPosts, continuefetchFollower
             history.push('/');
         } else {
             isFetching(true);
-        
             fetchAllFollowerPostsCount();
             fetchFollowerPosts();
-    
             isFetching(false);
         }
     }, [auth]);

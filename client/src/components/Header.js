@@ -31,19 +31,34 @@ class Header extends Component {
                 return;
             case false:
                 return (
+                    <>
                         <div id="mobile" className="ui item">
                             <a id="logbutton" href="/auth/google">
                                 <h3 id="buttonText">Log in With Google</h3>
                             </a>
                         </div>
+                        <div id="mobile" className="ui item">   
+                            <Link to="/about">
+                                <h3 id="buttonText">About</h3>
+                            </Link>
+                        </div>
+                    </>
                 );
             default:
                 return (
+                    <>
                         <div id="mobile" className="ui item">   
                             <a id="logbutton" href="/api/logout">
                                 <h3 id="buttonText">Sign Out of Towers</h3>
                             </a>
                         </div>
+                        <div id="mobile" className="ui item">   
+                            <Link to="/about">
+                                <h3 id="buttonText">About</h3>
+                            </Link>
+                        </div>
+                    </>        
+                        
                 );
         }
     }
@@ -181,11 +196,18 @@ class Header extends Component {
                     </Link>
                     <Link style={{ display: this.props.auth ? 'flex' : 'none' }} to='/notifications' className="item">
                         <div id="notificationbutton">
-                            <i 
-                                className="bell icon"
-                                style={{textShadow: this.props.newNotifications ? '0px 0px 30px white' : '0px 0px 2px white'}}
-                            >
-                            </i>
+                            <i className="bell icon"></i>
+                            <div 
+                                style={{
+                                    backgroundColor: 'white', 
+                                    borderRadius: '50%', 
+                                    height: '10px', 
+                                    width: '10px', 
+                                    display: this.props.newNotifications ? 'inline-block' : 'none', 
+                                    position: 'absolute', 
+                                    top: '23px', 
+                                    right: '26px'}}>
+                            </div>
                         </div>
                     </Link>
                     <div className="right menu">
@@ -199,6 +221,8 @@ class Header extends Component {
                     </div>
                 </div>
             </div>
+
+
 
             <div id="mobileHeader" className={this.props.auth ? "ui borderless inverted fluid four item menu" : "ui borderless inverted fluid two item menu"}>
                 <Link style={{ display: this.props.auth ? 'flex' : 'none' }} id="mobilehomebutton" to={this.props.auth ? '/home' : '/'} className="item">
@@ -214,9 +238,19 @@ class Header extends Component {
                         <i 
                             id="mobileaboutIcon" 
                             className="bell icon"
-                            style={{textShadow: this.props.newNotifications ? '0px 0px 30px white' : '0px 0px 2px white'}}
                         >
                         </i>
+                        <div 
+                            style={{
+                                backgroundColor: 'white', 
+                                borderRadius: '50%', 
+                                height: '10px', 
+                                width: '10px', 
+                                display: this.props.newNotifications ? 'inline-block' : 'none', 
+                                position: 'absolute', 
+                                top: '23px', 
+                                right: '26px'}}>
+                        </div>
                     </div>
                 </Link>
                 <div id="mobileavatarbutton" className="item">

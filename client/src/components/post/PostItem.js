@@ -12,7 +12,7 @@ class PostItem extends Component {
 
     _isMounted = false;
 
-    state = { showButton: false, edit: false, liked: false, showModal: false };
+    state = { showButton: false, edit: false, liked: false, showModal: false, likeButtonPressed: false };
 
     async componentDidMount() {
         const { post, auth } = this.props;
@@ -43,6 +43,7 @@ class PostItem extends Component {
 
 
     async collectAndSubmitLike(likedPost) {
+        this.setState({likeButtonPressed: true});
         const { auth, likePost, post } = this.props;
 
         const newLike =  {
@@ -54,6 +55,7 @@ class PostItem extends Component {
         await likePost(newLike);
         const res = await axios.get(`/api/postsLike/${auth._id}/${post._id}`);
         if (this._isMounted) {this.setState({ liked: res.data })};
+        this.setState({likeButtonPressed: false});
     }
 
 
@@ -119,9 +121,10 @@ class PostItem extends Component {
                         </div>
                         <span  className="left floated">
                             <i 
-                                style={{color: 'red'}}
+                                style={{color: 'red', pointerEvents: this.state.likeButtonPressed ? 'none' : 'auto'}}
                                 className={liked ? 'heart like icon' : 'heart outline like icon'} 
-                                onClick={() => this.collectAndSubmitLike(post)}>
+                                onClick={() => this.collectAndSubmitLike(post)}
+                                >
                             </i>
                             <Link to={`/users/${post._id}`} style={{cursor: 'pointer', display: 'inline-block', color: 'black'}} >{post.likes} likes</Link>
                         </span>

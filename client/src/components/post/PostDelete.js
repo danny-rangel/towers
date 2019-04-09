@@ -15,7 +15,7 @@ class PostDelete extends Component {
     }
 
     header = (
-        null
+        'Delete Post'
     );
 
     content = (

@@ -20,6 +20,7 @@ import UserList from './UserList';
 import FollowerList from './FollowerList';
 import FollowingList from './FollowingList';
 import EditAVI from './EditAVI';
+import About from './About';
 
 
 class App extends Component {
@@ -70,6 +71,7 @@ class App extends Component {
                                     <Route exact path="/edit/:id" component={EditProfile}></Route>
                                     <Route exact path="/edit/avi/:id" component={EditAVI}></Route>
                                     <Route exact path="/home" component={Home}></Route>
+                                    <Route exact path="/about" component={About}></Route>
                                     <Route path="/search" component={Search}></Route>
                                     <Route exact path="/posts/new" component={PostNew}></Route>
                                     <Route exact path="/posts/delete/:id" component={PostDelete}></Route>
