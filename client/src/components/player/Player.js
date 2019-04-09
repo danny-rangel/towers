@@ -39,7 +39,7 @@ class Player extends Component {
                 this.props.setPercentage(this.props.musicKit.player.currentPlaybackTime / this.props.musicKit.player.currentPlaybackDuration);
                 this.props.setTime(secondsFormatted(this.props.musicKit.player.currentPlaybackTime));
                 this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
-                if (this.props.percentage >= 1) {
+                if (this.props.percentage >= 1 || this.props.musicKitIsPlaying === false) {
                     try {
                         await this.props.musicKit.player.stop();
                         this.props.setIsPlaying(false);
@@ -145,8 +145,8 @@ class Player extends Component {
     }
 };
 
-const mapStateToProps = ({ songPlaying, percentage, isPlaying, musicKit, intervalId, intervalIdFlag, volume, time }) => {
-    return { songPlaying, percentage, isPlaying, musicKit, intervalId, intervalIdFlag, volume, time }
+const mapStateToProps = ({ songPlaying, percentage, isPlaying, musicKit, intervalId, intervalIdFlag, volume, time, musicKitIsPlaying }) => {
+    return { songPlaying, percentage, isPlaying, musicKit, intervalId, intervalIdFlag, volume, time, musicKitIsPlaying }
 }
 
 export default connect(mapStateToProps, { setPercentage, setIsPlaying, setIntervalId, setVolume, setTime, setMusicKitIsPlaying, setIntervalIdFlag })(Player);
