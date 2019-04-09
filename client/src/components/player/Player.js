@@ -38,8 +38,8 @@ class Player extends Component {
             let intervalId = setInterval(async () => {
                 this.props.setPercentage(this.props.musicKit.player.currentPlaybackTime / this.props.musicKit.player.currentPlaybackDuration);
                 this.props.setTime(secondsFormatted(this.props.musicKit.player.currentPlaybackTime));
-                this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
-                if (this.props.percentage >= 1 || this.props.musicKitIsPlaying === false) {
+                await this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
+                if (this.props.percentage >= 1 || !this.props.musicKit.player.isPlaying) {
                     try {
                         await this.props.musicKit.player.stop();
                         this.props.setIsPlaying(false);

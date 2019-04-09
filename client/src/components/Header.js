@@ -201,12 +201,12 @@ class Header extends Component {
                                 style={{
                                     backgroundColor: 'white', 
                                     borderRadius: '50%', 
-                                    height: '10px', 
-                                    width: '10px', 
+                                    height: '8px', 
+                                    width: '8px', 
                                     display: this.props.newNotifications ? 'inline-block' : 'none', 
                                     position: 'absolute', 
-                                    top: '26px', 
-                                    right: '28px',
+                                    top: '25px', 
+                                    right: '36px',
                                     boxShadow: '0px 0px 2px #ffffff'
                                     }}>
                             </div>
@@ -246,12 +246,12 @@ class Header extends Component {
                             style={{
                                 backgroundColor: 'white', 
                                 borderRadius: '50%', 
-                                height: '10px', 
-                                width: '10px', 
+                                height: '8px', 
+                                width: '8px', 
                                 display: this.props.newNotifications ? 'inline-block' : 'none', 
                                 position: 'absolute', 
-                                top: '26px', 
-                                right: '28px',
+                                top: '30%', 
+                                right: '36%',
                                 boxShadow: '0px 0px 2px #ffffff'
                                 }}>
                         </div>
