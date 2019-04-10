@@ -40,7 +40,7 @@ class PostForm extends Component {
                 <div className="ui card" id="previewPostCard">
                     <div className="content" style={{ textAlign: 'center' }}>
                     </div>
-                    <div className="ui placeholder image" style={{display: this.state.loaded ? 'none' : 'block'}}>
+                    <div className="ui placeholder" style={{display: this.state.loaded ? 'none' : 'block'}}>
                         <div className="square image" style={{width: '100%', height: 'auto'}}></div>
                     </div>
                     <div className="image" style={{display: this.state.loaded ? 'block' : 'none'}}>
