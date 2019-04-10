@@ -24,7 +24,7 @@ class PostForm extends Component {
             artistName: selectedSong.attributes.artistName,
             durationInMillis: selectedSong.attributes.durationInMillis,
             songURL: selectedSong.attributes.url,
-            albumArt: window.MusicKit.formatArtworkURL(selectedSong.attributes.artwork, 800, 800),
+            albumArt: window.MusicKit.formatArtworkURL(selectedSong.attributes.artwork, 420, 420),
             albumName: selectedSong.attributes.albumName,
             previewURL: selectedSong.attributes.previews[0].url
         }
@@ -44,7 +44,7 @@ class PostForm extends Component {
                         <div className="square image" style={{width: '100%', height: 'auto'}}></div>
                     </div>
                     <div className="image" style={{display: this.state.loaded ? 'block' : 'none'}}>
-                        <img onLoad={() => this.setState({ loaded: true })} alt={this.props.selectedSong.attributes.name} src={window.MusicKit.formatArtworkURL(this.props.selectedSong.attributes.artwork, 800, 800)}></img>
+                        <img onLoad={() => this.setState({ loaded: true })} alt={this.props.selectedSong.attributes.name} src={window.MusicKit.formatArtworkURL(this.props.selectedSong.attributes.artwork, 420, 420)}></img>
                     </div>
                     <div className="content" style={{ textAlign: 'center' }} >
                             <h1  href="/home" className="header" id="postFormHeader" >{this.props.selectedSong.attributes.name}</h1>

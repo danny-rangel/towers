@@ -16,7 +16,7 @@ class SearchItem extends Component {
             name : song.attributes.name,
             artist : song.attributes.artistName,
             album : song.attributes.albumName,
-            artwork : window.MusicKit.formatArtworkURL(song.attributes.artwork),
+            artwork : window.MusicKit.formatArtworkURL(song.attributes.artwork, 50, 50),
             played: Math.floor((Math.random() * 1000) + 1)
         }
         this.props.songToPlay(nowPlaying);
@@ -32,7 +32,7 @@ class SearchItem extends Component {
                             id="searchAlbumImage"
                             className="ui image" 
                             alt={this.props.song.attributes.name} 
-                            src={window.MusicKit.formatArtworkURL(this.props.song.attributes.artwork, 200, 200)}
+                            src={window.MusicKit.formatArtworkURL(this.props.song.attributes.artwork, 150, 150)}
                             >
                         </img>
                     </div>

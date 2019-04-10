@@ -12,7 +12,7 @@ class PostItem extends Component {
 
     _isMounted = false;
 
-    state = { showButton: false, edit: false, liked: false, showModal: false, likeButtonPressed: false };
+    state = { showButton: false, edit: false, liked: false, showModal: false, likeButtonPressed: false, loaded: false };
 
     async componentDidMount() {
         const { post, auth } = this.props;
@@ -99,7 +99,10 @@ class PostItem extends Component {
                         onClick={() => this.selectAndPlayPost(post)} 
                         className="image"
                         >
-                        <img alt={post.songName} src={post.albumArt}></img>
+                        <div className="ui placeholder" style={{display: this.state.loaded ? 'none' : 'block'}}>
+                            <div className="square image" style={{width: '100%', height: 'auto'}}></div>
+                        </div>
+                        <img alt={post.songName} src={post.albumArt} onLoad={() => this.setState({ loaded: true })} style={{display: this.state.loaded ? 'block' : 'none'}}></img>
                         <button 
                             style={{
                                 visibility: showButton ? 'visible' : 'hidden',
