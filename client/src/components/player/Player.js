@@ -39,7 +39,7 @@ class Player extends Component {
             }, 500);
                 this.props.setIntervalId(intervalId);
                 await this.props.musicKit.player.play();
-                await this.props.setIsPlaying(true);
+                this.props.setIsPlaying(true);
                 this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
                 this.props.setIntervalIdFlag(this.props.songPlaying.id);
             
@@ -68,46 +68,73 @@ class Player extends Component {
     }
 
 
-
-    renderPlayer () {
-            return (
-                <div id="player" className="ui fixed bottom sticky">
-                    <div id="playerContentRow" className="ui grid">
-                        <div id="muteButton" className="left aligned column two wide column player">
-                            <button style={{color: 'white', background: 'none'}} id="muteButton" onClick={this.changeSongVolume} ><i className={this.props.volume === 0 ? 'volume off icon': 'volume up icon'}></i></button>
-                        </div>
-                        <div id="volumeBar" className="left aligned column two wide column player">
-                            <VolumeBar />
-                        </div>
-                        <div id="playerSongInfo" className="left aligned column three wide column player">
-                            <div id="songname" className="item">{this.props.songPlaying.name}</div>
-                            <div id="artistname" className="item">{this.props.songPlaying.artist}</div>
-                        </div>
-                        <div id="playerAlbumArt" className="center aligned column two wide column player">
-                            <img
-                                id="playerAlbumImage"
-                                className="ui image" 
-                                alt={this.props.songPlaying.name} 
-                                src={this.props.songPlaying.artwork}
-                                >
-                            </img>
-                        </div>
-                        <div id="playButton" className="left aligned column three wide column player">
-                            <button style={{color: 'white', background: 'none'}} id="playButton" onClick={() => this.playSong()} ><i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i></button>
-                        </div>
-                        <div id="currentTime" className="center aligned column one wide column player">
-                            {this.props.time}
-                        </div>
-                        <div id="progressBar" className="center aligned column two wide column player">
-                            <ProgressBar />
-                        </div>
-                        <div id="totalTime" className="center aligned column one wide column player">
-                            {secondsFormatted(this.props.musicKit.player.currentPlaybackDuration)}
-                        </div>
+    renderPlayer() {
+        return (
+            <>
+            <div id="player" className="ui fixed bottom sticky">
+                <div id="volumeControls" >
+                    <div id="muteButton" >
+                        <button style={{color: 'white', background: 'none'}} id="muteButton" onClick={this.changeSongVolume} >
+                            <i className={this.props.volume === 0 ? 'volume off icon': 'volume up icon'}></i>
+                        </button>
+                    </div>
+                    <div id="volumeBar" >
+                        <VolumeBar />
                     </div>
                 </div>
-            );
+                <div id="playerSongInfo" >
+                    <div id="songName" >{this.props.songPlaying.name}</div>
+                    <div id="artistName" >{this.props.songPlaying.artist}</div>
+                </div>
+                <div id="playerAlbumArt" >
+                    <img
+                        id="playerAlbumImage"
+                        className="ui image" 
+                        alt={this.props.songPlaying.name} 
+                        src={this.props.songPlaying.artwork}
+                        >
+                    </img>
+                </div>
+                <div>
+                    <div id="playButton" >
+                        <button style={{color: 'white', background: 'none'}} id="playButton" onClick={() => this.playSong()} ><i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i></button>
+                    </div>
+                </div>
+                <div id="playBackInfo">
+                    <div id="currentTime" >
+                        {this.props.time}
+                    </div>
+                    <div id="progressBar" >
+                        <ProgressBar />
+                    </div>
+                    <div id="totalTime" >
+                        {secondsFormatted(this.props.musicKit.player.currentPlaybackDuration)}
+                    </div>
+                </div>
+            </div>
+
+            <div id="mobilePlayer" className="ui fixed bottom sticky">
+                <div id="playerAlbumArt" >
+                    <img
+                        id="playerAlbumImage"
+                        className="ui image" 
+                        alt={this.props.songPlaying.name} 
+                        src={this.props.songPlaying.artwork}
+                        >
+                    </img>
+                </div>
+                <div id="playerSongInfo" >
+                    <div id="songName" >{this.props.songPlaying.name}</div>
+                    <div id="artistName" >{this.props.songPlaying.artist}</div>
+                </div>
+                <div id="playButton" >
+                    <button style={{color: 'white', background: 'none'}} id="playButton" onClick={() => this.playSong()} ><i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i></button>
+                </div>
+            </div>
+            </>
+        );
     }
+
 
 
 
