@@ -31,9 +31,7 @@ class PostForm extends Component {
         this.props.submitPost(post);
     }
 
-    header = (
-        'New Post'
-    );
+
 
     renderContent = () => {
         return (
@@ -65,7 +63,7 @@ class PostForm extends Component {
     render() {
         return (
             <>
-                <Modal style={{width: '420px'}} onDismiss={() => history.push('/search')} content={this.renderContent()} header={this.header} />
+                <Modal style={{width: '420px'}} onDismiss={() => history.push('/search')} content={this.renderContent()} />
             </>
         );
     }
