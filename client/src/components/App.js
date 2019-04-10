@@ -26,7 +26,7 @@ import About from './About';
 class App extends Component {
 
     authenticate(){
-        return new Promise(resolve => setTimeout(resolve, 2000))
+        return new Promise(resolve => setTimeout(resolve, 1000))
     }
 
     async componentDidMount() {
@@ -38,7 +38,7 @@ class App extends Component {
                 setTimeout(() => {
                 // remove from DOM
                 ele.outerHTML = ''
-              }, 2000)
+              }, 1000)
             }
         });
         await this.props.fetchUser();
