@@ -3,10 +3,12 @@
 }
 
 #searchListItem {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 1fr 1fr;
+    grid-gap: 10px;
     align-items: center;
     cursor: pointer;
-    
+    text-align: initial;
 }
 
 
@@ -16,53 +18,73 @@
 
 
 #searchListSongInfo {
-    text-align: left;
-}
-
-#searchListSongAlbumInfo {
-    text-align: left;
+    justify-self: left;
+    justify-items: left;
+    display: grid;
 }
 
 #searchListSongTime {
     text-align: right;
 }
 
-
-@media only screen and (max-width: 1000px) {
-    
-#albumImageContainer {
-    display: none;
-}
-
-#searchListSongInfo {
-    overflow: hidden;
-    white-space: nowrap; 
-    text-overflow: ellipsis;
-}
-
 #searchListSongAlbumInfo {
-    overflow: hidden;
+    justify-self: left;
+    justify-items: left;
+    display: grid;
+}
+
+#searchListSongTime {
+    justify-self: center;
 }
 
 
-#searchListSongTimeContainer {
-    display: none;
-}
-
-#postButton {
-    padding: auto 0;
-    text-align: right;
-}
-
-}
 
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 800px) {
 
-
-    #searchListSongAlbumInfoContainer {
+    #searchListItem {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        grid-gap: 2px;
+        align-items: center;
+        cursor: pointer;
+        text-align: initial;
+    }
+    
+    #albumImageContainer {
         display: none;
     }
 
-    
+    #searchListSongInfo {
+        overflow: hidden;
+        white-space: nowrap; 
+        text-overflow: ellipsis;
+    }
+
+    #songName {
+        overflow: hidden;
+        white-space: nowrap; 
+        text-overflow: ellipsis;
+    }
+
+    #artistName {
+        overflow: hidden;
+        white-space: nowrap; 
+        text-overflow: ellipsis;
+    }
+
+
+    #searchListSongTime {
+        display: none;
+    }
+
+    #postButton {
+        justify-self: center;
+    }
+
+    #searchListSongAlbumInfo {
+        display: none;
+    }
+
 }

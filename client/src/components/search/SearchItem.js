@@ -27,8 +27,8 @@ class SearchItem extends Component {
     render() {
         return (
             <div id="itemContainer" className="item">
-                <div id="searchListItem" onClick={() => this.selectAndPlaySong(this.props.song)} className="ui equal width grid">
-                    <div id="albumImageContainer" className="column">
+                <div id="searchListItem" onClick={() => this.selectAndPlaySong(this.props.song)} >
+                    <div id="albumImageContainer">
                         <div className="ui placeholder" style={{display: this.state.loaded ? 'none' : 'block', width: '150px'}}>
                             <div className="square image" ></div>
                         </div>
@@ -41,26 +41,22 @@ class SearchItem extends Component {
                             >
                         </img>
                     </div>
-                    <div id="searchListSongInfoContainer" className="column">
-                        <div id="searchListSongInfo" className="content" >
-                            <div className="header" >
-                                {this.props.song.attributes.name}
-                            </div>
+                    <div id="searchListSongInfo" >
+                        <div className="header" id="songName" >
+                            {this.props.song.attributes.name}
+                        </div>
+                        <div id="artistName">
                             {this.props.song.attributes.artistName}
                         </div>
                     </div>
-                    <div id="searchListSongAlbumInfoContainer" className="column">
-                        <div id="searchListSongAlbumInfo" className="content" >
-                            <div className="header" >
-                                {this.props.song.attributes.albumName}
-                            </div>
+                    <div id="searchListSongAlbumInfo" >
+                        <div className="header" >
+                            {this.props.song.attributes.albumName}
                         </div>
                     </div>
-                    <div id="searchListSongTimeContainer" className="column">
-                        <div id="searchListSongTime" className="content" >
-                            <div className="header" >
-                                {secondsFormatted(this.props.song.attributes.durationInMillis / 1000)}
-                            </div>
+                    <div id="searchListSongTime" >
+                        <div className="header" >
+                            {secondsFormatted(this.props.song.attributes.durationInMillis / 1000)}
                         </div>
                     </div>
                     <div style={{display: this.props.auth ? 'inline-block': 'none' }} id="postButton" onClick={(e) => e.stopPropagation()} className="column">
@@ -68,6 +64,7 @@ class SearchItem extends Component {
                     </div>
                 </div>
             </div>
+
         );
     }
 }
