@@ -231,7 +231,6 @@ export const updateProfile = (profile) => async dispatch => {
 // export const updateAVI = (formData, username) => async dispatch => {
 export const updateAVI = (user) => async dispatch => {
     // const res = await axios.patch(`/api/avi`, formData, config);
-    
     dispatch({ type: UPDATE_AVI, payload: user });
     history.push(`/${user.username}`);
 }

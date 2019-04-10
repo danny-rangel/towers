@@ -57,7 +57,6 @@ class EditAVI extends Component {
                         </div>
                     </div>
                 </div>
-            
     );
 
     render() {

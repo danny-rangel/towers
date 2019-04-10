@@ -69,7 +69,8 @@ class EditProfile extends Component {
                             <Field 
                                 name="username" 
                                 component={this.renderUsernameInput} 
-                                placeholder="Username" 
+                                placeholder="Username"
+                                 
                                 label="Username">
                             </Field>
                         </div>
@@ -124,8 +125,14 @@ const validate = (formValues) => {
         errors.username = 'You must enter a username!';
     }
 
+    
+
 
     if (formValues.username) {
+        if (formValues.username.length > 30) {
+            errors.username = 'Your username is too long!';
+        }
+
         if (!formValues.username.match(/^\w+$/)) {
             errors.username = 'Usernames can only use letters, numbers, and underscores.';
         }
