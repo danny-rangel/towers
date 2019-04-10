@@ -55,6 +55,7 @@
 #profileAvatar {
     cursor: pointer;
     font-size: 20px;
+    box-shadow: 0px 0px 5px #ffffff;
 }
 
 #headerUsername {
@@ -155,7 +156,6 @@
         margin: 0;
         font-size: 25px;
         max-width: none;
-        
     }
 
 
