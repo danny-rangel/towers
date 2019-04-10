@@ -8,6 +8,7 @@ import './SearchItem.css'
 
 class SearchItem extends Component {
 
+    state = { loaded: false };
 
     selectAndPlaySong = (song) => {
         let nowPlaying = {
@@ -28,9 +29,13 @@ class SearchItem extends Component {
             <div id="itemContainer" className="item">
                 <div id="searchListItem" onClick={() => this.selectAndPlaySong(this.props.song)} className="ui equal width grid">
                     <div id="albumImageContainer" className="column">
+                        <div className="ui placeholder" style={{display: this.state.loaded ? 'none' : 'block', width: '150px'}}>
+                            <div className="square image" ></div>
+                        </div>
                         <img
                             id="searchAlbumImage"
                             className="ui image" 
+                            onLoad={() => this.setState({ loaded: true })} style={{display: this.state.loaded ? 'block' : 'none'}}
                             alt={this.props.song.attributes.name} 
                             src={window.MusicKit.formatArtworkURL(this.props.song.attributes.artwork, 150, 150)}
                             >
