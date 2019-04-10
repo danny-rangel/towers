@@ -110,7 +110,7 @@ export const fetchNotifications = () => async dispatch => {
 }
 
 export const fetchPost = (params) => async dispatch => {
-    const res = await axios.post(`/api/posts/${params.id}`, params);
+    const res = await axios.get(`/api/posts/${params.id}`);
     dispatch({ type: FETCH_POST, payload: res.data[0] })
 }
 

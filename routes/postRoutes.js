@@ -115,11 +115,8 @@ module.exports = (app) => {
 
 
 
-    
 
-
-
-    //FETCH POSTS BY ID
+    //FETCH POSTS BY USER ID
     app.get('/api/posts/user', async (req, res) => {
         const posts = await Post.find({ _user: req.user.id }).sort({date: -1}).limit(20);
         res.send(posts);
@@ -127,8 +124,9 @@ module.exports = (app) => {
 
 
     //FETCH POST BY POST ID
-    app.post(`/api/posts/:id`, async (req, res) => {
-        const post = await Post.find({ _id: req.body.id });
+    app.get(`/api/posts/:id`, async (req, res) => {
+        const { id } = req.params;
+        const post = await Post.find({ _id: id });
         res.send(post);
     });
 
