@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { checkUser, fetchUserPosts, followUser, isFollowing, continuefetchUserPosts, fetchAllUserPostsCount } from '../actions';
+import { checkUser, fetchUserPosts, followUser, isFollowing, continuefetchUserPosts, 
+    fetchAllUserPostsCount, clearUserState, clearPostsState } from '../actions';
 import history from '../history';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -9,7 +10,7 @@ import PostList from '../components/post/PostList';
 import './Profile.css'
 
 const Profile = ({ user, auth, match, posts, following, followUser, isFollowing, checkUser, 
-    fetchUserPosts, continuefetchUserPosts, fetchAllUserPostsCount, postCount }) => {
+    fetchUserPosts, continuefetchUserPosts, fetchAllUserPostsCount, postCount, clearUserState, clearPostsState }) => {
 
     const [page, setPage] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +28,13 @@ const Profile = ({ user, auth, match, posts, following, followUser, isFollowing,
             isFollowing(username);
         }
     }
+
+    useEffect(() => {
+        return () => {
+            clearUserState();
+            clearPostsState();
+        }
+    }, [])
 
     
     useEffect(() => {
@@ -167,4 +175,4 @@ const mapStateToProps = ({ user, posts, auth, following, postCount }) => {
 }
 
 export default connect(mapStateToProps, { checkUser, fetchUserPosts, followUser, 
-    isFollowing, continuefetchUserPosts, fetchAllUserPostsCount })(Profile);
+    isFollowing, continuefetchUserPosts, fetchAllUserPostsCount, clearUserState, clearPostsState })(Profile);

@@ -6,7 +6,8 @@ import {
     SUBMIT_POST,
     DELETE_POST,
     LIKE_POST,
-    CONTINUE_FETCH_USER_POSTS
+    CONTINUE_FETCH_USER_POSTS,
+    CLEAR_POSTS_STATE
 } from "../actions/types";
 
 
@@ -28,6 +29,8 @@ export default (state = null, action) => {
             return state;
         case LIKE_POST:
             return state.map(post => post._id === action.payload._id ? action.payload : post);
+        case CLEAR_POSTS_STATE:
+            return null;
         default:
             return state;
     }

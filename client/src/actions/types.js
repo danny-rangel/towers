@@ -38,3 +38,5 @@ export const FETCH_ALL_FOLLOWER_POSTS_COUNT = 'fetch_all_follower_posts_count';
 export const CONTINUE_FETCH_USER_POSTS = 'continue_fetch_user_posts';
 export const FETCH_ALL_USER_POSTS_COUNT = 'fetch_all_user_posts_count';
 export const SEARCH_USERS = 'search_users';
+export const CLEAR_USER_STATE = 'clear_user_state';
+export const CLEAR_POSTS_STATE = 'clear_posts_state';
