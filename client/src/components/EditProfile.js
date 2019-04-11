@@ -51,11 +51,12 @@ class EditProfile extends Component {
         );
     }
 
-    renderAboutMeInput = ({ input, label }) => {
+    renderAboutMeInput = ({ input, label, meta }) => {
         return (
-            <div className="field">
+            <div className={`field ${meta.error && meta.touched ? 'error' : ''}`} >
                 <label>{label}</label>
                 <input {...input} />
+                {this.renderError(meta)}
             </div>
         );
     }

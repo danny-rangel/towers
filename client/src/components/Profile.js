@@ -84,7 +84,7 @@ const Profile = ({ user, auth, match, posts, following, followUser, isFollowing,
                             }
                         </div>
                         <h2>{user.username}</h2>
-                        <h5 style={{margin: '0'}}>{user.aboutme}</h5>
+                        <h5 style={{margin: '0 5px', wordWrap: 'break-word'}}>{user.aboutme}</h5>
                         <div className="ui container">
                             <div id="profileStats" className="ui equal width grid">
                                 <div className="column">
