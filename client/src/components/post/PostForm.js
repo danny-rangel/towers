@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PostField from './PostField';
 import { submitPost } from '../../actions';
 import './PostForm.css';
-import Modal from '../Modal';
+import PostModal from '../PostModal';
 import history from '../../history';
 
 class PostForm extends Component {
@@ -36,7 +36,6 @@ class PostForm extends Component {
     renderContent = () => {
         return (
             <form onSubmit={this.props.handleSubmit((values) => this.collectValues(this.props.selectedSong, values))}>
-            <div id="postCardContainer">
                 <div className="ui card" id="previewPostCard">
                     <div className="content" style={{ textAlign: 'center' }}>
                     </div>
@@ -47,15 +46,15 @@ class PostForm extends Component {
                         <img onLoad={() => this.setState({ loaded: true })} alt={this.props.selectedSong.attributes.name} src={window.MusicKit.formatArtworkURL(this.props.selectedSong.attributes.artwork, 420, 420)}></img>
                     </div>
                     <div className="content" style={{ textAlign: 'center' }} >
-                            <h1  href="/home" className="header" id="postFormHeader" >{this.props.selectedSong.attributes.name}</h1>
-                            <div className="meta">
-                                <span className="date">{this.props.selectedSong.attributes.artistName}</span>
-                            </div>
+                        <h1  href="/home" className="header" id="postFormHeader" >{this.props.selectedSong.attributes.name}</h1>
+                        <div className="meta">
+                            <span className="date">{this.props.selectedSong.attributes.artistName}</span>
+                        </div>
                     </div>
                     <Field autoComplete="off" type="text" name="caption" component={PostField} placeholder="Write a caption..." />  
                 </div>
-            </div>
-        </form>
+            </form>
+        
         );
     }
 
@@ -63,7 +62,7 @@ class PostForm extends Component {
     render() {
         return (
             <>
-                <Modal style={{width: '420px'}} onDismiss={() => history.push('/search')} content={this.renderContent()} />
+                <PostModal onDismiss={() => history.push('/search')} content={this.renderContent()} />
             </>
         );
     }

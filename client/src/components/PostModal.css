@@ -1,0 +1,21 @@
+#postModalContent {
+    padding: 1px !important;
+    width: 420px !important;
+    margin: 0  auto !important;
+}
+
+
+#postModalInner {
+    width: 420px !important;
+}
+
+@media only screen and (max-width: 420px) {
+    #postModalContent {
+        width: 100% !important;
+    }
+
+    #postModalInner {
+        width: inherit !important;
+    }
+
+} 
