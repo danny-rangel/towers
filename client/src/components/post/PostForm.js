@@ -23,6 +23,7 @@ class PostForm extends Component {
             songName: selectedSong.attributes.name,
             artistName: selectedSong.attributes.artistName,
             durationInMillis: selectedSong.attributes.durationInMillis,
+            genres: selectedSong.attributes.genreNames,
             songURL: selectedSong.attributes.url,
             albumArt: window.MusicKit.formatArtworkURL(selectedSong.attributes.artwork, 420, 420),
             albumName: selectedSong.attributes.albumName,

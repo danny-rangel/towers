@@ -10,7 +10,7 @@ module.exports = (app) => {
 
     //MAKE NEW POST
     app.post('/api/posts', requireLogin, async (req, res) => {
-        const { songName, artistName, albumArt, caption, username, songURL, durationInMillis, previewURL, userId, albumName } = req.body;
+        const { songName, artistName, albumArt, caption, username, songURL, durationInMillis, previewURL, userId, albumName, genres } = req.body;
 
         const post = new Post({
             username: username,
@@ -20,16 +20,31 @@ module.exports = (app) => {
             artistName: artistName,
             songURL: songURL,
             previewURL: previewURL,
+            genres: genres,
             albumArt: albumArt,
             albumName: albumName,
             userId: userId,
             date: Date.now()
         });
-
+    
         try {
             await post.save();
             req.user.postsNumber += 1;
             await req.user.save();
+
+
+
+            
+            const socketio = req.app.get('socketio');
+            const follows = await Follow.find({ personFollowingId: userId }).select({ "personFollowedId": 1 , "_id": 0});
+            const followsArray = follows.map((follow) => {
+                return follow.personFollowedId;
+            });
+            
+            followsArray.forEach(id => {
+                socketio.to(`${id}`).emit('post', post);
+            });
+
             res.send(post);
         } catch (err) {
             res.status(422).send(err);
@@ -121,6 +136,8 @@ module.exports = (app) => {
         const posts = await Post.find({ _user: req.user.id }).sort({date: -1}).limit(20);
         res.send(posts);
     });
+
+
 
 
     //FETCH POST BY POST ID

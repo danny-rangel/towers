@@ -245,3 +245,4 @@ export const haveNewNotifications = () => async dispatch => {
     const res = await axios.get('/api/notifications');
     dispatch({ type: HAVE_NEW_NOTIFICATIONS, payload: res.data });
 }
+

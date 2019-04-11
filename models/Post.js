@@ -12,10 +12,10 @@ const postSchema = new Schema({
     caption: String,
     songName: String,
     songURL: String,
-    previewURL: String,
     artistName: String,
     albumArt: String,
     albumName: String,
+    genres: { type: Array, default: [] },
     likes: { type: Number, default: 0 },
     date: Date
 });

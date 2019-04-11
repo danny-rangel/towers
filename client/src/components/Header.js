@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './Header.css';
-import { isMusicKitAuthorized, showSidebar, haveNewNotifications } from '../actions';
+import { isMusicKitAuthorized, showSidebar, haveNewNotifications, fetchAllFollowerPostsCount, fetchFollowerPosts } from '../actions';
 import socket from '../utils/socketClient';
 
 class Header extends Component {
+
+    state = { newPost: false };
 
     async authorizeUser() {
         const res = await this.props.musicKit.authorize();
@@ -20,9 +22,20 @@ class Header extends Component {
     componentDidMount() {
         // FIX: ONLY CALL ACTION CREATOR IF AUTH EXISTS
         this.props.haveNewNotifications();
-        socket.on('notification', (data) => {
+        socket.on('notification', () => {
             this.props.haveNewNotifications();
-        })
+        });
+
+        socket.on('post', () => {
+            this.setState({ newPost: true })
+        });
+    }
+
+
+    fetchNewStuff = () => {
+        this.props.fetchAllFollowerPostsCount();
+        this.props.fetchFollowerPosts();
+        this.setState({ newPost: false });
     }
 
     renderContent() {
@@ -188,8 +201,27 @@ class Header extends Component {
         <div>
             <div id="mainHeader" className="ui fixed sticky borderless inverted stackable menu">
                 <div className="ui container">
-                    <Link style={{ display: this.props.auth ? 'flex' : 'none' }} to={this.props.auth ? '/home' : '/'} className="item">
-                        <div id="homebutton"><i className="chess rook icon"></i></div>
+                    <Link 
+                        onClick={this.state.newPost ? this.fetchNewStuff : null}
+                        style={{ display: this.props.auth ? 'flex' : 'none' }} 
+                        to={this.props.auth ? '/home' : '/'} 
+                        className="item">
+                        <div id="homebutton">
+                            <i className="chess rook icon"></i>
+                            <div 
+                                style={{
+                                    backgroundColor: 'white', 
+                                    borderRadius: '50%', 
+                                    height: '8px', 
+                                    width: '8px', 
+                                    display: this.state.newPost ? 'inline-block' : 'none', 
+                                    position: 'absolute', 
+                                    top: '25px', 
+                                    right: '36px',
+                                    boxShadow: '0px 0px 2px #ffffff'
+                                    }}>
+                            </div>
+                        </div>
                     </Link>
                     <Link style={{ display: this.props.auth ? 'flex' : 'none' }} to='/search/songs' className="item">
                         <div id="searchbutton"><i className="search icon"></i></div>
@@ -227,8 +259,28 @@ class Header extends Component {
 
 
             <div id="mobileHeader" className={this.props.auth ? "ui fixed sticky borderless inverted fluid four item menu" : "ui fixed sticky borderless inverted fluid two item menu"}>
-                <Link style={{ display: this.props.auth ? 'flex' : 'none' }} id="mobilehomebutton" to={this.props.auth ? '/home' : '/'} className="item">
-                    <div id="buttonText"><i id="mobilehomeIcon" className="chess rook icon"></i></div>
+                <Link 
+                    onClick={this.state.newPost ? this.fetchNewStuff : null}
+                    style={{ display: this.props.auth ? 'flex' : 'none' }} 
+                    id="mobilehomebutton" 
+                    to={this.props.auth ? '/home' : '/'} 
+                    className="item">
+                    <div id="buttonText">
+                        <i id="mobilehomeIcon" className="chess rook icon"></i>
+                        <div 
+                            style={{
+                                backgroundColor: 'white', 
+                                borderRadius: '50%', 
+                                height: '8px', 
+                                width: '8px', 
+                                display: this.state.newPost ? 'inline-block' : 'none', 
+                                position: 'absolute', 
+                                top: '30%', 
+                                right: '36%',
+                                boxShadow: '0px 0px 2px #ffffff'
+                                }}>
+                        </div>
+                    </div>
                 </Link>
                 <Link style={{ display: this.props.auth ? 'flex' : 'none' }} id="mobilesearchbutton" to='/search/songs' className="item">
                     <div id="buttonText">
@@ -276,4 +328,4 @@ const mapStateToProps = ({ auth, authorized, musicKit, sidebar, newNotifications
     return { auth, authorized, musicKit, sidebar, newNotifications };
 }
 
-export default connect(mapStateToProps, { isMusicKitAuthorized, showSidebar, haveNewNotifications } )(Header);
+export default connect(mapStateToProps, { isMusicKitAuthorized, showSidebar, haveNewNotifications, fetchAllFollowerPostsCount, fetchFollowerPosts } )(Header);

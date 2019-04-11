@@ -23,6 +23,7 @@ const Home = ({ posts, auth, fetching, fetchFollowerPosts, continuefetchFollower
             isFetching(false);
         }
     }, [auth]);
+
         
         if (fetching || !posts) {
             return <Spinner />
