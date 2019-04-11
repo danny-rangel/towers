@@ -5,6 +5,7 @@ import { fetchUser, isFetching, updateAVI } from '../actions';
 import history from '../history';
 import Modal from './Modal';
 import axios from 'axios';
+import Spinner from './Spinner';
 
 class EditAVI extends Component {
 
@@ -21,6 +22,7 @@ class EditAVI extends Component {
     }
 
     onSubmit = async () => {
+        this.props.isFetching(true);
         const formData = new FormData();
         formData.append('avi', this.state.avi, this.state.avi.name);
         // this.props.updateAVI(formData, this.props.auth.username);
@@ -35,8 +37,8 @@ class EditAVI extends Component {
     
         const res = await axios.patch(`/api/avi`, formData, config);
         // dispatch({ type: 'update_avi', payload: res.data });
-        this.props.updateAVI(res.data);
-
+        await this.props.updateAVI(res.data);
+        this.props.isFetching(false);
     }
 
     header = (
@@ -64,6 +66,8 @@ class EditAVI extends Component {
         
         if (!auth) {
             return <div></div>;
+        } else if (this.props.fetching) {
+            return <Spinner />
         } else {
             return (
                 <>
@@ -74,9 +78,9 @@ class EditAVI extends Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, fetching }) => {
     return { 
-        auth
+        auth, fetching
     };
 }
 

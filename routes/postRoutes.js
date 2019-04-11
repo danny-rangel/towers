@@ -148,11 +148,17 @@ module.exports = (app) => {
     });
 
 
-    //FETCH ALL USER POSTS COUNT
-    app.get('/api/posts/:username/', async (req, res) => {
-        const { username } = req.params;
 
-        const postsCount = await Post.countDocuments({ username });
+
+
+
+
+
+
+    //FETCH ALL USER POSTS COUNT
+    app.get('/api/postCount/:username', async (req, res) => {
+        const { username } = req.params;
+        const postsCount = await Post.countDocuments({ username: username });
         res.send({postsCount});
     });
 
@@ -162,7 +168,6 @@ module.exports = (app) => {
     app.get('/api/followPosts', requireLogin, async (req, res) => {
         
         const { id } = req.user;
-
         const follows = await Follow.find({ personFollowingId: id }).select({ "personFollowedId": 1 , "_id": 0});
         const followsArray = follows.map((follow) => {
             return follow.personFollowedId;
@@ -173,6 +178,17 @@ module.exports = (app) => {
         const postsCount = await Post.countDocuments({'userId': {$in: followsArray}});
         res.send({postsCount});
     });
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { fetchUser, isFetching, updateProfile, updateAVI } from '../actions';
 import history from '../history';
 import Modal from './Modal';
+import Spinner from './Spinner';
 
 class EditProfile extends Component {
 
@@ -18,13 +19,15 @@ class EditProfile extends Component {
         }
     }
     
-    onSubmit = (formValues) => {
+    onSubmit = async (formValues) => {
+        this.props.isFetching(true);
         let profile = {
             id: this.props.auth._id,
             username: formValues.username,
             aboutme: formValues.aboutme,
         }
-        this.props.updateProfile(profile);
+        await this.props.updateProfile(profile);
+        this.props.isFetching(false);
 
     }
 
@@ -97,6 +100,8 @@ class EditProfile extends Component {
         
         if (!auth) {
             return <div></div>;
+        } else if (this.props.fetching) {
+            return <Spinner />
         } else {
             return (
                 <>
@@ -107,9 +112,9 @@ class EditProfile extends Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, fetching }) => {
     return { 
-        auth,
+        auth, fetching,
         initialValues: {
             username: auth.username,
             aboutme: auth.aboutme,
@@ -125,8 +130,6 @@ const validate = (formValues) => {
         errors.username = 'You must enter a username!';
     }
 
-    
-
 
     if (formValues.username) {
         if (formValues.username.length > 30) {
@@ -138,6 +141,11 @@ const validate = (formValues) => {
         }
     }
 
+    if (formValues.aboutme) {
+        if (formValues.aboutme.length > 100) {
+            errors.username = 'Your bio is too long!';
+        }
+    }
     
 
     return errors;

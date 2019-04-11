@@ -146,7 +146,7 @@ export const continuefetchUserPosts = (username, page, take) => async dispatch =
 
 
 export const fetchAllUserPostsCount = (username) => async dispatch => {
-    const res = await axios.get(`/api/posts/${username}`);
+    const res = await axios.get(`/api/postCount/${username}`);
     dispatch({ type: FETCH_ALL_USER_POSTS_COUNT, payload: res.data });
 }
 
@@ -217,6 +217,7 @@ export const setTime = (time) => {
 }
 
 export const updateProfile = (profile) => async dispatch => {
+
     try {
         const res = await axios.patch(`/api/user/${profile.id}`, profile);
         dispatch({ type: UPDATE_PROFILE, payload: res.data });

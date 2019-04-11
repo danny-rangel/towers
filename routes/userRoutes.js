@@ -71,7 +71,7 @@ module.exports = (app) => {
 
         try {
             const check = await User.findOne({ username });
-            if (check) {
+            if (check && check._id.toString() !== id) {
                 throw new Error('Username taken!');
             }
             // fix for promise.all
