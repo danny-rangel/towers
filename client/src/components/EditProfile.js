@@ -18,6 +18,8 @@ class EditProfile extends Component {
             history.push('/');
         }
     }
+
+    lower = value => value && value.toLowerCase()
     
     onSubmit = async (formValues) => {
         this.props.isFetching(true);
@@ -74,7 +76,7 @@ class EditProfile extends Component {
                                 name="username" 
                                 component={this.renderUsernameInput} 
                                 placeholder="Username"
-                                 
+                                normalize={this.lower}
                                 label="Username">
                             </Field>
                         </div>
@@ -83,7 +85,7 @@ class EditProfile extends Component {
                                 name="aboutme" 
                                 component={this.renderAboutMeInput}  
                                 placeholder="About Me" 
-                                label="About Me" 
+                                label="Bio" 
                                 rows="4" >
                             </Field>
                         </div>
@@ -143,7 +145,7 @@ const validate = (formValues) => {
     }
 
     if (formValues.aboutme) {
-        if (formValues.aboutme.length > 100) {
+        if (formValues.aboutme.length > 110) {
             errors.aboutme = 'Your bio is too long!';
         }
     }
