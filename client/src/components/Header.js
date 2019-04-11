@@ -186,7 +186,7 @@ class Header extends Component {
     render() {
         return (
         <div>
-            <div id="mainHeader" className="ui borderless inverted stackable menu">
+            <div id="mainHeader" className="ui fixed sticky borderless inverted stackable menu">
                 <div className="ui container">
                     <Link style={{ display: this.props.auth ? 'flex' : 'none' }} to={this.props.auth ? '/home' : '/'} className="item">
                         <div id="homebutton"><i className="chess rook icon"></i></div>
@@ -226,7 +226,7 @@ class Header extends Component {
 
 
 
-            <div id="mobileHeader" className={this.props.auth ? "ui borderless inverted fluid four item menu" : "ui borderless inverted fluid two item menu"}>
+            <div id="mobileHeader" className={this.props.auth ? "ui fixed sticky borderless inverted fluid four item menu" : "ui fixed sticky borderless inverted fluid two item menu"}>
                 <Link style={{ display: this.props.auth ? 'flex' : 'none' }} id="mobilehomebutton" to={this.props.auth ? '/home' : '/'} className="item">
                     <div id="buttonText"><i id="mobilehomeIcon" className="chess rook icon"></i></div>
                 </Link>
