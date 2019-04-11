@@ -143,7 +143,7 @@ const validate = (formValues) => {
 
     if (formValues.aboutme) {
         if (formValues.aboutme.length > 100) {
-            errors.username = 'Your bio is too long!';
+            errors.aboutme = 'Your bio is too long!';
         }
     }
     
