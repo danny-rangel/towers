@@ -118,7 +118,7 @@ module.exports = (app) => {
             // fix for promise.all
             const profile = await User.findByIdAndUpdate(req.user.id, { $set: { profileImage: data.Location }}, { new: true }).exec();
             await Notification.updateMany({ $and : [{ from : req.user.id } ,{ action: "Follow" }]}, {$set : { image: data.Location }}, { new: true }).exec();
-            await PostLikes.updateMany({ likerId : req.user.id },{ $set : { profilePicture: data.Location }}, { new: true }).exec();
+            await PostLikes.updateMany({ likerId : req.user.id },{ $set : { profileImage: data.Location }}, { new: true }).exec();
             await Follow.updateMany({ personFollowingId : req.user.id },{ $set : { personFollowingImage: data.Location }}, { new: true }).exec();
             await Follow.updateMany({ personFollowedId : req.user.id },{ $set : { personFollowedImage: data.Location }}, { new: true }).exec();
 

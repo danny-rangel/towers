@@ -5,7 +5,6 @@ import { checkUser, fetchUserPosts, followUser, isFollowing, continuefetchUserPo
     fetchAllUserPostsCount, clearUserState, clearPostsState } from '../actions';
 import history from '../history';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
 import PostList from '../components/post/PostList';
 import './Profile.css'
 
@@ -17,7 +16,7 @@ const Profile = ({ user, auth, match, posts, following, followUser, isFollowing,
     const [followPressed, setFollowPressed] = useState(false);
     const username = match.params.username;
 
-    const fetchProfileInformation = async () => {
+    const fetchProfileInformation = () => {
         checkUser(username);
         fetchAllUserPostsCount(username);
         fetchUserPosts(username);
