@@ -70,53 +70,58 @@ const Profile = ({ user, auth, match, posts, following, followUser, isFollowing,
             return (
                 <div>
                     <div id="topProfileContainer" className="ui inverted vertical masthead center aligned segment">
-                        <div>
-                            {
-                                auth ? 
-                                <img 
-                                    alt={user.username} 
-                                    style={{cursor: auth._id === user._id ? 'pointer' : 'default'}} 
-                                    onClick={auth._id === user._id ? () => history.push(`/edit/avi/${auth._id}`) : null} 
-                                    id="profileImage" 
-                                    className="ui medium circular image" 
-                                    src={user.profileImage}>
-                                </img> 
-                                :
-                                <img 
-                                    alt={user.username} 
-                                    id="profileImage" 
-                                    className="ui medium circular image" 
-                                    src={user.profileImage}>
-                                </img>
-                            }
-                        </div>
+                        {
+                            auth ? 
+                            <img 
+                                alt={user.username} 
+                                style={{cursor: auth._id === user._id ? 'pointer' : 'default'}} 
+                                onClick={auth._id === user._id ? () => history.push(`/edit/avi/${auth._id}`) : null} 
+                                id="profileImage" 
+                                className="ui medium circular image" 
+                                src={user.profileImage}>
+                            </img> 
+                            :
+                            <img 
+                                alt={user.username} 
+                                id="profileImage" 
+                                className="ui medium circular image" 
+                                src={user.profileImage}>
+                            </img>
+                        }
                         <h2>{user.username}</h2>
                         <h5 style={{margin: '0 5px', wordWrap: 'break-word'}}>{user.aboutme}</h5>
-                        <div className="ui container">
-                            <div id="profileStats" className="ui equal width grid">
-                                <div className="column">
-                                    <h4 id="profileStatsText" >{user.postsNumber}{user.postsNumber === 1 ? ' song': ' songs'}</h4>
+                            <div id="profileStats">
+                                <div>
+                                    <h2 id="profileStatsText" >{user.postsNumber}</h2>
                                 </div>
-                                <div className="column">
+                                <div>
                                     <Link to={`/followers/${user._id}`} >
-                                        <h4 id="profileStatsText">{user.followersCount}{" listeners"}</h4>
+                                        <h2 id="profileStatsText">{user.followersCount}</h2>
                                     </Link>
                                 </div>
-                                <div className="column">
+                                <div>
                                     <Link to={`/following/${user._id}`} >
-                                        <h4 id="profileStatsText">{user.followingCount} {" listening"}</h4>
+                                        <h2 id="profileStatsText">{user.followingCount}</h2>
                                     </Link>
+                                </div>
+                                <div id="profileStatsText">
+                                    {user.postsNumber === 1 ? 'song': 'songs'}
+                                </div>
+                                <div id="profileStatsText">
+                                    listeners
+                                </div>
+                                <div id="profileStatsText">
+                                    listening
                                 </div>
                             </div>
-                        </div>
 
                         {   auth ? 
                                 user._id !== auth._id ?
                                     <button 
                                         onClick={() => follow(user, auth)} 
-                                        id="profileStatsText"
+                                        id="profileStatsButton"
                                         className={`ui ${followPressed ? 'disabled' : ''} button`}
-                                        style={{backgroundColor: following ? 'black' : 'white', 
+                                        style={{backgroundColor: following ? '#357cb9' : 'white', 
                                         color: following ? 'white' : 'black'}} >
                                         {following ? 'Listening' : 'Listen'}
                                     </button> 
@@ -124,6 +129,7 @@ const Profile = ({ user, auth, match, posts, following, followUser, isFollowing,
                                     <Link 
                                         to={`/edit/${auth._id}`} 
                                         className="ui button"
+                                        id="profileStatsButton"
                                         style={{backgroundColor: 'white', color: 'black'}} >
                                         Edit Profile
                                     </Link>
