@@ -1,8 +1,9 @@
 import React from 'react';
 import './PostField.css';
 import history from '../../history';
+import { connect } from 'react-redux';
 
-const PostField = ({ input, placeholder }) => {
+const PostField = ({ input, placeholder, fetching }) => {
     return (
         <div id="field" className="extra content" style={{textAlign: 'center'}}>
             <div className="ui form">
@@ -12,10 +13,14 @@ const PostField = ({ input, placeholder }) => {
             </div>
             <div style={{ textAlign: 'center' }} id="actionButtons" >
                     <button type="button" onClick={() => history.goBack()} className="negative ui primary button postButton">Cancel</button>
-                    <button type="submit" className="ui primary button postButton">Post</button>
+                    <button type="submit" className={`ui primary ${fetching ? `disabled` : ``} button postButton`}>Post</button>
             </div>
         </div>
     );
 }
 
-export default PostField;
+const mapStateToProps = ({ fetching }) => {
+    return { fetching };
+}
+
+export default connect(mapStateToProps)(PostField);

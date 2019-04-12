@@ -140,9 +140,7 @@ const Profile = ({ user, auth, match, posts, following, followUser, isFollowing,
                             }}
                             hasMore={posts.length !== postCount}
                             loader={
-                                <h4 style={{textAlign: 'center', color: 'white'}}>
-                                    Loading...
-                                </h4>
+                                <div className="ui active centered inline loader" style={{margin: '200px auto'}}></div>
                             }
                             endMessage={
                                 <h3 style={{textAlign: 'center', color: 'white'}}>

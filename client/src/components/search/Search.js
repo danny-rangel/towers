@@ -6,12 +6,11 @@ import SearchBar from './SearchBar';
 import history from '../../history';
 import { searchSongs, searchUsers } from '../../actions';
 import './Search.css';
-import Spinner from '../Spinner';
 import SearchList from './SearchList';
 import SearchUserList from './SearchUserList';
 
 
-const Search = ({ fetching, searchSongs, searchUsers, match }) => {
+const Search = ({ searchSongs, searchUsers, match }) => {
 
     const [showUserSearch, setShowUserSearch] = useState(false);
     const [showSongSearch, setShowSongSearch] = useState(true);
@@ -43,10 +42,6 @@ const Search = ({ fetching, searchSongs, searchUsers, match }) => {
     }, [match])
 
 
-    
-    if (fetching) {
-        return <Spinner />
-    }
     return (
         <div id="searchContainer" className="ui container">
             <div style={{color: 'white', textAlign: 'left', margin: '20px 0 0 0'}}>
@@ -76,8 +71,8 @@ const Search = ({ fetching, searchSongs, searchUsers, match }) => {
     );
 }
 
-const mapStateToProps = ({ fetching, auth }) => {
-    return { fetching, auth }; 
+const mapStateToProps = ({ auth }) => {
+    return { auth }; 
 }
 
 export default connect(mapStateToProps, { searchSongs, searchUsers })(Search);

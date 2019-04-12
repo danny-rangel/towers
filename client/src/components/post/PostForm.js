@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import PostField from './PostField';
-import { submitPost } from '../../actions';
+import { submitPost, isFetching } from '../../actions';
 import './PostForm.css';
 import PostModal from '../PostModal';
 import history from '../../history';
@@ -11,7 +11,8 @@ class PostForm extends Component {
 
     state = { loaded: false };
 
-    collectValues(selectedSong, values) {
+    collectValues = async (selectedSong, values) => {
+        this.props.isFetching(true);
         if (!values.caption) {
             values.caption = null;
         }
@@ -29,7 +30,8 @@ class PostForm extends Component {
             albumName: selectedSong.attributes.albumName,
             previewURL: selectedSong.attributes.previews[0].url
         }
-        this.props.submitPost(post);
+        await this.props.submitPost(post);
+        this.props.isFetching(false);
     }
 
 
@@ -75,4 +77,4 @@ const mapStateToProps = ({ selectedSong, auth }) => {
 
 export default reduxForm({
     form: 'postForm'
-})(connect(mapStateToProps, { submitPost })(PostForm));
+})(connect(mapStateToProps, { submitPost, isFetching })(PostForm));

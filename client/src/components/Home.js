@@ -5,7 +5,6 @@ import PostList from './post/PostList';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchFollowerPosts, isFetching, continuefetchFollowerPosts, fetchAllFollowerPostsCount } from '../actions';
-import Spinner from './Spinner';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Home = ({ posts, auth, fetching, fetchFollowerPosts, continuefetchFollowerPosts, isFetching, postCount, fetchAllFollowerPostsCount }) => {
@@ -26,7 +25,7 @@ const Home = ({ posts, auth, fetching, fetchFollowerPosts, continuefetchFollower
 
         
         if (fetching || !posts) {
-            return <Spinner />
+            return <div className="ui active centered inline loader" style={{margin: '200px auto'}}></div>
         } else if (posts.length === 0) {
             return (
                 <div style={{margin: '200px auto'}}>
@@ -48,9 +47,7 @@ const Home = ({ posts, auth, fetching, fetchFollowerPosts, continuefetchFollower
                     }}
                     hasMore={posts.length !== postCount}
                     loader={
-                        <h4 style={{textAlign: 'center', color: 'white'}}>
-                            Loading...
-                        </h4>
+                        <div className="ui active centered inline loader" style={{margin: '200px auto'}}></div>
                     }
                     endMessage={
                         <h3 style={{textAlign: 'center', color: 'white'}}>

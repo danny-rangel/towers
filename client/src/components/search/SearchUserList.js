@@ -3,7 +3,7 @@ import UserListItem from '../UserListItem';
 import { connect } from 'react-redux';
 import '../notifications/Notifications.css';
 
-const SearchUserList = ({ searchedUsers }) => {
+const SearchUserList = ({ searchedUsers, fetching }) => {
 
     const renderList = () => {
         if (searchedUsers) {
@@ -25,18 +25,24 @@ const SearchUserList = ({ searchedUsers }) => {
     }
 
 
-    return (
-        <div className="ui container" id="notificationSection" >
-            <div className="ui feed" id="notificationFeed">
-                {renderList()}
+    if (fetching) {
+        return <div className="ui active centered inline loader" style={{margin: '200px auto'}}></div>
+    } else if (!searchedUsers) {
+        return null
+    } else {
+        return (
+            <div className="ui container" id="notificationSection" >
+                <div className="ui feed" id="notificationFeed">
+                    {renderList()}
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
-const mapStateToProps = ({ searchedUsers }) => {
+const mapStateToProps = ({ searchedUsers, fetching }) => {
     return {
-        searchedUsers
+        searchedUsers, fetching
     };
 }
 

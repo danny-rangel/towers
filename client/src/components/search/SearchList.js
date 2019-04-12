@@ -19,21 +19,24 @@ class SearchList extends Component {
 
     render() {
 
-        if (!this.props.songs) {
+        if (this.props.fetching) {
+            return <div className="ui active centered inline loader" style={{margin: '200px auto'}}></div>
+        } else if (!this.props.songs) {
             return null
-        }
-        return (
-            <div>
-                <div key="searchList" id="searchList" className="ui celled list">
-                    {this.renderList()}
+        } else {
+            return (
+                <div>
+                    <div key="searchList" id="searchList" className="ui celled list">
+                        {this.renderList()}
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
 
-const mapStateToProps = ({ songs }) => {
-    return { songs };
+const mapStateToProps = ({ songs, fetching }) => {
+    return { songs, fetching };
 }
 
 export default connect(mapStateToProps, { isFetching })(SearchList);

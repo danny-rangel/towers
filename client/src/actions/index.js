@@ -67,16 +67,17 @@ export const searchSongs = (term) => async dispatch => {
         }
     });
     //FIX UNDEFINED RES.DATA IF NO RESULTS, CHECK API
-    dispatch(isFetching(false));
+    
     dispatch({ type: SEARCH_SONGS, payload: res.data.results.songs.data});
+    dispatch(isFetching(false));
 };
 
 export const searchUsers = (username) => async dispatch => {
     dispatch(isFetching(true));
     const res = await axios.get(`/api/users/${username}`);
     
-    dispatch(isFetching(false));
     dispatch({ type: SEARCH_USERS, payload: res.data });
+    dispatch(isFetching(false));
 };
 
 
