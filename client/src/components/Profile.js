@@ -95,23 +95,31 @@ const Profile = ({ user, auth, match, posts, following, followUser, isFollowing,
                                     <h2 id="profileStatsText" >{user.postsNumber}</h2>
                                 </div>
                                 <div>
-                                    <Link to={`/followers/${user._id}`} >
-                                        <h2 id="profileStatsText">{user.followersCount}</h2>
-                                    </Link>
+                                    <h2 id="profileStatsText">
+                                        <Link to={`/followers/${user._id}`}  style={{color: 'white'}}>
+                                            {user.followersCount}
+                                        </Link>
+                                    </h2>
                                 </div>
                                 <div>
-                                    <Link to={`/following/${user._id}`} >
-                                        <h2 id="profileStatsText">{user.followingCount}</h2>
-                                    </Link>
+                                    <h2 id="profileStatsText">
+                                        <Link to={`/following/${user._id}`} style={{color: 'white'}}>
+                                            {user.followingCount}
+                                        </Link>
+                                    </h2>
                                 </div>
                                 <div id="profileStatsText">
                                     {user.postsNumber === 1 ? 'song': 'songs'}
                                 </div>
                                 <div id="profileStatsText">
-                                    listeners
+                                    <Link to={`/followers/${user._id}`}  style={{color: 'white'}}>
+                                        listeners
+                                    </Link>
                                 </div>
                                 <div id="profileStatsText">
-                                    listening
+                                    <Link to={`/following/${user._id}`} style={{color: 'white'}}>
+                                        listening
+                                    </Link>
                                 </div>
                             </div>
 
@@ -121,8 +129,8 @@ const Profile = ({ user, auth, match, posts, following, followUser, isFollowing,
                                         onClick={() => follow(user, auth)} 
                                         id="profileStatsButton"
                                         className={`ui ${followPressed ? 'disabled' : ''} button`}
-                                        style={{backgroundColor: following ? '#357cb9' : 'white', 
-                                        color: following ? 'white' : 'black'}} >
+                                        style={{backgroundColor: following ? 'white' : '#357cb9', 
+                                        color: following ? 'black' : 'white'}} >
                                         {following ? 'Listening' : 'Listen'}
                                     </button> 
                                     : 
