@@ -96,7 +96,7 @@ class PostItem extends Component {
                         // onMouseOver={() => this.selectAndPlayPost(post)} AUTO PLAY FUNCTIONALITY ?
                         onMouseOut={() => this.setState({ showButton: false})} 
                         id="imageContainer" 
-                        onClick={() => this.selectAndPlayPost(post)} 
+                        onClick={this.props.isSongLoading ? null : () => this.selectAndPlayPost(post)} 
                         className="image"
                         >
                         <div className="ui placeholder" style={{display: this.state.loaded ? 'none' : 'block'}}>
@@ -107,12 +107,18 @@ class PostItem extends Component {
                             style={{
                                 visibility: showButton ? 'visible' : 'hidden',
                                 opacity: showButton ? '1' : '0',
-                                transition: showButton ? 'all .2s ease-in-out' : 'all .2s ease-in-out'
+                                transition: showButton ? 'all .2s ease-in-out' : 'all .2s ease-in-out',
+                                display: this.props.isSongLoading ? 'none' : 'block'
                             }}
                             id="imagePlayButton" 
                             >
                         <i id="buttonIcon" className={isPlaying && songPlaying.id === post._id ? "pause icon": "play icon"}></i>
                         </button>
+                        <div 
+                            className="ui active inverted centered inline loader" 
+                            id="songLoader"
+                            style={{margin: '0', display: this.props.isSongLoading && songPlaying.id === post._id ? 'inline-block' : 'none'}}>
+                        </div>
                     </div>
                     <div className="content">
                         <h1 style={{wordWrap: 'break-word', margin: '0px'}} className="header">{post.songName}</h1>
@@ -142,8 +148,8 @@ class PostItem extends Component {
     }
 }
 
-const mapStateToProps = ({ songPlaying, isPlaying, auth, likePost }) => {
-    return { songPlaying, isPlaying, auth, likePost };
+const mapStateToProps = ({ songPlaying, isPlaying, auth, likePost, isSongLoading }) => {
+    return { songPlaying, isPlaying, auth, likePost, isSongLoading };
 }
 
 export default connect(mapStateToProps, { songToPlay, likePost })(PostItem);

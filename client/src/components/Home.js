@@ -25,7 +25,7 @@ const Home = ({ posts, auth, fetching, fetchFollowerPosts, continuefetchFollower
 
         
         if (fetching || !posts) {
-            return <div className="ui active centered inline loader" style={{margin: '200px auto'}}></div>
+            return <div className="ui active inverted centered inline loader" style={{margin: '200px auto'}}></div>
         } else if (posts.length === 0) {
             return (
                 <div style={{margin: '200px auto'}}>
@@ -47,7 +47,7 @@ const Home = ({ posts, auth, fetching, fetchFollowerPosts, continuefetchFollower
                     }}
                     hasMore={posts.length !== postCount}
                     loader={
-                        <div className="ui active centered inline loader" style={{margin: '200px auto'}}></div>
+                        <div className="ui active inverted centered inline loader" style={{margin: '200px auto'}}></div>
                     }
                     endMessage={
                         <h3 style={{textAlign: 'center', color: 'white'}}>

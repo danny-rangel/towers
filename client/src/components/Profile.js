@@ -154,7 +154,7 @@ const Profile = ({ user, auth, match, posts, following, followUser, isFollowing,
                             }}
                             hasMore={posts.length !== postCount}
                             loader={
-                                <div className="ui active centered inline loader" style={{margin: '200px auto'}}></div>
+                                <div className="ui active inverted centered inline loader" style={{margin: '200px auto'}}></div>
                             }
                             endMessage={
                                 <h3 style={{textAlign: 'center', color: 'white'}}>
@@ -171,7 +171,7 @@ const Profile = ({ user, auth, match, posts, following, followUser, isFollowing,
         
 
         if (isLoading || !posts || !user) {
-            return <div className="ui active centered inline loader" style={{margin: '200px auto'}}></div>
+            return <div className="ui active inverted centered inline loader" style={{margin: '200px auto'}}></div>
         }
         else if (user) {
             return <div>{renderProfile()}</div>;

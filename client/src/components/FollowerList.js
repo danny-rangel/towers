@@ -41,7 +41,7 @@ class FollowerList extends Component {
                 <div className="ui feed" id="notificationFeed">
                     {fetching ? 
                         (
-                            <div className="ui active centered inline loader" style={{margin: '200px auto'}}></div>
+                            <div className="ui active inverted centered inline loader" style={{margin: '200px auto'}}></div>
                         ):
                         (
                             this.renderList()

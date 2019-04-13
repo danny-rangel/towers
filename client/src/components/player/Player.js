@@ -4,16 +4,23 @@ import { connect } from 'react-redux';
 import ProgressBar from './ProgressBar';
 import VolumeBar from './VolumeBar';
 import secondsFormatted from '../../utils/secondsFormatted';
-import { setPercentage, setIsPlaying, setIntervalId, setVolume, setTime, setMusicKitIsPlaying, setIntervalIdFlag } from '../../actions';
+import { setPercentage, setIsPlaying, setIntervalId, setVolume, 
+    setTime, setMusicKitIsPlaying, setIntervalIdFlag, songLoading } from '../../actions';
 
 class Player extends Component {
 
-    state = { oldVolume: null };
+    state = { oldVolume: null, buffered: null };
 
+    setProgress = () => {
+        this.setState({buffered: this.props.musicKit.player.currentBufferedProgress});
+        this.props.songLoading(this.props.musicKit.player.playbackState !== 8 ? false : true);
+    }
 
     playSong = async () => {
+        
         if (this.props.intervalIdFlag === null || this.props.intervalIdFlag !== this.props.songPlaying.id)
         {
+            this.props.songLoading(true);
             await this.props.musicKit.setQueue({ url: this.props.songPlaying.url });
         }
 
@@ -27,6 +34,7 @@ class Player extends Component {
         } else if (!this.props.isPlaying || this.props.intervalIdFlag !== this.props.songPlaying.id) {
             clearInterval(this.props.intervalId);
             let intervalId = setInterval(async () => {
+                this.setProgress();
                 this.props.setPercentage(this.props.musicKit.player.currentPlaybackTime / this.props.musicKit.player.currentPlaybackDuration);
                 this.props.setTime(secondsFormatted(this.props.musicKit.player.currentPlaybackTime));
                 await this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
@@ -97,7 +105,16 @@ class Player extends Component {
                 </div>
                 <div>
                     <div id="playButton" >
-                        <button style={{color: 'white', background: 'none'}} id="playButton" onClick={() => this.playSong()} ><i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i></button>
+                        <button 
+                            style={{color: 'white', background: 'none', display: this.props.isSongLoading ? 'none' : 'inline-block' }}
+                            id="playButton"
+                            onClick={() => this.playSong()} >
+                            <i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i>
+                        </button>
+                        <div 
+                            className="ui active inverted centered inline loader" 
+                            style={{margin: '0', display: this.props.isSongLoading ? 'inline-block' : 'none'}}>
+                        </div>
                     </div>
                 </div>
                 <div id="playBackInfo">
@@ -127,8 +144,17 @@ class Player extends Component {
                     <div id="songName" >{this.props.songPlaying.name}</div>
                     <div id="artistName" >{this.props.songPlaying.artist}</div>
                 </div>
-                <div id="playButton" >
-                    <button style={{color: 'white', background: 'none'}} id="playButton" onClick={() => this.playSong()} ><i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i></button>
+                <div id="playButton">
+                    <button 
+                        style={{ color: 'white', background: 'none', display: this.props.isSongLoading ? 'none' : 'inline-block' }}
+                        id="playButton" 
+                        onClick={() => this.playSong()} >
+                        <i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i>
+                    </button>
+                    <div 
+                            className="ui active inverted centered inline loader" 
+                            style={{margin: '0', display: this.props.isSongLoading ? 'inline-block' : 'none'}}>
+                        </div>
                 </div>
             </div>
             </>
@@ -154,8 +180,11 @@ class Player extends Component {
     }
 };
 
-const mapStateToProps = ({ songPlaying, percentage, isPlaying, musicKit, intervalId, intervalIdFlag, volume, time, musicKitIsPlaying }) => {
-    return { songPlaying, percentage, isPlaying, musicKit, intervalId, intervalIdFlag, volume, time, musicKitIsPlaying }
+const mapStateToProps = ({ songPlaying, percentage, isPlaying, musicKit, intervalId, 
+    intervalIdFlag, volume, time, musicKitIsPlaying, isSongLoading }) => {
+    return { songPlaying, percentage, isPlaying, musicKit, intervalId, 
+        intervalIdFlag, volume, time, musicKitIsPlaying, isSongLoading };
 }
 
-export default connect(mapStateToProps, { setPercentage, setIsPlaying, setIntervalId, setVolume, setTime, setMusicKitIsPlaying, setIntervalIdFlag })(Player);
+export default connect(mapStateToProps, { setPercentage, setIsPlaying, setIntervalId, setVolume, 
+    setTime, setMusicKitIsPlaying, setIntervalIdFlag, songLoading })(Player);

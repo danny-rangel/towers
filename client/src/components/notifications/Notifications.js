@@ -29,7 +29,7 @@ class Notifications extends Component {
                 </div>
                 {fetching ? 
                     (
-                        <div className="ui active centered inline loader" style={{margin: '200px auto'}}></div>
+                        <div className="ui active inverted centered inline loader" style={{margin: '200px auto'}}></div>
                     ) : 
                     (
                         <NotificationList notifications={notifications}/>
