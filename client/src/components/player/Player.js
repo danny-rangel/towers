@@ -13,7 +13,7 @@ class Player extends Component {
 
     setProgress = () => {
         this.setState({buffered: this.props.musicKit.player.currentBufferedProgress});
-        this.props.songLoading(this.props.musicKit.player.playbackState !== 8 ? false : true);
+        this.props.songLoading((this.props.musicKit.player.playbackState !== 8 && this.props.musicKit.player.playbackState !== 0) ? false : true);
     }
 
     playSong = async () => {
