@@ -106,10 +106,10 @@ class Player extends Component {
                 <div>
                     <div id="playButton" >
                         <button 
-                            style={{color: 'white', background: 'none', display: this.props.isSongLoading ? 'none' : 'inline-block' }}
+                            style={{color: 'white', background: 'none', display: this.props.isSongLoading && this.props.isPlaying ? 'none' : 'inline-block' }}
                             id="playButton"
                             onClick={() => this.playSong()} >
-                            <i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i>
+                            <i className={!this.props.isSongLoading && this.props.isPlaying ? 'pause icon': 'play icon'}></i>
                         </button>
                         <div 
                             className="ui active inverted centered inline loader" 
@@ -146,10 +146,10 @@ class Player extends Component {
                 </div>
                 <div id="playButton">
                     <button 
-                        style={{ color: 'white', background: 'none', display: this.props.isSongLoading ? 'none' : 'inline-block' }}
+                        style={{ color: 'white', background: 'none', display: this.props.isSongLoading && this.props.isPlaying ? 'none' : 'inline-block' }}
                         id="playButton" 
                         onClick={() => this.playSong()} >
-                        <i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i>
+                        <i className={!this.props.isSongLoading && this.props.isPlaying ? 'pause icon': 'play icon'}></i>
                     </button>
                     <div 
                             className="ui active inverted centered inline loader" 
