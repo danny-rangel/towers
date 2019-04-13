@@ -44,7 +44,7 @@ class Player extends Component {
                     clearInterval(this.props.intervalId);
                      
                 }
-            }, 500);
+            }, 250);
                 this.props.setIntervalId(intervalId);
                 await this.props.musicKit.player.play();
                 this.props.setIsPlaying(true);
