@@ -13,7 +13,7 @@ class Player extends Component {
 
     setProgress = () => {
         this.setState({buffered: this.props.musicKit.player.currentBufferedProgress});
-        this.props.songLoading((this.props.musicKit.player.playbackState !== 8 && this.props.musicKit.player.playbackState !== 0) ? false : true);
+        this.props.songLoading((this.props.musicKit.player.playbackState !== 8 && this.props.musicKit.player.playbackState !== 0 && this.props.isPlaying) ? false : true);
     }
 
     playSong = async () => {
@@ -50,7 +50,6 @@ class Player extends Component {
                 this.props.setIsPlaying(true);
                 this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
                 this.props.setIntervalIdFlag(this.props.songPlaying.id);
-            
         } 
     }
 
@@ -106,10 +105,12 @@ class Player extends Component {
                 <div>
                     <div id="playButton" >
                         <button 
-                            style={{color: 'white', background: 'none', display: this.props.isSongLoading && this.props.isPlaying ? 'none' : 'inline-block' }}
+                            style={{color: 'white', 
+                                background: 'none', 
+                                display: this.props.isSongLoading ? 'none' : 'inline-block' }}
                             id="playButton"
                             onClick={() => this.playSong()} >
-                            <i className={!this.props.isSongLoading && this.props.isPlaying ? 'pause icon': 'play icon'}></i>
+                            <i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i>
                         </button>
                         <div 
                             className="ui active inverted centered inline loader" 
@@ -146,10 +147,10 @@ class Player extends Component {
                 </div>
                 <div id="playButton">
                     <button 
-                        style={{ color: 'white', background: 'none', display: this.props.isSongLoading && this.props.isPlaying ? 'none' : 'inline-block' }}
+                        style={{ color: 'white', background: 'none', display: this.props.isSongLoading ? 'none' : 'inline-block' }}
                         id="playButton" 
                         onClick={() => this.playSong()} >
-                        <i className={!this.props.isSongLoading && this.props.isPlaying ? 'pause icon': 'play icon'}></i>
+                        <i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i>
                     </button>
                     <div 
                             className="ui active inverted centered inline loader" 
