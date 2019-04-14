@@ -4,6 +4,7 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 const passportSocketIo = require("passport.socketio");
+const requireHTTPS = require('./middlewares/requireHTTPS');
 require('./models/User');
 require('./models/Post');
 require('./models/Follow');
@@ -66,14 +67,7 @@ io.use(passportSocketIo.authorize({
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
-
-    // app.use((req, res, next) => {
-    //     if (!req.secure) {
-    //         return res.redirect('https://' + req.get('host') + req.url);
-    //     }
-    //     next();
-    // });
-
+    app.use(requireHTTPS);
 
 
     const path = require('path');
