@@ -68,10 +68,13 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 
     app.use((req, res, next) => {
-        if(!req.secure){
-            res.redirect("https://" + req.headers.host + req.url);
-          }
-      });
+        if (!req.secure) {
+            return res.redirect('https://' + req.get('host') + req.url);
+        }
+        next();
+    });
+
+
 
     const path = require('path');
     app.get('*', (req, res) => {
