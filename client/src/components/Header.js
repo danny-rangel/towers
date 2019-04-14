@@ -159,7 +159,7 @@ class Header extends Component {
         switch(this.props.sidebar) {
             case true:
                 return (
-                        <div className="ui right vertical inverted visible sidebar menu">
+                        <div id="sidebar" className="ui right vertical inverted visible sidebar menu">
                             <button id="closeButton" className="item">
                                 <i onClick={() => this.props.showSidebar(false)} id="closeIcon" className="x icon"></i>
                             </button>
@@ -178,7 +178,7 @@ class Header extends Component {
         switch(this.props.sidebar) {
             case true:
                 return (
-                        <div  className="ui right vertical inverted visible sidebar menu">
+                        <div id="sidebar" className="ui right vertical inverted visible sidebar menu">
                             <button id="closeButton" className="item">
                                 <i onClick={() => this.props.showSidebar(false)} id="closeIcon" className="x icon"></i>
                             </button>

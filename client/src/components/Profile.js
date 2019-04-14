@@ -68,7 +68,7 @@ const Profile = ({ user, auth, match, posts, following, followUser, isFollowing,
 
     const renderProfile = () => {
             return (
-                <div>
+                <>
                     <div id="topProfileContainer" className="ui inverted vertical masthead center aligned segment">
                         {
                             auth ? 
@@ -164,7 +164,7 @@ const Profile = ({ user, auth, match, posts, following, followUser, isFollowing,
                             <PostList posts={posts}/>
                         </InfiniteScroll>
                     </div>
-                </div>
+                </>
             );
         }
 
