@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './Header.css';
-import { isMusicKitAuthorized, showSidebar, haveNewNotifications, fetchAllFollowerPostsCount, fetchFollowerPosts } from '../actions';
+import { isMusicKitAuthorized, showSidebar, haveNewNotifications, fetchAllFollowerPostsCount, fetchFollowerPosts, viewNotifications } from '../actions';
 import socket from '../utils/socketClient';
 
 class Header extends Component {
@@ -40,6 +40,11 @@ class Header extends Component {
         this.props.fetchAllFollowerPostsCount();
         this.props.fetchFollowerPosts();
         this.setState({ newPost: false });
+    }
+
+    clearNewNotifications = async () => {
+        await this.props.viewNotifications();
+        this.props.haveNewNotifications();
     }
 
     renderContent() {
@@ -230,7 +235,11 @@ class Header extends Component {
                     <Link style={{ display: this.props.auth ? 'flex' : 'none' }} to='/search/songs' className="item">
                         <div id="searchbutton"><i className="search icon"></i></div>
                     </Link>
-                    <Link style={{ display: this.props.auth ? 'flex' : 'none' }} to='/notifications' className="item">
+                    <Link 
+                        onClick={this.props.newNotifications ? this.clearNewNotifications : null}
+                        style={{ display: this.props.auth ? 'flex' : 'none' }} 
+                        to='/notifications' 
+                        className="item">
                         <div id="notificationbutton">
                             <i className="bell icon"></i>
                             <div 
@@ -291,7 +300,12 @@ class Header extends Component {
                         <i id="mobilesearchIcon" className="search icon"></i>
                     </div>
                 </Link>
-                <Link style={{ display: this.props.auth ? 'flex' : 'none' }} id="mobileaboutbutton" to='/notifications' className="item">
+                <Link 
+                    onClick={this.props.newNotifications ? this.clearNewNotifications : null}
+                    style={{ display: this.props.auth ? 'flex' : 'none' }} 
+                    id="mobileaboutbutton" 
+                    to='/notifications' 
+                    className="item">
                     <div id="buttonText">
                         <i 
                             id="mobileaboutIcon" 
@@ -332,4 +346,5 @@ const mapStateToProps = ({ auth, authorized, musicKit, sidebar, newNotifications
     return { auth, authorized, musicKit, sidebar, newNotifications };
 }
 
-export default connect(mapStateToProps, { isMusicKitAuthorized, showSidebar, haveNewNotifications, fetchAllFollowerPostsCount, fetchFollowerPosts } )(Header);
+export default connect(mapStateToProps, { isMusicKitAuthorized, showSidebar, haveNewNotifications, fetchAllFollowerPostsCount, 
+    fetchFollowerPosts, viewNotifications } )(Header);
