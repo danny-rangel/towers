@@ -68,10 +68,9 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 
     app.use((req, res, next) => {
-        if (req.header('x-forwarded-proto') !== 'https')
-          res.redirect(`https://${req.header('host')}${req.url}`)
-        else
-          next()
+        if(!req.secure){
+            res.redirect("https://" + req.headers.host + req.url);
+          }
       });
 
     const path = require('path');
