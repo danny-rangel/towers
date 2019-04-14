@@ -67,12 +67,12 @@ io.use(passportSocketIo.authorize({
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 
-    app.use((req, res, next) => {
-        if (!req.secure) {
-            return res.redirect('https://' + req.get('host') + req.url);
-        }
-        next();
-    });
+    // app.use((req, res, next) => {
+    //     if (!req.secure) {
+    //         return res.redirect('https://' + req.get('host') + req.url);
+    //     }
+    //     next();
+    // });
 
 
 
