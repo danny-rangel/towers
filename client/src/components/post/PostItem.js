@@ -132,7 +132,7 @@ class PostItem extends Component {
                             <i 
                                 style={{color: 'red', pointerEvents: this.state.likeButtonPressed ? 'none' : 'auto'}}
                                 className={liked ? 'heart like icon' : 'heart outline like icon'} 
-                                onClick={() => this.collectAndSubmitLike(post)}
+                                onClick={this.props.auth ? () => this.collectAndSubmitLike(post) : null}
                                 >
                             </i>
                             <Link to={`/users/${post._id}`} style={{cursor: 'pointer', display: 'inline-block', color: 'black'}} >{post.likes} likes</Link>

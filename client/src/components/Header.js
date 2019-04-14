@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './Header.css';
@@ -19,16 +19,20 @@ class Header extends Component {
         this.props.isMusicKitAuthorized(res);
     }
 
-    componentDidMount() {
-        // FIX: ONLY CALL ACTION CREATOR IF AUTH EXISTS
-        this.props.haveNewNotifications();
-        socket.on('notification', () => {
-            this.props.haveNewNotifications();
-        });
-
-        socket.on('post', () => {
-            this.setState({ newPost: true })
-        });
+    componentDidUpdate(prevProps) {
+        if (prevProps.auth !== this.props.auth) {
+            if (this.props.auth) {
+                this.props.haveNewNotifications();
+                socket.on('notification', () => {
+                    this.props.haveNewNotifications();
+                });
+    
+                socket.on('post', () => {
+                    this.setState({ newPost: true })
+                });
+            }
+        }
+        
     }
 
 
