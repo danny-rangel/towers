@@ -5,6 +5,7 @@ import { fetchUser, fetchMusicInstance, isMusicKitAuthorized, setVolume } from '
 import history from '../history';
 import ScrollToTop from './ScrollToTop';
 import './App.css';
+import * as Sentry from '@sentry/browser';
 
 import Header from './Header';
 import Landing from './Landing';
@@ -41,8 +42,13 @@ class App extends Component {
               }, 1000)
             }
         });
-        await this.props.fetchUser();
-        await this.props.fetchMusicInstance();
+        try {
+            await this.props.fetchUser();
+            await this.props.fetchMusicInstance();
+        } catch (err) {
+            Sentry.captureException(err);
+        }
+        
         this.props.isMusicKitAuthorized(this.props.musicKit.isAuthorized);
         this.props.musicKit.volume = 1;
         this.props.setVolume(this.props.musicKit.volume);
