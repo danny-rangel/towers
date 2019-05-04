@@ -32,9 +32,6 @@ module.exports = (app) => {
             req.user.postsNumber += 1;
             await req.user.save();
 
-
-
-            
             const socketio = req.app.get('socketio');
             const follows = await Follow.find({ personFollowingId: userId }).select({ "personFollowedId": 1 , "_id": 0});
             const followsArray = follows.map((follow) => {

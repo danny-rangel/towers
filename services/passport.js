@@ -22,7 +22,6 @@ passport.use(new GoogleStrategy({
     }, 
     async (accessToken, refreshToken, profile, done) => {
         const existingUser = await User.findOne({ googleId: profile.id });
-
         if (existingUser) {
             // we have a record with the given profile
             return done(null, existingUser);
