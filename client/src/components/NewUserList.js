@@ -1,19 +1,23 @@
 import React, { useEffect } from 'react';
 import NewUserListItem from './NewUserListItem';
 
-const NewUserList = ({ users, fetchList }) => {
+const NewUserList = ({ users }) => {
 
     useEffect(() => {
         console.log('Mounted', users);
-        // fetchList();
     }, [])
 
     if (!users) {
-        return null;
+        return <div style={{color: 'white'}}>Hi</div>;
     } else {
-        return <div>{users.map(user => 
-            <NewUserListItem user={user} />
-        )}</div>
+        return (
+            <>
+                {users.map(user => 
+                    <NewUserListItem user={user} />
+                )}
+            </>
+        );
+
     }
 
 }
