@@ -26,11 +26,16 @@ const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const sessionStore = new RedisStore({ client: client });
 
+
 app.use(session({
     store: sessionStore,
     secret: 'whatislovebabydonthurtme',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: { 
+        httpOnly: true, 
+        maxAge:  1000 * 60 * 60 * 24 * 365 // 1 year cookie
+    } 
 }));
 app.use(passport.initialize());
 app.use(passport.session());
