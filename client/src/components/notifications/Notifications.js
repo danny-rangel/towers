@@ -15,7 +15,7 @@ class Notifications extends Component {
         this.props.haveNewNotifications();
         this.props.isFetching(false);
 
-        socket.on('notification', (data) => {
+        socket.on('notification', () => {
             this.props.fetchNotifications();
         });
     }

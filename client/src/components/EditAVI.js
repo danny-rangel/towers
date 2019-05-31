@@ -46,7 +46,6 @@ class EditAVI extends Component {
     );
 
     content = (
-            
                 <div style={{padding: '10px', margin: 0 }} >
                     <div className="ui equal width form">
                         <div >
@@ -62,16 +61,16 @@ class EditAVI extends Component {
     );
 
     render() {
-        const { auth } = this.props;
+        const { auth, fetching } = this.props;
         
         if (!auth) {
             return <div></div>;
-        } else if (this.props.fetching) {
+        } else if (fetching) {
             return <Spinner />
         } else {
             return (
                 <>
-                    <Modal onDismiss={() => history.push(`/${this.props.auth.username}`)} header={this.header} content={this.content} />
+                    <Modal onDismiss={() => history.push(`/${auth.username}`)} header={this.header} content={this.content} />
                 </>
             );
         }

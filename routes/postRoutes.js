@@ -10,7 +10,8 @@ module.exports = (app) => {
 
     //MAKE NEW POST
     app.post('/api/posts', requireLogin, async (req, res) => {
-        const { songName, artistName, albumArt, caption, username, songURL, durationInMillis, previewURL, userId, albumName, genres } = req.body;
+        const { songName, artistName, albumArt, caption, username, songURL, 
+            durationInMillis, previewURL, userId, albumName, genres } = req.body;
 
         const post = new Post({
             username: username,
@@ -114,8 +115,8 @@ module.exports = (app) => {
                 }
             } else {
                 try {
-                    await PostLike.findOneAndDelete({ postId: postId, likerId: likerId }).exec();
-                    await Notification.findOneAndDelete({ postId: postId }).exec();
+                    await PostLike.findOneAndDelete({ postId, likerId }).exec();
+                    await Notification.findOneAndDelete({ postId }).exec();
                     let newPost = await Post.findOneAndUpdate({ _id: postId },{ $inc : { likes: -1 }}, {new: true}).exec();
                     res.send(newPost);
                 } catch (err) {
@@ -172,7 +173,7 @@ module.exports = (app) => {
     //FETCH ALL USER POSTS COUNT
     app.get('/api/postCount/:username', async (req, res) => {
         const { username } = req.params;
-        const postsCount = await Post.countDocuments({ username: username });
+        const postsCount = await Post.countDocuments({ username });
         res.send({postsCount});
     });
 

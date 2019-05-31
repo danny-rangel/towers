@@ -19,14 +19,14 @@ class EditProfile extends Component {
         }
     }
 
-    lower = value => value && value.toLowerCase()
+    lower = value => value && value.toLowerCase();
     
-    onSubmit = async (formValues) => {
+    onSubmit = async ({ username, aboutme }) => {
         this.props.isFetching(true);
         let profile = {
             id: this.props.auth._id,
-            username: formValues.username,
-            aboutme: formValues.aboutme,
+            username,
+            aboutme,
         }
         await this.props.updateProfile(profile);
         this.props.isFetching(false);
@@ -99,16 +99,16 @@ class EditProfile extends Component {
     );
 
     render() {
-        const { auth } = this.props;
+        const { auth, fetching } = this.props;
         
         if (!auth) {
             return <div></div>;
-        } else if (this.props.fetching) {
+        } else if (fetching) {
             return <Spinner />
         } else {
             return (
                 <>
-                    <Modal onDismiss={() => history.push(`/${this.props.auth.username}`)} header={this.header} content={this.content} />
+                    <Modal onDismiss={() => history.push(`/${auth.username}`)} header={this.header} content={this.content} />
                 </>
             );
         }
@@ -126,26 +126,26 @@ const mapStateToProps = ({ auth, fetching }) => {
     };
 }
 
-const validate = (formValues) => {
+const validate = ({ username, aboutme }) => {
     const errors = {};
 
-    if (!formValues.username) {
+    if (!username) {
         errors.username = 'You must enter a username!';
     }
 
 
-    if (formValues.username) {
-        if (formValues.username.length > 30) {
+    if (username) {
+        if (username.length > 30) {
             errors.username = 'Your username is too long!';
         }
 
-        if (!formValues.username.match(/^\w+$/)) {
+        if (!username.match(/^\w+$/)) {
             errors.username = 'Usernames can only use letters, numbers, and underscores.';
         }
     }
 
-    if (formValues.aboutme) {
-        if (formValues.aboutme.length > 110) {
+    if (aboutme) {
+        if (aboutme.length > 110) {
             errors.aboutme = 'Your bio is too long!';
         }
     }

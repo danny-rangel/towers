@@ -14,7 +14,8 @@ class PostList extends Component {
     }
 
     render() {
-        if (!this.props.posts) {
+        const { posts } = this.props;
+        if (!posts) {
             return null;
         } else {
             return (

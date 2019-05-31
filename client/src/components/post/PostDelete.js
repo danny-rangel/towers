@@ -27,7 +27,8 @@ class PostDelete extends Component {
     );
 
     render() {
-        if (!this.props.fetchedPost) {
+        const { fetchedPost } = this.props;
+        if (!fetchedPost) {
             return null;
         } else {
             return (

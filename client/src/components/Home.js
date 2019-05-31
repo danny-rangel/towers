@@ -7,7 +7,8 @@ import { Link } from 'react-router-dom';
 import { fetchFollowerPosts, isFetching, continuefetchFollowerPosts, fetchAllFollowerPostsCount } from '../actions';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-const Home = ({ posts, auth, fetching, fetchFollowerPosts, continuefetchFollowerPosts, isFetching, postCount, fetchAllFollowerPostsCount }) => {
+const Home = ({ posts, auth, fetching, fetchFollowerPosts, continuefetchFollowerPosts, 
+    isFetching, postCount, fetchAllFollowerPostsCount }) => {
 
     const [page, setPage] = useState(0);
 
@@ -32,7 +33,12 @@ const Home = ({ posts, auth, fetching, fetchFollowerPosts, continuefetchFollower
                     <h2 style={{textAlign: 'center', color: 'white'}}>
                         <b>Seems a little lonely in here.</b>
                         <br></br>
-                        <b>Want to <Link to="/search/users" style={{textDecoration: 'underline', color: 'white'}}>search</Link> for some friends?</b>
+                        <b>Want to 
+                            <Link to="/search/users" style={{textDecoration: 'underline', color: 'white'}}>
+                                search
+                            </Link> 
+                            for some friends?
+                        </b>
                     </h2>
                 </div>
             );
@@ -47,7 +53,8 @@ const Home = ({ posts, auth, fetching, fetchFollowerPosts, continuefetchFollower
                     }}
                     hasMore={posts.length !== postCount}
                     loader={
-                        <div className="ui active inverted centered inline loader" style={{margin: '200px auto'}}></div>
+                        <div className="ui active inverted centered inline loader" style={{margin: '200px auto'}}>
+                        </div>
                     }
                     endMessage={
                         <h3 style={{textAlign: 'center', color: 'white'}}>

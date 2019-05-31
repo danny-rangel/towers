@@ -17,7 +17,6 @@ const NewUserList = ({ users }) => {
                 )}
             </>
         );
-
     }
 
 }

@@ -26,10 +26,10 @@ class SearchBar extends React.Component{
 }
 
 
-const validate = (formValues) => {
+const validate = ({ searchTerms }) => {
     const errors = {};
 
-    if (!formValues.searchTerms || formValues.searchTerms.startsWith(' ')) {
+    if (!searchTerms || searchTerms.startsWith(' ')) {
         errors.searchTerms = 'You must enter something!';
     }
 

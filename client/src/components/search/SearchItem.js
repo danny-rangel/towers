@@ -25,42 +25,49 @@ class SearchItem extends Component {
 
 
     render() {
+        const { song, auth, selectSong } = this.props;
+        const { loaded } = this.state;
         return (
             <div id="itemContainer" className="item">
-                <div id="searchListItem" onClick={() => this.selectAndPlaySong(this.props.song)} >
+                <div id="searchListItem" onClick={() => this.selectAndPlaySong(song)} >
                     <div id="albumImageContainer">
-                        <div className="ui placeholder" style={{display: this.state.loaded ? 'none' : 'block', width: '150px'}}>
+                        <div className="ui placeholder" style={{display: loaded ? 'none' : 'block', width: '150px'}}>
                             <div className="square image" ></div>
                         </div>
                         <img
                             id="searchAlbumImage"
                             className="ui image" 
-                            onLoad={() => this.setState({ loaded: true })} style={{display: this.state.loaded ? 'block' : 'none'}}
-                            alt={this.props.song.attributes.name} 
-                            src={window.MusicKit.formatArtworkURL(this.props.song.attributes.artwork, 150, 150)}
+                            onLoad={() => this.setState({ loaded: true })} style={{display: loaded ? 'block' : 'none'}}
+                            alt={song.attributes.name} 
+                            src={window.MusicKit.formatArtworkURL(song.attributes.artwork, 150, 150)}
                             >
                         </img>
                     </div>
                     <div id="searchListSongInfo" >
                         <div className="header" id="songName" >
-                            {this.props.song.attributes.name}
+                            {song.attributes.name}
                         </div>
                         <div id="artistName">
-                            {this.props.song.attributes.artistName}
+                            {song.attributes.artistName}
                         </div>
                     </div>
                     <div id="searchListSongAlbumInfo" >
                         <div className="header" >
-                            {this.props.song.attributes.albumName}
+                            {song.attributes.albumName}
                         </div>
                     </div>
                     <div id="searchListSongTime" >
                         <div className="header" >
-                            {secondsFormatted(this.props.song.attributes.durationInMillis / 1000)}
+                            {secondsFormatted(song.attributes.durationInMillis / 1000)}
                         </div>
                     </div>
-                    <div style={{display: this.props.auth ? 'inline-block': 'none' }} id="postButton" onClick={(e) => e.stopPropagation()} className="column">
-                        <Link onClick={() => this.props.selectSong(this.props.song)} to="/posts/new" className="ui inverted blue button">Post</Link>
+                    <div 
+                        style={{display: auth ? 'inline-block': 'none' }} 
+                        id="postButton" 
+                        onClick={(e) => e.stopPropagation()} 
+                        className="column"
+                    >
+                        <Link onClick={() => selectSong(song)} to="/posts/new" className="ui inverted blue button">Post</Link>
                     </div>
                 </div>
             </div>

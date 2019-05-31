@@ -17,25 +17,25 @@ class PostItem extends Component {
     async componentDidMount() {
         const { post, auth } = this.props;
 
-        if (auth) {
+        if (auth) 
+        {
             this._isMounted = true;
             const res = await axios.get(`/api/postsLike/${auth._id}/${post._id}`);
             if (this._isMounted) {this.setState({ liked: res.data })};
         }
-
     }
 
 
-    selectAndPlayPost = (post) => {
+    selectAndPlayPost = ({ songURL, _id, songName, artistName, albumName, albumArt }) => {
         const { songToPlay } = this.props;
 
         let nowPlaying = {
-            url : post.songURL,
-            id : post._id,
-            name : post.songName,
-            artist : post.artistName,
-            album : post.albumName,
-            artwork : post.albumArt,
+            url : songURL,
+            id : _id,
+            name : songName,
+            artist : artistName,
+            album : albumName,
+            artwork : albumArt,
             played: Math.floor((Math.random() * 1000) + 1)
         }
         songToPlay(nowPlaying);
@@ -43,7 +43,7 @@ class PostItem extends Component {
 
 
     async collectAndSubmitLike(likedPost) {
-        this.setState({likeButtonPressed: true});
+        this.setState({ likeButtonPressed: true });
         const { auth, likePost, post } = this.props;
 
         const newLike =  {
@@ -55,18 +55,19 @@ class PostItem extends Component {
         await likePost(newLike);
         const res = await axios.get(`/api/postsLike/${auth._id}/${post._id}`);
         if (this._isMounted) {this.setState({ liked: res.data })};
-        this.setState({likeButtonPressed: false});
+        this.setState({ likeButtonPressed: false });
     }
 
 
-    componentWillUnmount() {
+    componentWillUnmount() 
+    {
         this._isMounted = false;
     }
 
 
     render() {
-        const { post, auth, songPlaying, isPlaying } = this.props;
-        const { showButton, liked } = this.state;
+        const { post, auth, songPlaying, isPlaying, isSongLoading } = this.props;
+        const { showButton, liked, likeButtonPressed, loaded } = this.state;
 
         if (!post) {
             return null;
@@ -96,19 +97,24 @@ class PostItem extends Component {
                         // onMouseOver={() => this.selectAndPlayPost(post)} AUTO PLAY FUNCTIONALITY ?
                         onMouseOut={() => this.setState({ showButton: false})} 
                         id="imageContainer" 
-                        onClick={this.props.isSongLoading ? null : () => this.selectAndPlayPost(post)} 
+                        onClick={isSongLoading ? null : () => this.selectAndPlayPost(post)} 
                         className="image"
                         >
-                        <div className="ui placeholder" style={{display: this.state.loaded ? 'none' : 'block'}}>
+                        <div className="ui placeholder" style={{display: loaded ? 'none' : 'block'}}>
                             <div className="square image" style={{width: '100%', height: 'auto'}}></div>
                         </div>
-                        <img alt={post.songName} src={post.albumArt} onLoad={() => this.setState({ loaded: true })} style={{display: this.state.loaded ? 'block' : 'none'}}></img>
+                        <img 
+                            alt={post.songName} 
+                            src={post.albumArt} 
+                            onLoad={() => this.setState({ loaded: true })} 
+                            style={{display: loaded ? 'block' : 'none'}}>
+                        </img>
                         <button 
                             style={{
                                 visibility: showButton ? 'visible' : 'hidden',
                                 opacity: showButton ? '1' : '0',
                                 transition: showButton ? 'all .2s ease-in-out' : 'all .2s ease-in-out',
-                                display: this.props.isSongLoading ? 'none' : 'block'
+                                display: isSongLoading ? 'none' : 'block'
                             }}
                             id="imagePlayButton" 
                             >
@@ -117,7 +123,7 @@ class PostItem extends Component {
                         <div 
                             className="ui active inverted centered inline loader" 
                             id="songLoader"
-                            style={{margin: '0', display: this.props.isSongLoading && songPlaying.id === post._id ? 'inline-block' : 'none'}}>
+                            style={{margin: '0', display: isSongLoading && songPlaying.id === post._id ? 'inline-block' : 'none'}}>
                         </div>
                     </div>
                     <div className="content">
@@ -130,9 +136,9 @@ class PostItem extends Component {
                         </div>
                         <span  className="left floated">
                             <i 
-                                style={{color: 'red', pointerEvents: this.state.likeButtonPressed ? 'none' : 'auto'}}
+                                style={{color: 'red', pointerEvents: likeButtonPressed ? 'none' : 'auto'}}
                                 className={liked ? 'heart like icon' : 'heart outline like icon'} 
-                                onClick={this.props.auth ? () => this.collectAndSubmitLike(post) : null}
+                                onClick={auth ? () => this.collectAndSubmitLike(post) : null}
                                 >
                             </i>
                             <Link to={`/users/${post._id}`} style={{cursor: 'pointer', display: 'inline-block', color: 'black'}} >{post.likes} likes</Link>

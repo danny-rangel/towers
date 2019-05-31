@@ -18,10 +18,10 @@ class SearchList extends Component {
     }
 
     render() {
-
-        if (this.props.fetching) {
+        const { fetching, songs } = this.props;
+        if (fetching) {
             return <div className="ui active inverted centered inline loader" style={{margin: '200px auto'}}></div>
-        } else if (!this.props.songs) {
+        } else if (!songs) {
             return null
         } else {
             return (
