@@ -1,16 +1,3 @@
-#listPostCard {
-    width: 420px;
-    margin: auto;
-    box-shadow: 0px 0px 20px #ffffff;
-    
-}
-
-#postItem {
-    margin: 0;
-    padding: 20px 0;
-}
-
-
 #imagePlayButton {
     position: absolute;
     top: 50%;
@@ -20,18 +7,5 @@
     border: none;
     cursor: pointer;
     background: none;
-    outline:none;
-}
-
-
-
-#buttonIcon {
-    color: white;
-    font-size: 5rem;
-    transition: font-size 1s;
-    text-shadow: 0px 0px 20px #ffffff;
-}
-
-#buttonIcon:hover {
-    font-size: 6rem;
+    outline: none;
 }

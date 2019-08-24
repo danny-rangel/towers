@@ -1,24 +1,2 @@
-#caption-input {
-    padding-left: 0px;
-    resize: none;
-    text-align: center;
-}
-
-#field {
-    margin: auto;
-    padding: 15px;
-}
-
-.button.postButton {
-    margin: 20px 28px 15px;
-    width: 100px;
-}
-
 @media only screen and (max-width: 800px) {
-
-    .button.postButton {
-        margin: 20px 20px 15px;
-        width: 80px;
-    }
-
 }

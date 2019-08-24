@@ -4,7 +4,7 @@ import PostForm from './PostForm';
 class PostNew extends Component {
     render() {
         return (
-            <div className="ui container">
+            <div>
                 <PostForm />
             </div>
         );

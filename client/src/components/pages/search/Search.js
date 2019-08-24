@@ -3,15 +3,13 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import SearchBar from './SearchBar';
-import history from '../../history';
-import { searchSongs, searchUsers } from '../../actions';
+import history from '../../../history';
+import { searchSongs, searchUsers } from '../../../actions';
 import './Search.css';
 import SearchList from './SearchList';
 import SearchUserList from './SearchUserList';
 
-
 const Search = ({ searchSongs, searchUsers, match }) => {
-
     const [showUserSearch, setShowUserSearch] = useState(false);
     const [showSongSearch, setShowSongSearch] = useState(true);
 
@@ -19,60 +17,68 @@ const Search = ({ searchSongs, searchUsers, match }) => {
         if (!showSongSearch) {
             setShowSongSearch(true);
             setShowUserSearch(false);
-            
         }
-    }
+    };
 
     const switchUserActive = () => {
         if (!showUserSearch) {
             setShowUserSearch(true);
             setShowSongSearch(false);
         }
-    }
+    };
 
     useEffect(() => {
-        
         if (history.location.pathname.slice(8) === 'users') {
             setShowUserSearch(true);
             setShowSongSearch(false);
         } else {
             setShowSongSearch(true);
             setShowUserSearch(false);
-        };
-    }, [match])
-
+        }
+    }, [match]);
 
     return (
-        <div id="searchContainer" className="ui container">
-            <div style={{color: 'white', textAlign: 'left', margin: '20px 0 0 0'}}>
-                <h1 style={{fontSize: '4rem', fontWeight: '800'}}>Search</h1>
+        <div>
+            <div>
+                <h1>Search</h1>
             </div>
-            <div className="ui two item menu">
+            <div>
                 <Link
-                    to="/search/songs" 
+                    to="/search/songs"
                     onClick={switchSongActive}
-                    className={`${showSongSearch ? `active` : `` } item`}>
+                    className={`${showSongSearch ? `active` : ``}`}
+                >
                     Songs
                 </Link>
-                <Link 
-                    to="/search/users" 
+                <Link
+                    to="/search/users"
                     onClick={switchUserActive}
-                    className={`${showUserSearch ? `active` : `` } item`}>
+                    className={`${showUserSearch ? `active` : ``}`}
+                >
                     Users
-                </Link>    
+                </Link>
             </div>
             <SearchBar
-                placeholder={showSongSearch ? 'Search songs' : 'Search by username'}
-                searchFunction={showSongSearch ? searchSongs : searchUsers }
+                placeholder={
+                    showSongSearch ? 'Search songs' : 'Search by username'
+                }
+                searchFunction={showSongSearch ? searchSongs : searchUsers}
             />
             <Route exact path="/search/songs" component={SearchList}></Route>
-            <Route exact path="/search/users" component={SearchUserList}></Route>
+            <Route
+                exact
+                path="/search/users"
+                component={SearchUserList}
+            ></Route>
         </div>
     );
-}
+};
 
 const mapStateToProps = ({ auth }) => {
-    return { auth }; 
-}
+    return { auth };
+};
 
-export default connect(mapStateToProps, { searchSongs, searchUsers })(Search);
+export default connect(
+    mapStateToProps,
+    { searchSongs, searchUsers }
+)(Search);

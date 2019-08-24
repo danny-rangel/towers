@@ -4,27 +4,12 @@ html,
 body {
     height: 100%;
     width: 100%;
-    padding: 0;
-    background-color: black;
+    margin: 0;
+    background-color: #ffffff;
     font-family: 'Roboto Condensed', sans-serif;
 }
 
 #root {
     height: 100%;
     width: 100%;
-}
-
-#wrapper {
-    min-height: 100%;
-    width: 100%;
-}
-
-.mainWrapper {
-    text-align: center;
-}
-
-#bodyContainer {
-    padding: 90px 0;
-    /* background-color: #2c3e50; */
-    /* background-color: #dfe6e9; */
 }
