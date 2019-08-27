@@ -9,8 +9,6 @@ import {
     updateAVI
 } from '../../../actions';
 import history from '../../../history';
-import Modal from '../../styled/Modal';
-import Spinner from '../../styled/Spinner';
 
 class EditProfile extends Component {
     async componentDidMount() {
@@ -122,15 +120,15 @@ class EditProfile extends Component {
         if (!auth) {
             return <div></div>;
         } else if (fetching) {
-            return <Spinner />;
+            return <></>;
         } else {
             return (
                 <>
-                    <Modal
+                    {/* <Modal
                         onDismiss={() => history.push(`/${auth.username}`)}
                         header={this.header}
                         content={this.content}
-                    />
+                    /> */}
                 </>
             );
         }

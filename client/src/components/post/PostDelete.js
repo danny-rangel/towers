@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPost, deletePost } from '../../actions';
 import history from '../../history';
-import Modal from '../styled/Modal';
 
 class PostDelete extends Component {
     componentDidMount() {
@@ -40,11 +39,11 @@ class PostDelete extends Component {
         } else {
             return (
                 <div style={{ padding: '0px 14px' }}>
-                    <Modal
+                    {/* <Modal
                         onDismiss={() => history.goBack()}
                         content={this.content}
                         header={this.header}
-                    />
+                    /> */}
                 </div>
             );
         }

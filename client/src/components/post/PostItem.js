@@ -71,11 +71,16 @@ const PostItem = ({
     };
 
     useEffect(() => {
-        if (auth) {
+        let isMounted = true;
+        if (auth && isMounted) {
             fetchPostLikes().then(res => {
                 setLiked(res ? res : false);
             });
         }
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     const selectAndPlayPost = ({

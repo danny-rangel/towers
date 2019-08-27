@@ -1,6 +1,7 @@
 import React from 'react';
 import UserListItem from './UserListItem';
 import { connect } from 'react-redux';
+import Loader from '../../styled/Loader';
 import '../notifications/Notifications.css';
 
 const SearchUserList = ({ searchedUsers, fetching }) => {
@@ -19,15 +20,11 @@ const SearchUserList = ({ searchedUsers, fetching }) => {
     };
 
     if (fetching) {
-        return <div></div>;
+        return <Loader width="40px" height="40px" />;
     } else if (!searchedUsers) {
         return null;
     } else {
-        return (
-            <div>
-                <div>{renderList()}</div>
-            </div>
-        );
+        return <>{renderList()}</>;
     }
 };
 

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PostField from './PostField';
 import { submitPost, isFetching } from '../../actions';
 import './PostForm.css';
-import PostModal from '../styled/PostModal';
 import history from '../../history';
 
 class PostForm extends Component {
@@ -88,10 +87,10 @@ class PostForm extends Component {
     render() {
         return (
             <>
-                <PostModal
+                {/* <PostModal
                     onDismiss={() => history.push('/search')}
                     content={this.renderContent()}
-                />
+                /> */}
             </>
         );
     }

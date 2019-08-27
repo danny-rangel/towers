@@ -15,6 +15,7 @@ const Wrapper = styled(Paper)`
         justify-content: center;
         align-items: center;
         border-radius: 0px;
+        flex-direction: column;
 
         ${media.small`
             padding: 20px 10px 80px;

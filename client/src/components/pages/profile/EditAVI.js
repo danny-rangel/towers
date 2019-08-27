@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchUser, isFetching, updateAVI } from '../../../actions';
 import history from '../../../history';
-import Modal from '../../styled/Modal';
 import axios from 'axios';
-import Spinner from '../../styled/Spinner';
 
 class EditAVI extends Component {
     state = { avi: null, percentCompleted: null };
@@ -80,15 +78,15 @@ class EditAVI extends Component {
         if (!auth) {
             return <div></div>;
         } else if (fetching) {
-            return <Spinner />;
+            return <></>;
         } else {
             return (
                 <>
-                    <Modal
+                    {/* <Modal
                         onDismiss={() => history.push(`/${auth.username}`)}
                         header={this.header}
                         content={this.content}
-                    />
+                    /> */}
                 </>
             );
         }

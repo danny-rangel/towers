@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { selectSong, songToPlay } from '../../../actions';
 import { Link } from 'react-router-dom';
 import secondsFormatted from '../../../utils/secondsFormatted';
 import './SearchItem.css';
 
-class SearchItem extends Component {
-    state = { loaded: false };
+const SearchItem = ({ song, auth, selectSong, songToPlay }) => {
+    const [loaded, setLoaded] = useState(false);
 
-    selectAndPlaySong = song => {
+    const selectAndPlaySong = song => {
         let nowPlaying = {
             url: song.attributes.url,
             id: song.id,
@@ -22,61 +22,57 @@ class SearchItem extends Component {
             ),
             played: Math.floor(Math.random() * 1000 + 1)
         };
-        this.props.songToPlay(nowPlaying);
+        songToPlay(nowPlaying);
     };
 
-    render() {
-        const { song, auth, selectSong } = this.props;
-        const { loaded } = this.state;
-        return (
-            <div>
-                <div onClick={() => this.selectAndPlaySong(song)}>
-                    <div>
-                        <div
-                            style={{
-                                display: loaded ? 'none' : 'block'
-                            }}
-                        >
-                            <div></div>
-                        </div>
-                        <img
-                            onLoad={() => this.setState({ loaded: true })}
-                            style={{ display: loaded ? 'block' : 'none' }}
-                            alt={song.attributes.name}
-                            src={window.MusicKit.formatArtworkURL(
-                                song.attributes.artwork,
-                                150,
-                                150
-                            )}
-                        ></img>
-                    </div>
-                    <div>
-                        <div>{song.attributes.name}</div>
-                        <div>{song.attributes.artistName}</div>
-                    </div>
-                    <div>
-                        <div>{song.attributes.albumName}</div>
-                    </div>
-                    <div>
-                        <div>
-                            {secondsFormatted(
-                                song.attributes.durationInMillis / 1000
-                            )}
-                        </div>
-                    </div>
+    return (
+        <div>
+            <div onClick={() => selectAndPlaySong(song)}>
+                <div>
                     <div
-                        style={{ display: auth ? 'inline-block' : 'none' }}
-                        onClick={e => e.stopPropagation()}
+                        style={{
+                            display: loaded ? 'none' : 'block'
+                        }}
                     >
-                        <Link onClick={() => selectSong(song)} to="/posts/new">
-                            Post
-                        </Link>
+                        <div></div>
+                    </div>
+                    <img
+                        onLoad={() => setLoaded(true)}
+                        style={{ display: loaded ? 'block' : 'none' }}
+                        alt={song.attributes.name}
+                        src={window.MusicKit.formatArtworkURL(
+                            song.attributes.artwork,
+                            150,
+                            150
+                        )}
+                    ></img>
+                </div>
+                <div>
+                    <div>{song.attributes.name}</div>
+                    <div>{song.attributes.artistName}</div>
+                </div>
+                <div>
+                    <div>{song.attributes.albumName}</div>
+                </div>
+                <div>
+                    <div>
+                        {secondsFormatted(
+                            song.attributes.durationInMillis / 1000
+                        )}
                     </div>
                 </div>
+                <div
+                    style={{ display: auth ? 'inline-block' : 'none' }}
+                    onClick={e => e.stopPropagation()}
+                >
+                    <Link onClick={() => selectSong(song)} to="/posts/new">
+                        Post
+                    </Link>
+                </div>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
 const mapStateToProps = ({ auth }) => {
     return { auth };

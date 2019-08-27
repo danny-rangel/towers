@@ -2,40 +2,63 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { searchSongs } from '../../../actions';
-import './SearchBar.css';
+import styled from 'styled-components';
 
-class SearchBar extends React.Component {
-    render() {
-        const { searchFunction, handleSubmit, placeholder } = this.props;
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
 
-        return (
-            <div>
-                <div>
-                    <form
-                        onSubmit={handleSubmit(values =>
-                            searchFunction(values.searchTerms)
-                        )}
-                    >
-                        <Field
-                            autoComplete="off"
-                            type="text"
-                            name="searchTerms"
-                            component="input"
-                            placeholder={placeholder}
-                        />
-                    </form>
-                    <button
-                        onClick={handleSubmit(values =>
-                            searchFunction(values.searchTerms)
-                        )}
-                    >
-                        Search
-                    </button>
-                </div>
-            </div>
-        );
-    }
-}
+const StyledField = styled(Field)`
+    padding: 10px;
+    flex: 1;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 1rem;
+    box-sizing: border-box;
+    line-height: 1.1875em;
+    border: none;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+`;
+
+const StyledForm = styled.form`
+    display: flex;
+    align-items: center;
+    width: 400px;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+        0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+        0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+    color: rgba(0, 0, 0, 0.87);
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    background-color: #fff;
+`;
+
+const SearchBar = ({ searchFunction, handleSubmit, placeholder }) => {
+    return (
+        <StyledForm
+            onSubmit={handleSubmit(values =>
+                searchFunction(values.searchTerms)
+            )}
+        >
+            <StyledField
+                autoComplete="off"
+                type="text"
+                name="searchTerms"
+                component="input"
+                placeholder={placeholder}
+            />
+            <IconButton
+                button
+                aria-label="search"
+                onClick={handleSubmit(values =>
+                    searchFunction(values.searchTerms)
+                )}
+            >
+                <SearchIcon />
+            </IconButton>
+        </StyledForm>
+    );
+};
 
 const validate = ({ searchTerms }) => {
     const errors = {};

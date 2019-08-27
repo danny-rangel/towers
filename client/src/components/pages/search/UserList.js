@@ -1,19 +1,21 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import UserListItem from './UserListItem';
 import { fetchPostLikes, isFetching } from '../../../actions';
 import { connect } from 'react-redux';
 import '../notifications/Notifications.css';
 
-class UserList extends Component {
-    async componentDidMount() {
-        this.props.isFetching(true);
-        await this.props.fetchPostLikes(this.props.match.params.id);
-        this.props.isFetching(false);
-    }
+const UserList = ({ fetching, isFetching, fetchPostLikes, match, users }) => {
+    useEffect(() => {
+        const fetchLikes = async () => {
+            isFetching(true);
+            await fetchPostLikes(match.params.id);
+            isFetching(false);
+        };
 
-    renderList() {
-        const { users } = this.props;
+        fetchLikes();
+    }, []);
 
+    const renderList = () => {
         if (users) {
             return users.map(user => {
                 return <UserListItem key={user._id} user={user} />;
@@ -21,20 +23,15 @@ class UserList extends Component {
         } else {
             return <div>No results found</div>;
         }
-    }
+    };
 
-    render() {
-        const { fetching } = this.props;
-        return (
-            <div>
-                <div>
-                    <h1>Likes</h1>
-                </div>
-                <div>{fetching ? <div></div> : this.renderList()}</div>
-            </div>
-        );
-    }
-}
+    return (
+        <>
+            <h1>Likes</h1>
+            {fetching ? <div></div> : renderList()}
+        </>
+    );
+};
 
 const mapStateToProps = ({ users, fetching }) => {
     return {
