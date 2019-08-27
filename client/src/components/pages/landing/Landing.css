@@ -1,0 +1,23 @@
+.background {
+    background: url('../../../images/bg.png') 50% 50% no-repeat;
+    height: 100%;
+    width: 100%;
+}
+
+.logo {
+    background: url('../../../images/logo.svg') 50% 50% no-repeat;
+    background-size: contain;
+    width: 175px;
+    height: 150px;
+}
+
+@media only screen and (max-width: 600px) {
+    .background {
+        background: url('../../../images/mobilebg.svg') 50% 50% no-repeat;
+        background-size: cover;
+    }
+
+    .friends {
+        align-self: flex-end;
+    }
+}

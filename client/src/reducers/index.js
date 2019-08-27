@@ -12,13 +12,10 @@ import songToPlayReducer from './songToPlayReducer';
 import setPercentageReducer from './setPercentageReducer';
 import setIsPlayingReducer from './setIsPlayingReducer';
 import setVolumeReducer from './setVolumeReducer';
-import setIntervalIdReducer from './setIntervalIdReducer';
 import setIntervalIdFlagReducer from './setIntervalIdFlagReducer';
 import setTimeReducer from './setTimeReducer';
-import setMusicKitIsPlayingReducer from './setMusicKitIsPlayingReducer';
 import isMusicKitAuthorizedReducer from './isMusicKitAuthorizedReducer';
 import isFetchingReducer from './isFetchingReducer';
-import showSidebarReducer from './showSidebarReducer';
 import isFollowingReducer from './isFollowingReducer';
 import haveNewNotificationsReducer from './haveNewNotificationsReducer';
 import fetchUsersReducer from './fetchUsersReducer';
@@ -26,7 +23,6 @@ import postCountReducer from './postCountReducer';
 import searchUsersReducer from './searchUsersReducer';
 import fetchedPostReducer from './fetchedPostReducer';
 import songLoadingReducer from './songLoadingReducer';
-
 
 export default combineReducers({
     auth: authReducer,
@@ -42,13 +38,10 @@ export default combineReducers({
     percentage: setPercentageReducer,
     isPlaying: setIsPlayingReducer,
     volume: setVolumeReducer,
-    intervalId: setIntervalIdReducer,
     intervalIdFlag: setIntervalIdFlagReducer,
     time: setTimeReducer,
-    musicKitIsPlaying: setMusicKitIsPlayingReducer,
     authorized: isMusicKitAuthorizedReducer,
     fetching: isFetchingReducer,
-    sidebar: showSidebarReducer,
     following: isFollowingReducer,
     newNotifications: haveNewNotificationsReducer,
     users: fetchUsersReducer,

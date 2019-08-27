@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
+import media from './styled/media';
 import './Header.css';
 import {
     isMusicKitAuthorized,
-    showSidebar,
     haveNewNotifications,
     fetchAllFollowerPostsCount,
     fetchFollowerPosts,
@@ -12,318 +13,264 @@ import {
 } from '../actions';
 import socket from '../utils/socketClient';
 
-class Header extends Component {
-    state = { newPost: false };
+import StyledDrawer from './styled/Drawer';
+import SearchIcon from '@material-ui/icons/Search';
+import NotiIcon from '@material-ui/icons/Notifications';
+import NotiActiveIcon from '@material-ui/icons/NotificationsActive';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import IconButton from '@material-ui/core/IconButton';
 
-    async authorizeUser() {
-        const res = await this.props.musicKit.authorize();
-        this.props.isMusicKitAuthorized(res);
+const StyledHeader = styled.div`
+    height: 60px;
+    width: 100%;
+    display: ${props => (props.auth ? 'flex' : 'none')};
+    align-items: center;
+    box-shadow: 0px 1px 0px rgba(165, 164, 164, 0.24);
+`;
+
+const StyledSpan = styled.span`
+    flex: 1 0 100px;
+    display: flex;
+    justify-content: center;
+
+    ${media.small`
+        flex: 1;
+    `}
+`;
+
+const StyledAVISpan = styled.span`
+    flex: 0 1 800px;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 100px;
+
+    ${media.small`
+        margin-right: 0px;
+        justify-content: center;
+        flex: 1;
+    `}
+`;
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #000000;
+    display: flex;
+    justify-content: center;
+`;
+
+const StyledIcon = styled(SearchIcon)`
+    && {
+        font-size: 2rem;
+        color: #00d9c5;
     }
+`;
 
-    async unauthorizeUser() {
-        const res = await this.props.musicKit.unauthorize();
-        this.props.isMusicKitAuthorized(res);
+const StyledNotiIcon = styled(NotiIcon)`
+    && {
+        font-size: 2rem;
+        color: #00d9c5;
     }
+`;
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.auth !== this.props.auth) {
-            if (this.props.auth) {
-                this.props.haveNewNotifications();
-                socket.on('notification', () => {
-                    this.props.haveNewNotifications();
-                });
-
-                socket.on('post', () => {
-                    this.setState({ newPost: true });
-                });
-            }
-        }
+const StyledNotiActiveIcon = styled(NotiActiveIcon)`
+    && {
+        font-size: 2rem;
+        color: #00d9c5;
     }
+`;
 
-    fetchNewStuff = () => {
-        this.props.fetchAllFollowerPostsCount();
-        this.props.fetchFollowerPosts();
-        this.setState({ newPost: false });
+const StyledAvatarButton = styled.button`
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+`;
+
+const Header = ({
+    auth,
+    authorized,
+    musicKit,
+    newNotifications,
+    isMusicKitAuthorized,
+    haveNewNotifications,
+    fetchAllFollowerPostsCount,
+    fetchFollowerPosts,
+    viewNotifications
+}) => {
+    const [newPost, setNewPost] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
+
+    const authorizeUser = async () => {
+        const res = await musicKit.authorize();
+        isMusicKitAuthorized(res);
     };
 
-    clearNewNotifications = async () => {
-        await this.props.viewNotifications();
-        this.props.haveNewNotifications();
+    const unauthorizeUser = async () => {
+        const res = await musicKit.unauthorize();
+        isMusicKitAuthorized(res);
     };
 
-    renderContent() {
-        switch (this.props.auth) {
-            case null:
-                return;
-            case false:
-                return (
-                    <>
-                        <div>
-                            <a href="/auth/google">
-                                <h3>Log in With Google</h3>
-                            </a>
-                        </div>
-                        <div>
-                            <Link to="/about">
-                                <h3>About</h3>
-                            </Link>
-                        </div>
-                    </>
-                );
-            default:
-                return (
-                    <>
-                        <div>
-                            <a href="/api/logout">
-                                <h3>Sign Out of Towers</h3>
-                            </a>
-                        </div>
-                        <div>
-                            <Link to="/about">
-                                <h3>About</h3>
-                            </Link>
-                        </div>
-                    </>
-                );
-        }
-    }
+    const closeDrawer = () => {
+        setDrawerOpen(false);
+    };
 
-    renderAvatar() {
-        if (!this.props.auth) {
-            return;
-        } else if (this.props.auth && this.props.sidebar === false) {
-            return (
-                <div
-                    onClick={() => this.props.showSidebar(true)}
-                    className="ui item"
+    useEffect(() => {
+        if (auth) {
+            haveNewNotifications();
+            socket.on('notification', () => {
+                haveNewNotifications();
+            });
+
+            socket.on('post', () => {
+                setNewPost(true);
+            });
+        }
+    }, [auth]);
+
+    const fetchNewStuff = () => {
+        fetchAllFollowerPostsCount();
+        fetchFollowerPosts();
+        setNewPost(false);
+    };
+
+    const clearNewNotifications = async () => {
+        await viewNotifications();
+        haveNewNotifications();
+    };
+
+    return (
+        <StyledHeader auth={auth}>
+            <StyledSpan className="tower">
+                <StyledLink
+                    onClick={newPost ? fetchNewStuff : null}
+                    to={'/home'}
+                    style={{
+                        width: '40px',
+                        height: '40px',
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}
                 >
-                    <div>
+                    <IconButton>
+                        <svg className="icon"></svg>
+                    </IconButton>
+                </StyledLink>
+            </StyledSpan>
+            <StyledSpan>
+                <StyledLink to="/search/songs">
+                    <IconButton>
+                        <StyledIcon />
+                    </IconButton>
+                </StyledLink>
+            </StyledSpan>
+            <StyledSpan>
+                <StyledLink
+                    onClick={newNotifications ? clearNewNotifications : null}
+                    to="/notifications"
+                >
+                    <IconButton>
+                        {newNotifications ? (
+                            <StyledNotiActiveIcon />
+                        ) : (
+                            <StyledNotiIcon />
+                        )}
+                    </IconButton>
+                </StyledLink>
+            </StyledSpan>
+            <StyledAVISpan>
+                {auth ? (
+                    <StyledAvatarButton onClick={() => setDrawerOpen(true)}>
                         <img
-                            alt={this.props.auth.username}
-                            src={this.props.auth.profileImage}
-                        ></img>
-                        <h4>{this.props.auth.username}</h4>
-                    </div>
-                </div>
-            );
-        } else if (this.props.auth && this.props.sidebar === true) {
-            return (
-                <div>
-                    <div>
-                        <Link
-                            onClick={() => this.props.showSidebar(false)}
-                            to={`/${this.props.auth.username}`}
-                        >
-                            <img
-                                alt={this.props.auth.username}
-                                src={this.props.auth.profileImage}
-                            ></img>
-                        </Link>
-                        <Link
-                            onClick={() => this.props.showSidebar(false)}
-                            to={`/${this.props.auth.username}`}
-                        >
-                            <h4>{this.props.auth.username}</h4>
-                        </Link>
-                    </div>
-                </div>
-            );
-        }
-    }
-
-    renderMobileAvatar() {
-        if (!this.props.auth) {
-            return;
-        } else if (this.props.auth && this.props.sidebar === false) {
-            return (
-                <div onClick={() => this.props.showSidebar(true)}>
-                    <div>
-                        <img
-                            alt={this.props.auth.username}
-                            src={this.props.auth.profileImage}
-                        ></img>
-                        {/* <h4 id="headerUsername" className="header">{this.props.auth.username}</h4> */}
-                    </div>
-                </div>
-            );
-        } else if (this.props.auth && this.props.sidebar === true) {
-            return (
-                <div>
-                    <div>
-                        <Link
-                            onClick={() => this.props.showSidebar(false)}
-                            to={`/${this.props.auth.username}`}
-                        >
-                            <img
-                                alt={this.props.auth.username}
-                                src={this.props.auth.profileImage}
-                            ></img>
-                        </Link>
-                        {/* <Link onClick={() => this.props.showSidebar(false)} to={`/${this.props.auth.username}`}><h4 id="headerUsername" className="header">{this.props.auth.username}</h4></Link> */}
-                    </div>
-                </div>
-            );
-        }
-    }
-
-    renderAppleAuth() {
-        switch (this.props.authorized) {
-            case false:
-                return (
-                    <div>
-                        <div onClick={() => this.authorizeUser()}>
-                            <h3>
-                                Listen with Apple Music
-                                {/* <img alt="applemusicicon" id="appleMusicIcon" src="Apple_Music_Icon.png"></img> */}
-                            </h3>
-                        </div>
-                    </div>
-                );
-            default:
-            case true:
-                return (
-                    <div>
-                        <div onClick={() => this.unauthorizeUser()}>
-                            <h3>
-                                Sign Out of Apple Music
-                                {/* <img alt="applemusicicon" id="appleMusicIcon" src="Apple_Music_Icon.png"></img> */}
-                            </h3>
-                        </div>
-                    </div>
-                );
-            case null:
-                return;
-        }
-    }
-
-    renderSidebar() {
-        switch (this.props.sidebar) {
-            case true:
-                return (
-                    <div>
-                        <button>
-                            <i
-                                onClick={() => this.props.showSidebar(false)}
-                            ></i>
-                        </button>
-                        {this.renderAvatar()}
-                        {this.renderAppleAuth()}
-                        {this.renderContent()}
-                    </div>
-                );
-            default:
-                return;
-        }
-    }
-
-    renderMobileSidebar() {
-        switch (this.props.sidebar) {
-            case true:
-                return (
-                    <div>
-                        <button>
-                            <i
-                                onClick={() => this.props.showSidebar(false)}
-                            ></i>
-                        </button>
-                        {this.renderMobileAvatar()}
-                        {this.renderAppleAuth()}
-                        {this.renderContent()}
-                    </div>
-                );
-            default:
-                return;
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                <div>
-                    <div>
-                        <Link
-                            onClick={
-                                this.state.newPost ? this.fetchNewStuff : null
-                            }
-                            to={this.props.auth ? '/home' : '/'}
-                        >
-                            Home
-                        </Link>
-                        <Link to="/search/songs">Search</Link>
-                        <Link
-                            onClick={
-                                this.props.newNotifications
-                                    ? this.clearNewNotifications
-                                    : null
-                            }
                             style={{
-                                display: this.props.auth ? '' : 'none'
+                                width: '40px',
+                                height: '40px',
+                                backgroundColor: 'gray',
+                                borderRadius: '50%'
                             }}
-                            to="/notifications"
+                            alt={auth.username}
+                            src={auth.profileImage}
+                        ></img>
+                    </StyledAvatarButton>
+                ) : (
+                    <div>Loading...</div>
+                )}
+            </StyledAVISpan>
+            {auth ? (
+                <StyledDrawer drawerOpen={drawerOpen} closeDrawer={closeDrawer}>
+                    <List>
+                        <Link
+                            to={`/${auth.username}`}
+                            style={{ textDecoration: 'none', color: '#000000' }}
                         >
-                            Notifications
+                            <ListItem button key={auth.username}>
+                                <img
+                                    style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        backgroundColor: 'gray',
+                                        borderRadius: '50%',
+                                        margin: '0 16px'
+                                    }}
+                                    alt={auth.username}
+                                    src={auth.profileImage}
+                                ></img>
+                                <ListItemText primary={auth.username} />
+                            </ListItem>
                         </Link>
-                        <div>
-                            <div
-                                style={{
-                                    display: this.props.auth ? 'none' : ''
-                                }}
-                            >
-                                <a href="/auth/google">
-                                    <div>LOG IN</div>
-                                </a>
-                            </div>
-                            {this.renderAvatar()}
-                            {this.renderSidebar()}
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <Link
-                        onClick={this.state.newPost ? this.fetchNewStuff : null}
-                        style={{ display: this.props.auth ? '' : 'none' }}
-                        to={this.props.auth ? '/home' : '/'}
-                    >
-                        Home
-                    </Link>
-                    <Link
-                        style={{ display: this.props.auth ? '' : 'none' }}
-                        to="/search/songs"
-                    >
-                        Search
-                    </Link>
-                    <Link
-                        onClick={
-                            this.props.newNotifications
-                                ? this.clearNewNotifications
-                                : null
-                        }
-                        style={{ display: this.props.auth ? '' : 'none' }}
-                        to="/notifications"
-                    >
-                        Notifications
-                    </Link>
-                    <div>
-                        <div
-                            style={{
-                                display: this.props.auth ? 'none' : ''
+                        <Divider />
+                        <ListItem
+                            button
+                            key={'applemusic'}
+                            onClick={() => {
+                                if (authorized) {
+                                    unauthorizeUser();
+                                } else {
+                                    authorizeUser();
+                                }
                             }}
                         >
-                            <a href="/auth/google">
-                                <div>
-                                    <h3>LOG IN</h3>
-                                </div>
-                            </a>
-                        </div>
-                        {this.renderMobileAvatar()}
-                        {this.renderMobileSidebar()}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
+                            <svg className="apple"></svg>
+                            <ListItemText
+                                primary={
+                                    authorized
+                                        ? 'Sign out of Apple Music'
+                                        : 'Listen with Apple Music'
+                                }
+                            />
+                        </ListItem>
+                        <Link
+                            to={`/about`}
+                            style={{ textDecoration: 'none', color: '#000000' }}
+                        >
+                            <ListItem button key={'about'}>
+                                <ListItemText
+                                    style={{ padding: '0 20px' }}
+                                    primary={'About'}
+                                />
+                            </ListItem>
+                        </Link>
+                        <a
+                            href="/api/logout"
+                            style={{ textDecoration: 'none', color: '#000000' }}
+                        >
+                            <ListItem button key={'logout'}>
+                                <ListItemText
+                                    style={{ padding: '0 20px' }}
+                                    primary={'Sign out'}
+                                />
+                            </ListItem>
+                        </a>
+                    </List>
+                </StyledDrawer>
+            ) : null}
+        </StyledHeader>
+    );
+};
 
 const mapStateToProps = ({
     auth,
@@ -332,14 +279,13 @@ const mapStateToProps = ({
     sidebar,
     newNotifications
 }) => {
-    return { auth, authorized, musicKit, sidebar, newNotifications };
+    return { auth, authorized, musicKit, newNotifications };
 };
 
 export default connect(
     mapStateToProps,
     {
         isMusicKitAuthorized,
-        showSidebar,
         haveNewNotifications,
         fetchAllFollowerPostsCount,
         fetchFollowerPosts,

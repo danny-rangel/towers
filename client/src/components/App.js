@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -26,105 +26,109 @@ import UserList from './pages/search/UserList';
 import FollowerList from './pages/profile/FollowerList';
 import FollowingList from './pages/profile/FollowingList';
 import EditAVI from './pages/profile/EditAVI';
+import Loader from './styled/Loader';
 
-class App extends Component {
-    async componentDidMount() {
+const App = ({
+    fetchUser,
+    fetchMusicInstance,
+    isMusicKitAuthorized,
+    musicKit,
+    setVolume,
+    auth
+}) => {
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            setLoading(true);
+            await fetchUser();
+            await fetchMusicInstance();
+            setLoading(false);
+        };
+
         try {
-            await this.props.fetchUser();
-            await this.props.fetchMusicInstance();
+            fetchUserInfo();
         } catch (err) {
             Sentry.captureException(err);
         }
 
-        this.props.isMusicKitAuthorized(this.props.musicKit.isAuthorized);
-        this.props.musicKit.volume = 1;
-        this.props.setVolume(this.props.musicKit.volume);
+        isMusicKitAuthorized(musicKit.isAuthorized);
+        musicKit.volume = 1;
+        setVolume(musicKit.volume);
 
-        if (this.props.auth.username === '') {
-            history.push(`/edit/${this.props.auth._id}`);
+        if (auth) {
+            if (auth.username === '') {
+                history.push(`/edit/${auth._id}`);
+            }
         }
+    }, []);
 
-        // if (!this.props.auth) {
-        //     history.push('/');
-        // }
-    }
-
-    render() {
+    if (loading) {
+        return <Loader height="40px" width="40px" />;
+    } else {
         return (
             <Router history={history}>
                 <ScrollToTop>
-                    <div className="wrapper">
+                    <div className="wrapper light">
                         <Header />
-                        <div>
-                            <Switch>
-                                <Route
-                                    exact
-                                    path="/"
-                                    component={Landing}
-                                ></Route>
-                                <Route
-                                    exact
-                                    path="/edit/:id"
-                                    component={EditProfile}
-                                ></Route>
-                                <Route
-                                    exact
-                                    path="/edit/avi/:id"
-                                    component={EditAVI}
-                                ></Route>
-                                <Route
-                                    exact
-                                    path="/home"
-                                    component={Home}
-                                ></Route>
-                                <Route
-                                    path="/search"
-                                    component={Search}
-                                ></Route>
-                                <Route
-                                    exact
-                                    path="/posts/new"
-                                    component={PostNew}
-                                ></Route>
-                                <Route
-                                    exact
-                                    path="/posts/delete/:id"
-                                    component={PostDelete}
-                                ></Route>
-                                <Route
-                                    exact
-                                    path="/notifications"
-                                    component={Notifications}
-                                ></Route>
-                                <Route
-                                    exact
-                                    path="/:username"
-                                    component={Profile}
-                                ></Route>
-                                <Route
-                                    exact
-                                    path="/users/:id"
-                                    component={UserList}
-                                ></Route>
-                                <Route
-                                    exact
-                                    path="/followers/:id"
-                                    component={FollowerList}
-                                ></Route>
-                                <Route
-                                    exact
-                                    path="/following/:id"
-                                    component={FollowingList}
-                                ></Route>
-                            </Switch>
-                        </div>
+                        <Switch>
+                            <Route exact path="/" component={Landing}></Route>
+                            <Route
+                                exact
+                                path="/edit/:id"
+                                component={EditProfile}
+                            ></Route>
+                            <Route
+                                exact
+                                path="/edit/avi/:id"
+                                component={EditAVI}
+                            ></Route>
+                            <Route exact path="/home" component={Home}></Route>
+                            <Route path="/search" component={Search}></Route>
+                            <Route
+                                exact
+                                path="/posts/new"
+                                component={PostNew}
+                            ></Route>
+                            <Route
+                                exact
+                                path="/posts/delete/:id"
+                                component={PostDelete}
+                            ></Route>
+                            <Route
+                                exact
+                                path="/notifications"
+                                component={Notifications}
+                            ></Route>
+                            <Route
+                                exact
+                                path="/:username"
+                                component={Profile}
+                            ></Route>
+                            <Route
+                                exact
+                                path="/users/:id"
+                                component={UserList}
+                            ></Route>
+                            <Route
+                                exact
+                                path="/followers/:id"
+                                component={FollowerList}
+                            ></Route>
+                            <Route
+                                exact
+                                path="/following/:id"
+                                component={FollowingList}
+                            ></Route>
+                        </Switch>
+
                         <Player />
                     </div>
                 </ScrollToTop>
             </Router>
         );
     }
-}
+};
 
 const mapStateToProps = ({ musicKit, authorized, auth }) => {
     return { musicKit, authorized, auth };

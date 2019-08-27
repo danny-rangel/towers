@@ -1,2 +1,22 @@
-@media only screen and (max-width: 767px) {
+.icon {
+    height: 32px;
+    width: 32px;
+    background: url('../images/NEWICON.svg') 50% 50% no-repeat;
+}
+
+.apple {
+    height: 32px;
+    width: 32px;
+    margin: 0 20px;
+    background: url('../images/apple.svg') 50% 50% no-repeat;
+}
+
+.tower {
+    margin-left: 40px;
+}
+
+@media only screen and (max-width: 500px) {
+    .tower {
+        margin-left: 0px;
+    }
 }

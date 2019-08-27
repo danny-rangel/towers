@@ -1,15 +1,25 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed');
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 
-html,
-body {
-    height: 100%;
-    width: 100%;
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: 'Lato', sans-serif;
     margin: 0;
-    background-color: #ffffff;
-    font-family: 'Roboto Condensed', sans-serif;
 }
 
-#root {
+.wrapper {
     height: 100%;
     width: 100%;
+}
+
+.light {
+    background-color: #ffffff;
+}
+
+.dark {
+    background-color: #000000;
+    color: '#ffffff';
 }
