@@ -51,6 +51,7 @@ const StyledAvatar = styled.img`
         0px 4px 5px 0px rgba(0, 0, 0, 0.14),
         0px 1px 10px 0px rgba(0, 0, 0, 0.12);
     bottom: -25%;
+    cursor: ${props => (props.auth ? 'pointer' : null)};
 `;
 
 const Profile = ({
@@ -147,20 +148,28 @@ const Profile = ({
                             </h4>
                             <StyledInnerHeader>
                                 <StyledCountTextDiv>
-                                    <h2>{user.followersCount}</h2>
-                                    <h3 style={{ fontWeight: '100' }}>
-                                        listeners
-                                    </h3>
+                                    <Link to={`/followers/${user._id}`}>
+                                        <h2>{user.followersCount}</h2>
+                                    </Link>
+                                    <Link to={`/followers/${user._id}`}>
+                                        <h3 style={{ fontWeight: '100' }}>
+                                            listeners
+                                        </h3>
+                                    </Link>
                                 </StyledCountTextDiv>
                                 <StyledCountTextDiv>
                                     <h2>{user.postsNumber}</h2>
                                     <h3 style={{ fontWeight: '100' }}>songs</h3>
                                 </StyledCountTextDiv>
                                 <StyledCountTextDiv>
-                                    <h2>{user.followingCount}</h2>
-                                    <h3 style={{ fontWeight: '100' }}>
-                                        listening
-                                    </h3>
+                                    <Link to={`/following/${user._id}`}>
+                                        <h2>{user.followingCount}</h2>
+                                    </Link>
+                                    <Link to={`/following/${user._id}`}>
+                                        <h3 style={{ fontWeight: '100' }}>
+                                            listening
+                                        </h3>
+                                    </Link>
                                 </StyledCountTextDiv>
                             </StyledInnerHeader>
                         </>
@@ -205,6 +214,17 @@ const Profile = ({
                         <StyledAvatar
                             alt={user.username}
                             src={user.profileImage}
+                            auth={auth}
+                            onClick={
+                                auth
+                                    ? auth._id === user._id
+                                        ? () =>
+                                              history.push(
+                                                  `/edit/avi/${auth._id}`
+                                              )
+                                        : null
+                                    : null
+                            }
                         />
                     ) : (
                         <Loader height="40px" width="40px" color="#ffffff" />
@@ -240,99 +260,6 @@ const Profile = ({
                     <Loader height="40px" width="40px" />
                 )}
             </>
-
-            // <>
-            //     <div>
-            //         {auth ? (
-            //             <img
-            //                 alt={user.username}
-            //                 style={{
-            //                     cursor:
-            //                         auth._id === user._id
-            //                             ? 'pointer'
-            //                             : 'default'
-            //                 }}
-            //                 onClick={
-            //                     auth._id === user._id
-            //                         ? () =>
-            //                               history.push(`/edit/avi/${auth._id}`)
-            //                         : null
-            //                 }
-            //                 src={user.profileImage}
-            //             ></img>
-            //         ) : (
-            //             <img alt={user.username} src={user.profileImage}></img>
-            //         )}
-            //         <h2>{user.username}</h2>
-            //         <h5 style={{ margin: '0 5px', wordWrap: 'break-word' }}>
-            //             {user.aboutme}
-            //         </h5>
-            //         <div>
-            //             <div>
-            //                 <h2>{user.postsNumber}</h2>
-            //             </div>
-            //             <div>
-            //                 <h2>
-            //                     <Link to={`/followers/${user._id}`}>
-            //                         {user.followersCount}
-            //                     </Link>
-            //                 </h2>
-            //             </div>
-            //             <div>
-            //                 <h2>
-            //                     <Link to={`/following/${user._id}`}>
-            //                         {user.followingCount}
-            //                     </Link>
-            //                 </h2>
-            //             </div>
-            //             <div>{user.postsNumber === 1 ? 'song' : 'songs'}</div>
-            //             <div>
-            //                 <Link to={`/followers/${user._id}`}>listeners</Link>
-            //             </div>
-            //             <div>
-            //                 <Link to={`/following/${user._id}`}>listening</Link>
-            //             </div>
-            //         </div>
-
-            //         {auth ? (
-            //             user._id !== auth._id ? (
-            //                 <button
-            //                     onClick={() => follow(user, auth)}
-            //                     style={{
-            //                         backgroundColor: following
-            //                             ? 'white'
-            //                             : '#357cb9',
-            //                         color: following ? 'black' : 'white'
-            //                     }}
-            //                 >
-            //                     {following ? 'Listening' : 'Listen'}
-            //                 </button>
-            //             ) : (
-            //                 <Link to={`/edit/${auth._id}`}>Edit Profile</Link>
-            //             )
-            //         ) : (
-            //             <div></div>
-            //         )}
-            //     </div>
-            //     <div>
-            //         <InfiniteScroll
-            //             dataLength={posts.length}
-            //             next={() => {
-            //                 continuefetchUserPosts(user.username, page + 1, 20);
-            //                 setPage(page + 1);
-            //             }}
-            //             hasMore={posts.length !== postCount}
-            //             loader={<div>Loading...</div>}
-            //             endMessage={
-            //                 <h3>
-            //                     <b>That's everything!</b>
-            //                 </h3>
-            //             }
-            //         >
-            //             <PostList posts={posts} />
-            //         </InfiniteScroll>
-            //     </div>
-            // </>
         );
     };
 

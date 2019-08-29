@@ -23,10 +23,10 @@ import Profile from './pages/profile/Profile';
 import PostDelete from './post/PostDelete';
 import EditProfile from './pages/profile/EditProfile';
 import UserList from './pages/search/UserList';
-import FollowerList from './pages/profile/FollowerList';
-import FollowingList from './pages/profile/FollowingList';
 import EditAVI from './pages/profile/EditAVI';
 import Loader from './styled/Loader';
+import Listener from './pages/profile/Listener';
+import Listening from './pages/profile/Listening';
 
 const App = ({
     fetchUser,
@@ -113,12 +113,12 @@ const App = ({
                             <Route
                                 exact
                                 path="/followers/:id"
-                                component={FollowerList}
+                                component={Listener}
                             ></Route>
                             <Route
                                 exact
                                 path="/following/:id"
-                                component={FollowingList}
+                                component={Listening}
                             ></Route>
                         </Switch>
 
