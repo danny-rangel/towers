@@ -50,7 +50,6 @@ const SearchBar = ({ searchFunction, handleSubmit, placeholder }) => {
                 placeholder={placeholder}
             />
             <IconButton
-                button
                 aria-label="search"
                 onClick={handleSubmit(values =>
                     searchFunction(values.searchTerms)

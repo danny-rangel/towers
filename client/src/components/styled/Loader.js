@@ -12,14 +12,14 @@ const StyledDiv = styled.div`
 
 const StyledLoader = styled(CircularProgress)`
     && {
-        color: ${props => (props.color ? props.color : '#00d9c5')};
+        color: ${props => (props.newcolor ? props.newcolor : '#00d9c5')};
     }
 `;
 
-const Loader = ({ height, width, color }) => {
+const Loader = ({ height, width, newcolor }) => {
     return (
         <StyledDiv style={{ backgroundColor: 'transparent' }}>
-            <StyledLoader color={color} style={{ height, width }} />
+            <StyledLoader newcolor={newcolor} style={{ height, width }} />
         </StyledDiv>
     );
 };

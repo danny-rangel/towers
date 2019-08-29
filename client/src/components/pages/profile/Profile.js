@@ -44,13 +44,13 @@ const StyledCountTextDiv = styled.div`
 
 const StyledAvatar = styled.img`
     position: absolute;
-    width: 200px;
-    height: 200px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
         0px 4px 5px 0px rgba(0, 0, 0, 0.14),
         0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-    bottom: -25%;
+    bottom: -19%;
     cursor: ${props => (props.auth ? 'pointer' : null)};
 `;
 
@@ -174,7 +174,7 @@ const Profile = ({
                             </StyledInnerHeader>
                         </>
                     ) : (
-                        <Loader height="40px" width="40px" color="#ffffff" />
+                        <Loader height="40px" width="40px" newcolor="#ffffff" />
                     )}
                     {user ? (
                         auth ? (
@@ -208,7 +208,7 @@ const Profile = ({
                             </StyledButton>
                         )
                     ) : (
-                        <Loader height="40px" width="40px" color="#ffffff" />
+                        <Loader height="40px" width="40px" newcolor="#ffffff" />
                     )}
                     {user ? (
                         <StyledAvatar
@@ -227,7 +227,7 @@ const Profile = ({
                             }
                         />
                     ) : (
-                        <Loader height="40px" width="40px" color="#ffffff" />
+                        <Loader height="40px" width="40px" newcolor="#ffffff" />
                     )}
                 </StyledHeader>
                 {posts ? (
