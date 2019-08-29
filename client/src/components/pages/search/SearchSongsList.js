@@ -25,7 +25,7 @@ const StyledPaper = styled(Paper)`
     }
 `;
 
-const SearchList = ({ songs, fetching }) => {
+const SearchSongsList = ({ songs, fetching }) => {
     const renderList = () => {
         if (songs.length === 0) {
             return <>No songs found</>;
@@ -51,4 +51,4 @@ const mapStateToProps = ({ songs, fetching }) => {
 export default connect(
     mapStateToProps,
     { isFetching }
-)(SearchList);
+)(SearchSongsList);

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { fetchFollowing, isFetching } from '../../../actions';
 import { connect } from 'react-redux';
 import Wrapper from '../../styled/Wrapper';
-import ListenList from './ListenList';
+import UserList from '../../styled/UserList';
 
 const Listening = ({ isFetching, fetchFollowing, match, users, fetching }) => {
     useEffect(() => {
@@ -17,7 +17,7 @@ const Listening = ({ isFetching, fetchFollowing, match, users, fetching }) => {
     return (
         <Wrapper>
             <h1 style={{ alignSelf: 'center' }}>Listening</h1>
-            <ListenList users={users} fetching={fetching} listening={false} />
+            <UserList users={users} fetching={fetching} listener={true} />
         </Wrapper>
     );
 };

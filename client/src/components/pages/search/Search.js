@@ -7,11 +7,11 @@ import { searchSongs, searchUsers } from '../../../actions';
 import styled from 'styled-components';
 
 import Wrapper from '../../styled/Wrapper';
-import SearchList from './SearchList';
-import SearchUserList from './SearchUserList';
+import SearchSongsList from './SearchSongsList';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import UserList from '../../styled/UserList';
 
 const StyledTabBar = styled(AppBar)`
     && {
@@ -86,12 +86,12 @@ const Search = ({ searchSongs, searchUsers, match }) => {
                 }
                 searchFunction={showSongSearch ? searchSongs : searchUsers}
             />
-            <Route exact path="/search/songs" component={SearchList}></Route>
             <Route
                 exact
-                path="/search/users"
-                component={SearchUserList}
+                path="/search/songs"
+                component={SearchSongsList}
             ></Route>
+            <Route exact path="/search/users" component={UserList}></Route>
         </Wrapper>
     );
 };

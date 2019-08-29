@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import media from '../../styled/media';
-import StyledButton from '../../styled/Button';
 
 const StyledItem = styled.div`
     display: flex;
@@ -16,7 +14,7 @@ const StyledItem = styled.div`
     }
 `;
 
-const StyledSongText = styled(Link)`
+const StyledUserText = styled.div`
     flex: 1 1;
     margin: 0 10px;
 `;
@@ -27,14 +25,17 @@ const UserListItem = ({ user }) => {
             <Link to={`/${user.username}`}>
                 <img
                     alt={user.username}
-                    src={user.profileImage}
-                    style={{ width: '80px', borderRadius: '50%' }}
+                    src={user.image}
+                    style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '50%'
+                    }}
                 ></img>
             </Link>
-
-            <StyledSongText to={`/${user.username}`}>
-                <h4>{user.username}</h4>
-            </StyledSongText>
+            <StyledUserText>
+                <Link to={`/${user.username}`}>{user.username}</Link>
+            </StyledUserText>
         </StyledItem>
     );
 };

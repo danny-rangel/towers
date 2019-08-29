@@ -22,11 +22,11 @@ import Player from './player/Player';
 import Profile from './pages/profile/Profile';
 import PostDelete from './post/PostDelete';
 import EditProfile from './pages/profile/EditProfile';
-import UserList from './pages/search/UserList';
 import EditAVI from './pages/profile/EditAVI';
 import Loader from './styled/Loader';
 import Listener from './pages/profile/Listener';
 import Listening from './pages/profile/Listening';
+import Likers from './post/Likers';
 
 const App = ({
     fetchUser,
@@ -108,7 +108,7 @@ const App = ({
                             <Route
                                 exact
                                 path="/users/:id"
-                                component={UserList}
+                                component={Likers}
                             ></Route>
                             <Route
                                 exact
