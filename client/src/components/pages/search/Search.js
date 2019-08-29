@@ -29,7 +29,7 @@ const StyledTab = styled(Tab)`
     }
 `;
 
-const Search = ({ searchSongs, searchUsers, match }) => {
+const Search = ({ searchSongs, searchUsers, match, users }) => {
     const [showUserSearch, setShowUserSearch] = useState(false);
     const [showSongSearch, setShowSongSearch] = useState(true);
     const [value, setValue] = useState(0);
@@ -91,13 +91,17 @@ const Search = ({ searchSongs, searchUsers, match }) => {
                 path="/search/songs"
                 component={SearchSongsList}
             ></Route>
-            <Route exact path="/search/users" component={UserList}></Route>
+            <Route
+                exact
+                path="/search/users"
+                render={props => <UserList {...props} users={users} />}
+            ></Route>
         </Wrapper>
     );
 };
 
-const mapStateToProps = ({ auth }) => {
-    return { auth };
+const mapStateToProps = ({ auth, users }) => {
+    return { auth, users };
 };
 
 export default connect(

@@ -1,43 +1,31 @@
 import React from 'react';
-import './PostField.css';
-import history from '../../history';
-import { connect } from 'react-redux';
+import styled from 'styled-components';
 
-const PostField = ({ input, placeholder, fetching }) => {
+const StyledTextArea = styled.textarea`
+    height: 50px;
+    max-height: 50px;
+    width: 65%;
+    max-width: 280px;
+    margin: 20px 0px 10px;
+    border-radius: 2px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px,
+        rgba(0, 0, 0, 0.14) 0px 4px 5px 0px,
+        rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
+    padding: 10px;
+    font-size: 1rem;
+`;
+
+const PostField = ({ input, placeholder }) => {
     return (
-        <div>
-            <div>
-                <div>
-                    <textarea
-                        maxLength="2000"
-                        rows="2"
-                        id="caption-input"
-                        placeholder={placeholder}
-                        {...input}
-                    />
-                </div>
-            </div>
-            <div>
-                <button
-                    type="button"
-                    onClick={() => history.goBack()}
-                    className="negative ui primary button postButton"
-                >
-                    Cancel
-                </button>
-                <button
-                    type="submit"
-                    className={`${fetching ? `disabled` : ``}`}
-                >
-                    Post
-                </button>
-            </div>
-        </div>
+        <StyledTextArea
+            maxLength="2000"
+            rows="2"
+            id="caption-input"
+            placeholder={placeholder}
+            {...input}
+        />
     );
 };
 
-const mapStateToProps = ({ fetching }) => {
-    return { fetching };
-};
-
-export default connect(mapStateToProps)(PostField);
+export default PostField;

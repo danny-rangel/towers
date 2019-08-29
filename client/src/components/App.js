@@ -15,7 +15,6 @@ import * as Sentry from '@sentry/browser';
 import Header from './Header';
 import Landing from './pages/landing/Landing';
 import Home from './pages/home/Home';
-import PostNew from '../components/post/PostNew';
 import Search from './pages/search/Search';
 import Notifications from './pages/notifications/Notifications';
 import Player from './player/Player';
@@ -85,11 +84,6 @@ const App = ({
                             ></Route>
                             <Route exact path="/home" component={Home}></Route>
                             <Route path="/search" component={Search}></Route>
-                            <Route
-                                exact
-                                path="/posts/new"
-                                component={PostNew}
-                            ></Route>
                             <Route
                                 exact
                                 path="/posts/delete/:id"

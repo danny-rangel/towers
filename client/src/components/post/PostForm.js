@@ -1,27 +1,43 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import PostField from './PostField';
 import { submitPost, isFetching } from '../../actions';
-import './PostForm.css';
-import history from '../../history';
+import StyledButton from '../styled/Button';
 
-class PostForm extends Component {
-    state = { loaded: false };
+const StyledForm = styled.form`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
 
-    collectValues = async ({ attributes }, { caption }) => {
-        const {
-            auth: { username, _id },
-            isFetching,
-            submitPost
-        } = this.props;
+const StyledSpan = styled.span`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 20px 0px;
+`;
+
+const PostForm = ({
+    auth,
+    isFetching,
+    submitPost,
+    selectedSong,
+    handleSubmit,
+    handleClose
+}) => {
+    const collectValues = async ({ attributes }, { caption }) => {
         isFetching(true);
         if (!caption) {
             caption = null;
         }
         const post = {
-            username: username,
-            userId: _id,
+            username: auth.username,
+            userId: auth._id,
             songId: attributes.id,
             caption: caption,
             songName: attributes.name,
@@ -41,60 +57,53 @@ class PostForm extends Component {
         isFetching(false);
     };
 
-    renderContent = () => {
-        const { handleSubmit, selectedSong } = this.props;
-        const { loaded } = this.state;
-        return (
-            <form
-                onSubmit={handleSubmit(values =>
-                    this.collectValues(selectedSong, values)
+    return (
+        <StyledForm
+            onSubmit={handleSubmit(values =>
+                collectValues(selectedSong, values)
+            )}
+        >
+            <img
+                alt={selectedSong.attributes.name}
+                src={window.MusicKit.formatArtworkURL(
+                    selectedSong.attributes.artwork,
+                    420,
+                    420
                 )}
-            >
-                <div>
-                    <div></div>
-                    <div style={{ display: loaded ? 'none' : 'block' }}>
-                        <div></div>
-                    </div>
-                    <div style={{ display: loaded ? 'block' : 'none' }}>
-                        <img
-                            onLoad={() => this.setState({ loaded: true })}
-                            alt={selectedSong.attributes.name}
-                            src={window.MusicKit.formatArtworkURL(
-                                selectedSong.attributes.artwork,
-                                420,
-                                420
-                            )}
-                        ></img>
-                    </div>
-                    <div>
-                        <h1 href="/home">{selectedSong.attributes.name}</h1>
-                        <div>
-                            <span>{selectedSong.attributes.artistName}</span>
-                        </div>
-                    </div>
-                    <Field
-                        autoComplete="off"
-                        type="text"
-                        name="caption"
-                        component={PostField}
-                        placeholder="Write a caption..."
-                    />
-                </div>
-            </form>
-        );
-    };
-
-    render() {
-        return (
-            <>
-                {/* <PostModal
-                    onDismiss={() => history.push('/search')}
-                    content={this.renderContent()}
-                /> */}
-            </>
-        );
-    }
-}
+                style={{ width: '100%', maxWidth: '400px' }}
+            ></img>
+            <h4 style={{ margin: '10px 0 0 0' }}>
+                {selectedSong.attributes.name}
+            </h4>
+            <h5 style={{ margin: '5px 0 0 0' }}>
+                {selectedSong.attributes.artistName}
+            </h5>
+            <Field
+                autoComplete="off"
+                type="text"
+                name="caption"
+                component={PostField}
+                placeholder="Write a caption..."
+            />
+            <StyledSpan>
+                <StyledButton
+                    backgroundcolor="primary"
+                    onClick={handleClose}
+                    width="115px"
+                >
+                    Cancel
+                </StyledButton>
+                <StyledButton
+                    backgroundcolor="primary"
+                    type="submit"
+                    width="115px"
+                >
+                    Post
+                </StyledButton>
+            </StyledSpan>
+        </StyledForm>
+    );
+};
 
 const mapStateToProps = ({ selectedSong, auth }) => {
     return { selectedSong, auth };

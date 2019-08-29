@@ -24,6 +24,7 @@ const StyledPaper = styled(Paper)`
 `;
 
 const UserList = ({ users, fetching, listening = false, listener = false }) => {
+    console.log(users);
     const renderListeners = () => {
         let userInfo;
         return users.map(user => {

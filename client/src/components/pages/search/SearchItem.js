@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { selectSong, songToPlay } from '../../../actions';
 import styled from 'styled-components';
 import media from '../../styled/media';
 import StyledButton from '../../styled/Button';
+import Dialog from '@material-ui/core/Dialog';
+import PostForm from '../../post/PostForm';
 
 const StyledItem = styled.div`
     display: flex;
@@ -39,7 +41,17 @@ const StyledSongText = styled.div`
     margin: 0 10px;
 `;
 
+const StyledDialog = styled(Dialog)`
+    && {
+        .MuiPaper-root.MuiPaper-elevation24.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm.MuiPaper-rounded {
+            margin: 20px;
+        }
+    }
+`;
+
 const SearchItem = ({ song, auth, selectSong, songToPlay }) => {
+    const [open, setOpen] = useState(false);
+
     const selectAndPlaySong = song => {
         let nowPlaying = {
             url: song.attributes.url,
@@ -55,6 +67,17 @@ const SearchItem = ({ song, auth, selectSong, songToPlay }) => {
             played: Math.floor(Math.random() * 1000 + 1)
         };
         songToPlay(nowPlaying);
+    };
+
+    const handleClickOpen = (e, song) => {
+        e.stopPropagation();
+        selectSong(song);
+        setOpen(true);
+    };
+
+    const handleClose = e => {
+        e.stopPropagation();
+        setOpen(false);
     };
 
     return (
@@ -79,19 +102,20 @@ const SearchItem = ({ song, auth, selectSong, songToPlay }) => {
                     {song.attributes.artistName}
                 </h5>
             </StyledSongText>
-
-            {/* <div
-                style={{ display: auth ? 'inline-block' : 'none' }}
+            <Button
+                backgroundcolor="primary"
+                onClick={e => handleClickOpen(e, song)}
+            >
+                Post
+            </Button>
+            <StyledDialog
                 onClick={e => e.stopPropagation()}
-            > */}
-
-            <Button backgroundcolor="primary">Post</Button>
-
-            {/* <Link onClick={() => selectSong(song)} to="/posts/new">
-                    Post
-                </Link> */}
-            {/* </div> */}
-            {/* </div> */}
+                onClose={handleClose}
+                aria-labelledby="new-post-dialog"
+                open={open}
+            >
+                <PostForm handleClose={handleClose} />
+            </StyledDialog>
         </StyledItem>
     );
 };

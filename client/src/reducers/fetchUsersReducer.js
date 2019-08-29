@@ -1,5 +1,9 @@
-import { FETCH_POST_LIKES, FETCH_FOLLOWERS, FETCH_FOLLOWING } from "../actions/types";
-
+import {
+    FETCH_POST_LIKES,
+    FETCH_FOLLOWERS,
+    FETCH_FOLLOWING,
+    SEARCH_USERS
+} from '../actions/types';
 
 export default function(state = null, action) {
     switch (action.type) {
@@ -9,8 +13,9 @@ export default function(state = null, action) {
             return action.payload;
         case FETCH_FOLLOWING:
             return action.payload;
+        case SEARCH_USERS:
+            return action.payload;
         default:
             return state;
     }
 }
-

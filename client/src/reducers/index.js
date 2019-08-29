@@ -20,7 +20,6 @@ import isFollowingReducer from './isFollowingReducer';
 import haveNewNotificationsReducer from './haveNewNotificationsReducer';
 import fetchUsersReducer from './fetchUsersReducer';
 import postCountReducer from './postCountReducer';
-import searchUsersReducer from './searchUsersReducer';
 import fetchedPostReducer from './fetchedPostReducer';
 import songLoadingReducer from './songLoadingReducer';
 
@@ -46,7 +45,6 @@ export default combineReducers({
     newNotifications: haveNewNotificationsReducer,
     users: fetchUsersReducer,
     postCount: postCountReducer,
-    searchedUsers: searchUsersReducer,
     fetchedPost: fetchedPostReducer,
     isSongLoading: songLoadingReducer
 });
