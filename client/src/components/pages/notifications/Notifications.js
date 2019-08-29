@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import {
     isFetching,
@@ -6,40 +6,43 @@ import {
     viewNotifications,
     haveNewNotifications
 } from '../../../actions';
-import './Notifications.css';
 import NotificationList from './NotificationList';
 import socket from '../../../utils/socketClient';
+import Wrapper from '../../styled/Wrapper';
 
-class Notifications extends Component {
-    async componentDidMount() {
-        this.props.isFetching(true);
+const Notifications = ({
+    notifications,
+    fetching,
+    isFetching,
+    viewNotifications,
+    fetchNotifications,
+    haveNewNotifications
+}) => {
+    useEffect(() => {
+        const fetchInfo = async () => {
+            isFetching(true);
+            await viewNotifications();
+            fetchNotifications();
+            haveNewNotifications();
+            isFetching(false);
+        };
 
-        await this.props.viewNotifications();
-        this.props.fetchNotifications();
-        this.props.haveNewNotifications();
-        this.props.isFetching(false);
-
+        fetchInfo();
         socket.on('notification', () => {
-            this.props.fetchNotifications();
+            fetchNotifications();
         });
-    }
+    }, []);
 
-    render() {
-        const { notifications, fetching } = this.props;
-        return (
-            <div>
-                <div>
-                    <h1>Notifications</h1>
-                </div>
-                {fetching ? (
-                    <div>Loading...</div>
-                ) : (
-                    <NotificationList notifications={notifications} />
-                )}
-            </div>
-        );
-    }
-}
+    return (
+        <Wrapper>
+            <h1 style={{ alignSelf: 'center' }}>Notifications</h1>
+            <NotificationList
+                notifications={notifications}
+                fetching={fetching}
+            />
+        </Wrapper>
+    );
+};
 
 const mapStateToProps = ({ notifications, fetching }) => {
     return { notifications, fetching };

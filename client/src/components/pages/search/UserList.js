@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import UserListItem from './UserListItem';
 import { fetchPostLikes, isFetching } from '../../../actions';
 import { connect } from 'react-redux';
-import '../notifications/Notifications.css';
 
 const UserList = ({ fetching, isFetching, fetchPostLikes, match, users }) => {
     useEffect(() => {

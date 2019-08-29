@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import FollowerListItem from './FollowerListItem';
 import { fetchFollowers, isFetching } from '../../../actions';
 import { connect } from 'react-redux';
-import '../notifications/Notifications.css';
 
 class FollowerList extends Component {
     async componentDidMount() {

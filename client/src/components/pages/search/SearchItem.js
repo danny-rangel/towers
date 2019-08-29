@@ -1,13 +1,45 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { selectSong, songToPlay } from '../../../actions';
-import { Link } from 'react-router-dom';
-import secondsFormatted from '../../../utils/secondsFormatted';
-import './SearchItem.css';
+import styled from 'styled-components';
+import media from '../../styled/media';
+import StyledButton from '../../styled/Button';
+
+const StyledItem = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+    border-bottom: 1px solid #f0ecec;
+
+    :nth-last-child(1) {
+        border-bottom: none;
+    }
+
+    :hover {
+        cursor: pointer;
+        background-color: #f3f3f3;
+    }
+`;
+
+const Button = styled(StyledButton)`
+    && {
+        flex: 0 1 120px;
+        max-width: 120px;
+        width: 100%;
+
+        ${media.medium`
+            flex: 0 1 60px;
+        `}
+    }
+`;
+
+const StyledSongText = styled.div`
+    flex: 1 1;
+    margin: 0 10px;
+`;
 
 const SearchItem = ({ song, auth, selectSong, songToPlay }) => {
-    const [loaded, setLoaded] = useState(false);
-
     const selectAndPlaySong = song => {
         let nowPlaying = {
             url: song.attributes.url,
@@ -26,51 +58,41 @@ const SearchItem = ({ song, auth, selectSong, songToPlay }) => {
     };
 
     return (
-        <div>
-            <div onClick={() => selectAndPlaySong(song)}>
-                <div>
-                    <div
-                        style={{
-                            display: loaded ? 'none' : 'block'
-                        }}
-                    >
-                        <div></div>
-                    </div>
-                    <img
-                        onLoad={() => setLoaded(true)}
-                        style={{ display: loaded ? 'block' : 'none' }}
-                        alt={song.attributes.name}
-                        src={window.MusicKit.formatArtworkURL(
-                            song.attributes.artwork,
-                            150,
-                            150
-                        )}
-                    ></img>
-                </div>
-                <div>
-                    <div>{song.attributes.name}</div>
-                    <div>{song.attributes.artistName}</div>
-                </div>
-                <div>
-                    <div>{song.attributes.albumName}</div>
-                </div>
-                <div>
-                    <div>
-                        {secondsFormatted(
-                            song.attributes.durationInMillis / 1000
-                        )}
-                    </div>
-                </div>
-                <div
-                    style={{ display: auth ? 'inline-block' : 'none' }}
-                    onClick={e => e.stopPropagation()}
-                >
-                    <Link onClick={() => selectSong(song)} to="/posts/new">
-                        Post
-                    </Link>
-                </div>
-            </div>
-        </div>
+        <StyledItem onClick={() => selectAndPlaySong(song)}>
+            <img
+                style={{
+                    width: '80px',
+                    height: '80px',
+                    flex: '0 0 80px'
+                }}
+                alt={song.attributes.name}
+                src={window.MusicKit.formatArtworkURL(
+                    song.attributes.artwork,
+                    150,
+                    150
+                )}
+            ></img>
+
+            <StyledSongText>
+                <h4>{song.attributes.name}</h4>
+                <h5 style={{ color: '#7f7f7f' }}>
+                    {song.attributes.artistName}
+                </h5>
+            </StyledSongText>
+
+            {/* <div
+                style={{ display: auth ? 'inline-block' : 'none' }}
+                onClick={e => e.stopPropagation()}
+            > */}
+
+            <Button backgroundcolor="primary">Post</Button>
+
+            {/* <Link onClick={() => selectSong(song)} to="/posts/new">
+                    Post
+                </Link> */}
+            {/* </div> */}
+            {/* </div> */}
+        </StyledItem>
     );
 };
 

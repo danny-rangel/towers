@@ -12,7 +12,7 @@ const Wrapper = styled(Paper)`
         margin: 0.9px auto;
         padding: 20px 20px 80px 20px;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         border-radius: 0px;
         flex-direction: column;

@@ -54,6 +54,16 @@ const StyledAVISpan = styled.span`
     `}
 `;
 
+const StyledAvatar = styled.img`
+    width: 40px;
+    height: 40px;
+    background-color: gray;
+    border-radius: 50%;
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+        0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+        0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+`;
+
 const StyledLink = styled(Link)`
     text-decoration: none;
     font-size: 1.5rem;
@@ -185,16 +195,10 @@ const Header = ({
             <StyledAVISpan>
                 {auth ? (
                     <StyledAvatarButton onClick={() => setDrawerOpen(true)}>
-                        <img
-                            style={{
-                                width: '40px',
-                                height: '40px',
-                                backgroundColor: 'gray',
-                                borderRadius: '50%'
-                            }}
+                        <StyledAvatar
                             alt={auth.username}
                             src={auth.profileImage}
-                        ></img>
+                        ></StyledAvatar>
                     </StyledAvatarButton>
                 ) : (
                     <div>Loading...</div>

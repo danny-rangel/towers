@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import history from '../../../history';
 import { searchSongs, searchUsers } from '../../../actions';
+import styled from 'styled-components';
 
 import Wrapper from '../../styled/Wrapper';
 import SearchList from './SearchList';
@@ -11,6 +12,22 @@ import SearchUserList from './SearchUserList';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+
+const StyledTabBar = styled(AppBar)`
+    && {
+        width: 100%;
+        max-width: 500px;
+        background-color: #ffffff;
+        margin: 20px 0;
+    }
+`;
+
+const StyledTab = styled(Tab)`
+    && {
+        color: #00d9c5;
+        font-size: 1rem;
+    }
+`;
 
 const Search = ({ searchSongs, searchUsers, match }) => {
     const [showUserSearch, setShowUserSearch] = useState(false);
@@ -28,9 +45,11 @@ const Search = ({ searchSongs, searchUsers, match }) => {
 
     useEffect(() => {
         if (history.location.pathname.slice(8) === 'users') {
+            setValue(1);
             setShowUserSearch(true);
             setShowSongSearch(false);
         } else {
+            setValue(0);
             setShowSongSearch(true);
             setShowUserSearch(false);
         }
@@ -45,20 +64,21 @@ const Search = ({ searchSongs, searchUsers, match }) => {
 
     return (
         <Wrapper>
-            <h1>Search</h1>
-            <AppBar position="static" color="default">
+            <h1 style={{ alignSelf: 'center' }}>Search</h1>
+            <StyledTabBar position="static" color="default">
                 <Tabs
                     value={value}
                     onChange={handleChange}
-                    indicatorColor="primary"
-                    textColor="primary"
                     variant="fullWidth"
                     aria-label="full width tabs"
+                    TabIndicatorProps={{
+                        style: { backgroundColor: '#00d9c5' }
+                    }}
                 >
-                    <Tab label="Songs" {...a11yProps(0)} />
-                    <Tab label="Users" {...a11yProps(1)} />
+                    <StyledTab label="Songs" {...a11yProps(0)} />
+                    <StyledTab label="Users" {...a11yProps(1)} />
                 </Tabs>
-            </AppBar>
+            </StyledTabBar>
 
             <SearchBar
                 placeholder={

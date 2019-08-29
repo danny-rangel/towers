@@ -1,6 +1,5 @@
 import React from 'react';
 import PostItem from './PostItem';
-import './PostList.css';
 
 const PostList = ({ posts }) => {
     const renderPosts = () => {

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import styled from 'styled-components';
-import './PostItem.css';
 import { songToPlay, likePost } from '../../actions';
 
 import Card from '@material-ui/core/Card';
@@ -30,6 +29,9 @@ const StyledCard = styled(Card)`
         width: 99%;
         max-width: 525px;
         margin: 20px 0;
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+            0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+            0px 1px 10px 0px rgba(0, 0, 0, 0.12);
     }
 `;
 
@@ -145,13 +147,7 @@ const PostItem = ({
                     <Fade {...TransitionProps} timeout={350}>
                         <Paper style={{ width: '150px', height: '64px' }}>
                             <List>
-                                <Link
-                                    to={`/posts/delete/${post._id}`}
-                                    style={{
-                                        textDecoration: 'none',
-                                        color: '#000000'
-                                    }}
-                                >
+                                <Link to={`/posts/delete/${post._id}`}>
                                     <ListItem button key={`delete ${post._id}`}>
                                         <DeleteIcon
                                             style={{ color: '#00d9c5' }}
@@ -166,11 +162,8 @@ const PostItem = ({
             </Popper>
             <StyledMedia image={post.albumArt} title={post.songName} />
             <CardContent>
-                <Link
-                    style={{ textDecoration: 'none' }}
-                    to={`/${post.username}`}
-                >
-                    <h4 style={{ color: '#000000' }}>{post.username}</h4>
+                <Link to={`/${post.username}`}>
+                    <h4>{post.username}</h4>
                 </Link>
                 <h5 style={{ color: 'rgba(0, 0, 0, 0.54)' }}>
                     {moment(post.date, moment.ISO_8601).fromNow()}
@@ -207,12 +200,7 @@ const PostItem = ({
                 >
                     <StyledFavoriteIcon isliked={liked ? 1 : undefined} />
                 </IconButton>
-                <Link
-                    to={`/users/${post._id}`}
-                    style={{ textDecoration: 'none', color: '#000000' }}
-                >
-                    {post.likes} likes
-                </Link>
+                <Link to={`/users/${post._id}`}>{post.likes} likes</Link>
             </CardActions>
         </StyledCard>
     );
