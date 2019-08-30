@@ -1,191 +1,263 @@
-import React, { Component } from 'react';
-import './Player.css';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import ProgressBar from './ProgressBar';
-import VolumeBar from './VolumeBar';
+import styled from 'styled-components';
+import media from '../styled/media';
+import Volume from './Volume';
+import Progress from './Progress';
 import secondsFormatted from '../../utils/secondsFormatted';
-import { setPercentage, setIsPlaying, setIntervalId, setVolume, 
-    setTime, setMusicKitIsPlaying, setIntervalIdFlag, songLoading } from '../../actions';
+import useInterval from './useInterval';
+import {
+    setPercentage,
+    setIsPlaying,
+    setVolume,
+    setTime,
+    setIntervalIdFlag,
+    songLoading
+} from '../../actions';
 
-class Player extends Component {
+import AppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import VolumeOffIcon from '@material-ui/icons/VolumeOff';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
 
-    state = { oldVolume: null, buffered: null };
-
-    setProgress = () => {
-        this.setState({buffered: this.props.musicKit.player.currentBufferedProgress});
-        this.props.songLoading((this.props.musicKit.player.playbackState !== 8 && this.props.musicKit.player.playbackState !== 0 && this.props.isPlaying) ? false : true);
+const StyledAppBar = styled(AppBar)`
+    && {
+        bottom: 0;
+        top: auto;
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        background-color: #ffffff;
+        color: #000000;
+        align-items: center;
+        /* justify-content: space-evenly; */
     }
+`;
 
-    playSong = async () => {
-        
-        if (this.props.intervalIdFlag === null || this.props.intervalIdFlag !== this.props.songPlaying.id)
-        {
-            this.props.songLoading(true);
-            await this.props.musicKit.setQueue({ url: this.props.songPlaying.url });
-        }
+const StyledSongInfo = styled.span`
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px;
+`;
 
-        if (this.props.isPlaying && this.props.intervalIdFlag === this.props.songPlaying.id)
-        {
-                await this.props.musicKit.player.pause();
-                this.props.setIsPlaying(false);
-                this.props.setMusicKitIsPlaying(false);
-                clearInterval(this.props.intervalId);
-            
-        } else if (!this.props.isPlaying || this.props.intervalIdFlag !== this.props.songPlaying.id) {
-            clearInterval(this.props.intervalId);
-            let intervalId = setInterval(async () => {
-                this.setProgress();
-                this.props.setPercentage(this.props.musicKit.player.currentPlaybackTime / this.props.musicKit.player.currentPlaybackDuration);
-                this.props.setTime(secondsFormatted(this.props.musicKit.player.currentPlaybackTime));
-                await this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
-                if (this.props.percentage >= 1) {
-                    await this.props.musicKit.player.stop();
-                    this.props.setIsPlaying(false);
-                    clearInterval(this.props.intervalId);
-                     
-                }
-            }, 250);
-                this.props.setIntervalId(intervalId);
-                await this.props.musicKit.player.play();
-                this.props.setIsPlaying(true);
-                this.props.setMusicKitIsPlaying(this.props.musicKit.player.isPlaying);
-                this.props.setIntervalIdFlag(this.props.songPlaying.id);
-        } 
-    }
+const StyledVolumeSpan = styled.span`
+    display: flex;
+    ${media.large`
+        display: none;
+    `}
+`;
 
+const StyledProgressSpan = styled.span`
+    display: flex;
+    ${media.large`
+        display: none;
+    `}
+`;
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.songPlaying.played !== this.props.songPlaying.played) {
-            this.playSong();
-        }
-    }
+const Player = ({
+    musicKit,
+    songLoading,
+    isPlaying,
+    intervalIdFlag,
+    songPlaying,
+    setIsPlaying,
+    setPercentage,
+    setTime,
+    percentage,
+    setIntervalIdFlag,
+    volume,
+    setVolume,
+    isSongLoading,
+    time
+}) => {
+    const [oldVolume, setOldVolume] = useState(null);
+    const [delay, setDelay] = useState(null);
 
-
-
-    changeSongVolume = () => {
-        if (this.props.volume === 0)
-        {
-            this.props.musicKit.player.volume = this.state.oldVolume;
-            this.props.setVolume(this.props.musicKit.player.volume);
+    useEffect(() => {
+        if (isPlaying) {
+            setDelay(250);
         } else {
-            this.setState({ oldVolume:  this.props.musicKit.player.volume});
-            this.props.musicKit.player.mute();
-            this.props.setVolume(0);
+            setDelay(null);
         }
-    }
+    }, [isPlaying]);
 
+    useEffect(() => {
+        if (songPlaying.played) {
+            playSong();
+        }
+    }, [songPlaying.played]);
 
-    renderPlayer() {
+    useInterval(async () => {
+        songLoading(
+            intervalIdFlag !== songPlaying.id && !isPlaying ? true : false
+        );
+        setPercentage(
+            musicKit.player.currentPlaybackTime /
+                musicKit.player.currentPlaybackDuration
+        );
+        setTime(secondsFormatted(musicKit.player.currentPlaybackTime));
+        if (percentage >= 1) {
+            await musicKit.player.stop();
+            setIsPlaying(false);
+            setPercentage(0);
+        }
+    }, delay);
+
+    const playSong = async () => {
+        if (intervalIdFlag === null || intervalIdFlag !== songPlaying.id) {
+            songLoading(true);
+            await musicKit.setQueue({
+                url: songPlaying.url
+            });
+        }
+
+        if (isPlaying && intervalIdFlag === songPlaying.id) {
+            await musicKit.player.pause();
+            setIsPlaying(false);
+        } else if (!isPlaying || intervalIdFlag !== songPlaying.id) {
+            await musicKit.player.play();
+            setIsPlaying(true);
+            setIntervalIdFlag(songPlaying.id);
+        }
+    };
+
+    const changeSongVolume = () => {
+        if (volume === 0) {
+            musicKit.player.volume = oldVolume;
+            setVolume(musicKit.player.volume);
+        } else {
+            setOldVolume(musicKit.player.volume);
+            musicKit.player.mute();
+            setVolume(0);
+        }
+    };
+
+    const renderPlayer = () => {
         return (
             <>
-            <div id="player" className="ui fixed bottom sticky">
-                <div id="volumeControls" >
-                    <div id="muteButton" >
-                        <button style={{color: 'white', background: 'none'}} id="muteButton" onClick={this.changeSongVolume} >
-                            <i className={this.props.volume === 0 ? 'volume off icon': 'volume up icon'}></i>
-                        </button>
-                    </div>
-                    <div id="volumeBar" >
-                        <VolumeBar />
-                    </div>
-                </div>
-                <div id="playerSongInfo" >
-                    <div id="songName" >{this.props.songPlaying.name}</div>
-                    <div id="artistName" >{this.props.songPlaying.artist}</div>
-                </div>
-                <div id="playerAlbumArt" >
+                <span
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flex: '0 1 300px',
+                        justifyContent: 'flex-start',
+                        margin: '0 0 0 40px'
+                    }}
+                >
                     <img
-                        id="playerAlbumImage"
-                        className="ui image" 
-                        alt={this.props.songPlaying.name} 
-                        src={this.props.songPlaying.artwork}
-                        >
-                    </img>
-                </div>
-                <div>
-                    <div id="playButton" >
-                        <button 
-                            style={{color: 'white', 
-                                background: 'none', 
-                                display: this.props.isSongLoading ? 'none' : 'inline-block' }}
-                            id="playButton"
-                            onClick={() => this.playSong()} >
-                            <i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i>
-                        </button>
-                        <div 
-                            className="ui active inverted centered inline loader" 
-                            style={{margin: '0', display: this.props.isSongLoading ? 'inline-block' : 'none'}}>
-                        </div>
-                    </div>
-                </div>
-                <div id="playBackInfo">
-                    <div id="currentTime" >
-                        {this.props.time}
-                    </div>
-                    <div id="progressBar" >
-                        <ProgressBar />
-                    </div>
-                    <div id="totalTime" >
-                        {secondsFormatted(this.props.musicKit.player.currentPlaybackDuration)}
-                    </div>
-                </div>
-            </div>
+                        alt={songPlaying.name}
+                        src={songPlaying.artwork}
+                        style={{ width: '48px', height: '48px' }}
+                    ></img>
 
-            <div id="mobilePlayer" className="ui fixed bottom sticky">
-                <div id="playerAlbumArt" >
-                    <img
-                        id="playerAlbumImage"
-                        className="ui image" 
-                        alt={this.props.songPlaying.name} 
-                        src={this.props.songPlaying.artwork}
-                        >
-                    </img>
-                </div>
-                <div id="playerSongInfo" >
-                    <div id="songName" >{this.props.songPlaying.name}</div>
-                    <div id="artistName" >{this.props.songPlaying.artist}</div>
-                </div>
-                <div id="playButton">
-                    <button 
-                        style={{ color: 'white', background: 'none', display: this.props.isSongLoading ? 'none' : 'inline-block' }}
-                        id="playButton" 
-                        onClick={() => this.playSong()} >
-                        <i className={this.props.isPlaying ? 'pause icon': 'play icon'}></i>
-                    </button>
-                    <div 
-                            className="ui active inverted centered inline loader" 
-                            style={{margin: '0', display: this.props.isSongLoading ? 'inline-block' : 'none'}}>
-                        </div>
-                </div>
-            </div>
+                    <StyledSongInfo>
+                        <span>{songPlaying.name}</span>
+                        <span>{songPlaying.artist}</span>
+                    </StyledSongInfo>
+                </span>
+
+                {isPlaying ? (
+                    <IconButton
+                        aria-label="pause"
+                        disabled={isSongLoading}
+                        style={{ flex: '0 0 50px', marginRight: '20px' }}
+                        onClick={() => {
+                            playSong();
+                        }}
+                    >
+                        <PauseIcon style={{ color: '#00d9c5' }} />
+                    </IconButton>
+                ) : (
+                    <IconButton
+                        aria-label="play"
+                        disabled={isSongLoading}
+                        style={{ flex: '0 0 50px', marginRight: '20px' }}
+                        onClick={() => {
+                            playSong();
+                        }}
+                    >
+                        <PlayArrowIcon style={{ color: '#00d9c5' }} />
+                    </IconButton>
+                )}
+
+                <StyledVolumeSpan
+                    style={{
+                        alignItems: 'center',
+                        flex: '0 1 180px',
+                        justifyContent: 'center'
+                    }}
+                >
+                    <IconButton onClick={changeSongVolume}>
+                        {volume === 0 ? (
+                            <VolumeOffIcon style={{ color: '#00d9c5' }} />
+                        ) : (
+                            <VolumeUpIcon style={{ color: '#00d9c5' }} />
+                        )}
+                    </IconButton>
+                    <Volume />
+                </StyledVolumeSpan>
+
+                <StyledProgressSpan
+                    style={{
+                        alignItems: 'center',
+                        flex: '1 3 320px',
+                        justifyContent: 'center'
+                    }}
+                >
+                    <span style={{ fontSize: '12px', margin: '0 10px 0 0' }}>
+                        {time}
+                    </span>
+                    <Progress />
+                    <span style={{ fontSize: '12px', margin: '0 0 0 10px' }}>
+                        {secondsFormatted(
+                            musicKit.player.currentPlaybackDuration
+                        )}
+                    </span>
+                </StyledProgressSpan>
             </>
         );
-    }
+    };
 
-
-
-
-
-    render() {
-        if (this.props.songPlaying.name === '')
-        {
-            return null;
-        }
-        else {
-            return (
-                <div>
-                    {this.renderPlayer()}
-                </div>
-            );
-        } 
+    if (songPlaying.name === '') {
+        return null;
+    } else {
+        return <StyledAppBar position="fixed">{renderPlayer()}</StyledAppBar>;
     }
 };
 
-const mapStateToProps = ({ songPlaying, percentage, isPlaying, musicKit, intervalId, 
-    intervalIdFlag, volume, time, musicKitIsPlaying, isSongLoading }) => {
-    return { songPlaying, percentage, isPlaying, musicKit, intervalId, 
-        intervalIdFlag, volume, time, musicKitIsPlaying, isSongLoading };
-}
+const mapStateToProps = ({
+    songPlaying,
+    percentage,
+    isPlaying,
+    musicKit,
+    intervalIdFlag,
+    volume,
+    time,
+    isSongLoading
+}) => {
+    return {
+        songPlaying,
+        percentage,
+        isPlaying,
+        musicKit,
+        intervalIdFlag,
+        volume,
+        time,
+        isSongLoading
+    };
+};
 
-export default connect(mapStateToProps, { setPercentage, setIsPlaying, setIntervalId, setVolume, 
-    setTime, setMusicKitIsPlaying, setIntervalIdFlag, songLoading })(Player);
+export default connect(
+    mapStateToProps,
+    {
+        setPercentage,
+        setIsPlaying,
+        setVolume,
+        setTime,
+        setIntervalIdFlag,
+        songLoading
+    }
+)(Player);

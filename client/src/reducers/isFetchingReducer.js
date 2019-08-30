@@ -1,4 +1,4 @@
-import { IS_FETCHING } from "../actions/types";
+import { IS_FETCHING } from '../actions/types';
 
 export default function(state = false, action) {
     switch (action.type) {
@@ -8,4 +8,3 @@ export default function(state = false, action) {
             return state;
     }
 }
-

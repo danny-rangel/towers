@@ -1,36 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PostItem from './PostItem';
-import './PostList.css';
 
-
-class PostList extends Component {
-
-    renderPosts() {
-        return this.props.posts.map(post => {
+const PostList = ({ posts, refetchPosts }) => {
+    const renderPosts = () => {
+        return posts.map(post => {
             return (
-                <PostItem key={post._id} post={post}/>
+                <PostItem
+                    key={post._id}
+                    post={post}
+                    refetchPosts={refetchPosts}
+                />
             );
         });
-    }
+    };
 
-    render() {
-        const { posts } = this.props;
-        if (!posts) {
-            return null;
-        } else {
-            return (
-                <div className="ui container">
-                    <div id="postListContainer" className="ui relaxed list" >
-                        {this.renderPosts()}
-                    </div>
-                </div>
-                );
-            }
-        }
-    }
+    return <>{posts ? <>{renderPosts()}</> : null}</>;
+};
 
-
-
-
-
-export default (PostList);
+export default PostList;
