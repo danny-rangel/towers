@@ -337,7 +337,8 @@ const Profile = ({
                             flexDirection: 'column',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            margin: '130px auto 100px'
+                            margin: '130px auto 100px',
+                            overflow: 'visible'
                         }}
                         dataLength={posts.length}
                         next={() => {
