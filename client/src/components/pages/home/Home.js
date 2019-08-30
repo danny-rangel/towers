@@ -3,12 +3,12 @@ import './Home.css';
 import history from '../../../history';
 import PostList from '../../post/PostList';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
 import {
     fetchFollowerPosts,
     isFetching,
     continuefetchFollowerPosts,
-    fetchAllFollowerPostsCount
+    fetchAllFollowerPostsCount,
+    clearPostsState
 } from '../../../actions';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Wrapper from '../../styled/Wrapper';
@@ -22,18 +22,26 @@ const Home = ({
     continuefetchFollowerPosts,
     isFetching,
     postCount,
-    fetchAllFollowerPostsCount
+    fetchAllFollowerPostsCount,
+    clearPostsState
 }) => {
     const [page, setPage] = useState(0);
+
+    const fetchHomePosts = () => {
+        // history.push('/home');
+        isFetching(true);
+        setPage(0);
+        clearPostsState();
+        fetchAllFollowerPostsCount();
+        fetchFollowerPosts();
+        isFetching(false);
+    };
 
     useEffect(() => {
         if (!auth) {
             history.push('/');
         } else {
-            isFetching(true);
-            fetchAllFollowerPostsCount();
-            fetchFollowerPosts();
-            isFetching(false);
+            fetchHomePosts();
         }
     }, [auth]);
 
@@ -43,11 +51,12 @@ const Home = ({
                 <InfiniteScroll
                     style={{
                         width: '100%',
-                        maxWidth: '525px',
+                        maxWidth: '325px',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'center',
-                        alignItems: 'center'
+                        alignItems: 'center',
+                        overflow: 'visible'
                     }}
                     dataLength={posts.length}
                     next={() => {
@@ -55,14 +64,14 @@ const Home = ({
                         setPage(page + 1);
                     }}
                     hasMore={posts.length !== postCount}
-                    loader={<div>Loading...</div>}
+                    loader={<Loader height="40px" width="40px" />}
                     endMessage={
-                        <h4 style={{ textAlign: 'center', color: 'black' }}>
-                            <b>You're all caught up!</b>
+                        <h4 style={{ textAlign: 'center' }}>
+                            You're all caught up!
                         </h4>
                     }
                 >
-                    <PostList posts={posts} />
+                    <PostList posts={posts} refetchPosts={fetchHomePosts} />
                 </InfiniteScroll>
             ) : (
                 <Loader height="40px" width="40px" />
@@ -81,6 +90,7 @@ export default connect(
         fetchFollowerPosts,
         continuefetchFollowerPosts,
         isFetching,
-        fetchAllFollowerPostsCount
+        fetchAllFollowerPostsCount,
+        clearPostsState
     }
 )(Home);

@@ -76,9 +76,14 @@ const Profile = ({
     const username = match.params.username;
 
     const fetchProfileInformation = () => {
+        setIsLoading(true);
+        clearUserState();
+        clearPostsState();
+        setPage(0);
         checkUser(username);
         fetchAllUserPostsCount(username);
         fetchUserPosts(username);
+        setIsLoading(false);
     };
 
     const fetchFollowingInformation = () => {
@@ -86,13 +91,6 @@ const Profile = ({
             isFollowing(username);
         }
     };
-
-    useEffect(() => {
-        return () => {
-            clearUserState();
-            clearPostsState();
-        };
-    }, []);
 
     useEffect(() => {
         setIsLoading(true);
@@ -126,7 +124,7 @@ const Profile = ({
         return (
             <>
                 <StyledHeader>
-                    {user ? (
+                    {user && !isLoading ? (
                         <>
                             <h1
                                 style={{
@@ -176,7 +174,7 @@ const Profile = ({
                     ) : (
                         <Loader height="40px" width="40px" newcolor="#ffffff" />
                     )}
-                    {user ? (
+                    {user && !isLoading ? (
                         auth ? (
                             user._id !== auth._id ? (
                                 <StyledButton
@@ -210,7 +208,7 @@ const Profile = ({
                     ) : (
                         <Loader height="40px" width="40px" newcolor="#ffffff" />
                     )}
-                    {user ? (
+                    {user && !isLoading ? (
                         <StyledAvatar
                             alt={user.username}
                             src={user.profileImage}
@@ -230,11 +228,11 @@ const Profile = ({
                         <Loader height="40px" width="40px" newcolor="#ffffff" />
                     )}
                 </StyledHeader>
-                {posts ? (
+                {posts && !isLoading ? (
                     <InfiniteScroll
                         style={{
                             width: '95%',
-                            maxWidth: '370px',
+                            maxWidth: '325px',
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center',
@@ -254,7 +252,10 @@ const Profile = ({
                             </h4>
                         }
                     >
-                        <PostList posts={posts} />
+                        <PostList
+                            posts={posts}
+                            refetchPosts={fetchProfileInformation}
+                        />
                     </InfiniteScroll>
                 ) : (
                     <Loader height="40px" width="40px" />

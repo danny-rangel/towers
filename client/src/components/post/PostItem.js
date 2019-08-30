@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import styled from 'styled-components';
-import { songToPlay, likePost } from '../../actions';
+import { songToPlay, likePost, deletePost } from '../../actions';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -23,6 +23,8 @@ import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Dialog from '@material-ui/core/Dialog';
+import StyledButton from '../styled/Button';
 
 const StyledCard = styled(Card)`
     && {
@@ -42,9 +44,25 @@ const StyledMedia = styled(CardMedia)`
     }
 `;
 
+const StyledSpan = styled.span`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 20px 0px;
+`;
+
 const StyledFavoriteIcon = styled(FavoriteIcon)`
     && {
         color: ${props => (props.isliked ? '#ff0000' : 'rgba(0, 0, 0, 0.54)')};
+    }
+`;
+
+const StyledDialog = styled(Dialog)`
+    && {
+        .MuiPaper-root.MuiPaper-elevation24.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm.MuiPaper-rounded {
+            width: 100%;
+        }
     }
 `;
 
@@ -55,12 +73,15 @@ const PostItem = ({
     likePost,
     songPlaying,
     isPlaying,
-    isSongLoading
+    isSongLoading,
+    deletePost,
+    refetchPosts
 }) => {
     const [liked, setLiked] = useState(false);
     const [likeButtonPressed, setLikeButtonPressed] = useState(false);
     const [popperOpen, setPopperOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(false);
 
     const fetchPostLikes = async () => {
         const res = await axios.get(`/api/postsLike/${auth._id}/${post._id}`);
@@ -70,6 +91,20 @@ const PostItem = ({
     const handleClick = event => {
         setAnchorEl(event.currentTarget);
         setPopperOpen(!popperOpen);
+    };
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const selectAndDeletePost = async id => {
+        await deletePost({ _id: id });
+        handleClose();
+        refetchPosts();
     };
 
     useEffect(() => {
@@ -147,14 +182,14 @@ const PostItem = ({
                     <Fade {...TransitionProps} timeout={350}>
                         <Paper style={{ width: '150px', height: '64px' }}>
                             <List>
-                                <Link to={`/posts/delete/${post._id}`}>
-                                    <ListItem button key={`delete ${post._id}`}>
-                                        <DeleteIcon
-                                            style={{ color: '#00d9c5' }}
-                                        />
-                                        <ListItemText primary={'Delete'} />
-                                    </ListItem>
-                                </Link>
+                                <ListItem
+                                    button
+                                    key={`delete ${post._id}`}
+                                    onClick={handleClickOpen}
+                                >
+                                    <DeleteIcon style={{ color: '#00d9c5' }} />
+                                    <ListItemText primary={'Delete'} />
+                                </ListItem>
                             </List>
                         </Paper>
                     </Fade>
@@ -202,6 +237,33 @@ const PostItem = ({
                 </IconButton>
                 <Link to={`/users/${post._id}`}>{post.likes} likes</Link>
             </CardActions>
+            <StyledDialog
+                onClick={e => e.stopPropagation()}
+                onClose={handleClose}
+                aria-labelledby="new-post-dialog"
+                open={open}
+            >
+                <h4 style={{ padding: '20px' }}>
+                    {`Are you sure you want to delete ${post.songName} by ${post.artistName}?`}
+                </h4>
+                <StyledSpan>
+                    <StyledButton
+                        backgroundcolor="primary"
+                        onClick={handleClose}
+                        width="115px"
+                    >
+                        Cancel
+                    </StyledButton>
+                    <StyledButton
+                        backgroundcolor="primary"
+                        type="submit"
+                        width="115px"
+                        onClick={() => selectAndDeletePost(post._id)}
+                    >
+                        Delete
+                    </StyledButton>
+                </StyledSpan>
+            </StyledDialog>
         </StyledCard>
     );
 };
@@ -218,5 +280,5 @@ const mapStateToProps = ({
 
 export default connect(
     mapStateToProps,
-    { songToPlay, likePost }
+    { songToPlay, likePost, deletePost }
 )(PostItem);

@@ -119,7 +119,6 @@ export const submitPost = post => async dispatch => {
 export const deletePost = post => async dispatch => {
     const res = await axios.delete('/api/postDelete', { data: post });
     dispatch({ type: DELETE_POST, payload: res.data });
-    history.push('/home');
 };
 
 export const fetchNotifications = () => async dispatch => {

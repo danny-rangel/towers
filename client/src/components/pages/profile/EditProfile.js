@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router-dom';
@@ -10,31 +10,42 @@ import {
 } from '../../../actions';
 import history from '../../../history';
 
-class EditProfile extends Component {
-    async componentDidMount() {
-        this.props.isFetching(true);
-        await this.props.fetchUser();
-        this.props.isFetching(false);
+let EditProfile = ({
+    isFetching,
+    fetchUser,
+    auth,
+    updateProfile,
+    fetching,
+    handleSubmit
+}) => {
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            isFetching(true);
+            await fetchUser();
+            isFetching(false);
+        };
 
-        if (!this.props.auth) {
+        fetchUserInfo();
+
+        if (!auth) {
             history.push('/');
         }
-    }
+    }, []);
 
-    lower = value => value && value.toLowerCase();
+    let lower = value => value && value.toLowerCase();
 
-    onSubmit = async ({ username, aboutme }) => {
-        this.props.isFetching(true);
+    const onSubmit = async ({ username, aboutme }) => {
+        isFetching(true);
         let profile = {
-            id: this.props.auth._id,
+            id: auth._id,
             username,
             aboutme
         };
-        await this.props.updateProfile(profile);
-        this.props.isFetching(false);
+        await updateProfile(profile);
+        isFetching(false);
     };
 
-    renderError({ error, touched }) {
+    const renderError = ({ error, touched }) => {
         if (touched && error) {
             return (
                 <div className="ui error message">
@@ -42,98 +53,77 @@ class EditProfile extends Component {
                 </div>
             );
         }
-    }
+    };
 
-    renderUsernameInput = ({ input, label, meta }) => {
+    const renderUsernameInput = ({ input, label, meta }) => {
         return (
             <div
                 className={`field ${meta.error && meta.touched ? 'error' : ''}`}
             >
                 <label>{label}</label>
                 <input {...input} />
-                {this.renderError(meta)}
+                {renderError(meta)}
             </div>
         );
     };
 
-    renderAboutMeInput = ({ input, label, meta }) => {
+    const renderAboutMeInput = ({ input, label, meta }) => {
         return (
             <div
                 className={`field ${meta.error && meta.touched ? 'error' : ''}`}
             >
                 <label>{label}</label>
                 <input {...input} />
-                {this.renderError(meta)}
+                {renderError(meta)}
             </div>
         );
     };
 
-    header = 'Edit Profile';
+    if (!auth) {
+        return <div></div>;
+    } else if (fetching) {
+        return <></>;
+    } else {
+        return (
+            <>
+                <h2>Edit Profile</h2>
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="ui form error"
+                >
+                    <Field
+                        name="username"
+                        component={renderUsernameInput}
+                        placeholder="Username"
+                        normalize={lower}
+                        label="Username"
+                    ></Field>
 
-    content = (
-        <form
-            onSubmit={this.props.handleSubmit(this.onSubmit)}
-            className="ui form error"
-        >
-            <div style={{ padding: '10px', margin: 0 }}>
-                <div className="ui equal width form">
-                    <div className="fields">
-                        <Field
-                            name="username"
-                            component={this.renderUsernameInput}
-                            placeholder="Username"
-                            normalize={this.lower}
-                            label="Username"
-                        ></Field>
-                    </div>
-                    <div className="fields">
-                        <Field
-                            name="aboutme"
-                            component={this.renderAboutMeInput}
-                            placeholder="About Me"
-                            label="Bio"
-                            rows="4"
-                        ></Field>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <Link
-                            to={`/${this.props.auth.username}`}
-                            className="negative ui primary button postButton"
-                        >
-                            Cancel
-                        </Link>
-                        <button
-                            type="submit"
-                            className="ui primary button postButton"
-                        >
-                            Save
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    );
+                    <Field
+                        name="aboutme"
+                        component={renderAboutMeInput}
+                        placeholder="About Me"
+                        label="Bio"
+                        rows="4"
+                    ></Field>
 
-    render() {
-        const { auth, fetching } = this.props;
-
-        if (!auth) {
-            return <div></div>;
-        } else if (fetching) {
-            return <></>;
-        } else {
-            return (
-                <>
-                    {/* <Modal
-                        onDismiss={() => history.push(`/${auth.username}`)}
-                        header={this.header}
-                        content={this.content}
-                    /> */}
-                </>
-            );
-        }
+                    <Link
+                        to={`/${auth.username}`}
+                        className="negative ui primary button postButton"
+                    >
+                        Cancel
+                    </Link>
+                    <button
+                        type="submit"
+                        className="ui primary button postButton"
+                    >
+                        Save
+                    </button>
+                </form>
+            </>
+        );
     }
-}
+};
 
 const mapStateToProps = ({ auth, fetching }) => {
     return {

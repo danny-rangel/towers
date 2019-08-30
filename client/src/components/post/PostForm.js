@@ -72,12 +72,29 @@ const PostForm = ({
                 )}
                 style={{ width: '100%', maxWidth: '400px' }}
             ></img>
-            <h4 style={{ margin: '10px 0 0 0' }}>
-                {selectedSong.attributes.name}
-            </h4>
-            <h5 style={{ margin: '5px 0 0 0' }}>
-                {selectedSong.attributes.artistName}
-            </h5>
+            <span
+                style={{
+                    padding: '10px',
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    maxWidth: '400px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'column'
+                }}
+            >
+                <h4 style={{ margin: '10px 0 0 0' }}>
+                    {selectedSong.attributes.name}
+                </h4>
+                <h5
+                    style={{
+                        margin: '5px 0 0 0',
+                        color: 'rgba(97, 97, 97, 0.87)'
+                    }}
+                >
+                    {selectedSong.attributes.artistName}
+                </h5>
+            </span>
             <Field
                 autoComplete="off"
                 type="text"
