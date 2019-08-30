@@ -292,8 +292,7 @@ const Header = ({
                             <StyledSpan
                                 className="tower"
                                 style={{
-                                    justifyContent: 'flex-start',
-                                    marginLeft: '40px'
+                                    justifyContent: 'flex-start'
                                 }}
                             >
                                 <StyledLink

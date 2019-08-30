@@ -24,6 +24,6 @@
 
 @media only screen and (max-width: 600px) {
     .tower {
-        margin-left: 0px;
+        margin-left: 15px;
     }
 }
