@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
-import { Link } from 'react-router-dom';
+import { reduxForm } from 'redux-form';
 import {
     fetchUser,
     isFetching,
@@ -9,6 +8,8 @@ import {
     updateAVI
 } from '../../../actions';
 import history from '../../../history';
+import StyledButton from '../../styled/Button';
+import EditInputs from './EditInputs';
 
 let EditProfile = ({
     isFetching,
@@ -16,7 +17,9 @@ let EditProfile = ({
     auth,
     updateProfile,
     fetching,
-    handleSubmit
+    handleSubmit,
+    handleClose,
+    refetch
 }) => {
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -32,8 +35,6 @@ let EditProfile = ({
         }
     }, []);
 
-    let lower = value => value && value.toLowerCase();
-
     const onSubmit = async ({ username, aboutme }) => {
         isFetching(true);
         let profile = {
@@ -42,41 +43,8 @@ let EditProfile = ({
             aboutme
         };
         await updateProfile(profile);
+        refetch();
         isFetching(false);
-    };
-
-    const renderError = ({ error, touched }) => {
-        if (touched && error) {
-            return (
-                <div className="ui error message">
-                    <div className="header">{error}</div>
-                </div>
-            );
-        }
-    };
-
-    const renderUsernameInput = ({ input, label, meta }) => {
-        return (
-            <div
-                className={`field ${meta.error && meta.touched ? 'error' : ''}`}
-            >
-                <label>{label}</label>
-                <input {...input} />
-                {renderError(meta)}
-            </div>
-        );
-    };
-
-    const renderAboutMeInput = ({ input, label, meta }) => {
-        return (
-            <div
-                className={`field ${meta.error && meta.touched ? 'error' : ''}`}
-            >
-                <label>{label}</label>
-                <input {...input} />
-                {renderError(meta)}
-            </div>
-        );
     };
 
     if (!auth) {
@@ -86,39 +54,37 @@ let EditProfile = ({
     } else {
         return (
             <>
-                <h2>Edit Profile</h2>
+                <h1 style={{ textAlign: 'center', margin: '10px' }}>
+                    Edit Profile
+                </h1>
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     className="ui form error"
                 >
-                    <Field
-                        name="username"
-                        component={renderUsernameInput}
-                        placeholder="Username"
-                        normalize={lower}
-                        label="Username"
-                    ></Field>
-
-                    <Field
-                        name="aboutme"
-                        component={renderAboutMeInput}
-                        placeholder="About Me"
-                        label="Bio"
-                        rows="4"
-                    ></Field>
-
-                    <Link
-                        to={`/${auth.username}`}
-                        className="negative ui primary button postButton"
+                    {' '}
+                    <EditInputs />
+                    <span
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'space-around',
+                            margin: '30px'
+                        }}
                     >
-                        Cancel
-                    </Link>
-                    <button
-                        type="submit"
-                        className="ui primary button postButton"
-                    >
-                        Save
-                    </button>
+                        <StyledButton
+                            backgroundcolor="primary"
+                            width="100px"
+                            onClick={handleClose}
+                        >
+                            Cancel
+                        </StyledButton>
+                        <StyledButton
+                            backgroundcolor="primary"
+                            width="100px"
+                            type="submit"
+                        >
+                            Save
+                        </StyledButton>
+                    </span>
                 </form>
             </>
         );

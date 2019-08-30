@@ -1,27 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { fetchUser, isFetching, updateAVI } from '../../../actions';
-import history from '../../../history';
+import { isFetching, updateAVI } from '../../../actions';
 import axios from 'axios';
+import StyledButton from '../../styled/Button';
 
-const EditAVI = ({ isFetching, fetchUser, updateAVI, auth, fetching }) => {
+const EditAVI = ({
+    isFetching,
+    updateAVI,
+    auth,
+    fetching,
+    handleClose,
+    refetch
+}) => {
     const [avi, setAvi] = useState(null);
-    const [percentCompleted, setPercentCompleted] = useState(null);
-
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            isFetching(true);
-            await fetchUser();
-            isFetching(false);
-        };
-
-        fetchUserInfo();
-
-        if (!auth) {
-            history.push('/');
-        }
-    }, []);
 
     const onSubmit = async () => {
         isFetching(true);
@@ -29,39 +20,13 @@ const EditAVI = ({ isFetching, fetchUser, updateAVI, auth, fetching }) => {
         formData.append('avi', avi, avi.name);
         // this.props.updateAVI(formData, this.props.auth.username);
 
-        let config = {
-            onUploadProgress: progressEvent => {
-                let percentCompleted = Math.round(
-                    (progressEvent.loaded * 100) / progressEvent.total
-                );
-                setPercentCompleted(percentCompleted);
-                //   console.log(this.state.percentCompleted);
-            }
-        };
-
-        const res = await axios.patch(`/api/avi`, formData, config);
+        const res = await axios.patch(`/api/avi`, formData);
         // dispatch({ type: 'update_avi', payload: res.data });
         await updateAVI(res.data);
+        refetch();
+        handleClose();
         isFetching(false);
     };
-
-    let header = 'Edit Profile Picture';
-
-    let content = (
-        <div>
-            <input type="file" onChange={e => setAvi(e.target.files[0])} />
-
-            <Link
-                to={`/${auth.username}`}
-                className="negative ui primary button postButton"
-            >
-                Cancel
-            </Link>
-            <button onClick={onSubmit} className="ui primary button postButton">
-                Save
-            </button>
-        </div>
-    );
 
     if (!auth) {
         return <div></div>;
@@ -70,11 +35,39 @@ const EditAVI = ({ isFetching, fetchUser, updateAVI, auth, fetching }) => {
     } else {
         return (
             <>
-                {/* <Modal
-                        onDismiss={() => history.push(`/${auth.username}`)}
-                        header={this.header}
-                        content={this.content}
-                    /> */}
+                <h1 style={{ textAlign: 'center', margin: '10px' }}>
+                    Edit Profile Picture
+                </h1>
+                <span style={{ display: 'flex', justifyContent: 'center' }}>
+                    <input
+                        type="file"
+                        onChange={e => setAvi(e.target.files[0])}
+                        style={{ padding: '10px' }}
+                    />
+                </span>
+                <span
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'space-around',
+                        margin: '30px'
+                    }}
+                >
+                    <StyledButton
+                        backgroundcolor="primary"
+                        width="100px"
+                        onClick={handleClose}
+                    >
+                        Cancel
+                    </StyledButton>
+                    <StyledButton
+                        backgroundcolor="primary"
+                        width="100px"
+                        type="submit"
+                        onClick={onSubmit}
+                    >
+                        Save
+                    </StyledButton>
+                </span>
             </>
         );
     }
@@ -89,5 +82,5 @@ const mapStateToProps = ({ auth, fetching }) => {
 
 export default connect(
     mapStateToProps,
-    { fetchUser, isFetching, updateAVI }
+    { isFetching, updateAVI }
 )(EditAVI);

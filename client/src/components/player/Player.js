@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import media from '../styled/media';
 import Volume from './Volume';
 import Progress from './Progress';
 import secondsFormatted from '../../utils/secondsFormatted';
@@ -31,15 +32,29 @@ const StyledAppBar = styled(AppBar)`
         background-color: #ffffff;
         color: #000000;
         align-items: center;
-        justify-content: space-around;
+        /* justify-content: space-evenly; */
     }
 `;
 
 const StyledSongInfo = styled.span`
-    font-size: 10px;
+    font-size: 12px;
     display: flex;
     flex-direction: column;
     margin: 0 10px;
+`;
+
+const StyledVolumeSpan = styled.span`
+    display: flex;
+    ${media.large`
+        display: none;
+    `}
+`;
+
+const StyledProgressSpan = styled.span`
+    display: flex;
+    ${media.large`
+        display: none;
+    `}
 `;
 
 const Player = ({
@@ -123,28 +138,32 @@ const Player = ({
     const renderPlayer = () => {
         return (
             <>
-                <IconButton onClick={changeSongVolume}>
-                    {volume === 0 ? (
-                        <VolumeOffIcon style={{ color: '#00d9c5' }} />
-                    ) : (
-                        <VolumeUpIcon style={{ color: '#00d9c5' }} />
-                    )}
-                </IconButton>
-                <Volume />
-                <StyledSongInfo>
-                    <span>{songPlaying.name}</span>
-                    <span>{songPlaying.artist}</span>
-                </StyledSongInfo>
-                <img
-                    alt={songPlaying.name}
-                    src={songPlaying.artwork}
-                    style={{ width: '48px', height: '48px' }}
-                ></img>
+                <span
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flex: '0 1 300px',
+                        justifyContent: 'flex-start',
+                        margin: '0 0 0 40px'
+                    }}
+                >
+                    <img
+                        alt={songPlaying.name}
+                        src={songPlaying.artwork}
+                        style={{ width: '48px', height: '48px' }}
+                    ></img>
+
+                    <StyledSongInfo>
+                        <span>{songPlaying.name}</span>
+                        <span>{songPlaying.artist}</span>
+                    </StyledSongInfo>
+                </span>
 
                 {isPlaying ? (
                     <IconButton
                         aria-label="pause"
                         disabled={isSongLoading}
+                        style={{ flex: '0 0 50px', marginRight: '20px' }}
                         onClick={() => {
                             playSong();
                         }}
@@ -155,6 +174,7 @@ const Player = ({
                     <IconButton
                         aria-label="play"
                         disabled={isSongLoading}
+                        style={{ flex: '0 0 50px', marginRight: '20px' }}
                         onClick={() => {
                             playSong();
                         }}
@@ -163,11 +183,40 @@ const Player = ({
                     </IconButton>
                 )}
 
-                <span style={{ fontSize: '10px' }}>{time}</span>
-                <Progress />
-                <span style={{ fontSize: '10px' }}>
-                    {secondsFormatted(musicKit.player.currentPlaybackDuration)}
-                </span>
+                <StyledVolumeSpan
+                    style={{
+                        alignItems: 'center',
+                        flex: '0 1 180px',
+                        justifyContent: 'center'
+                    }}
+                >
+                    <IconButton onClick={changeSongVolume}>
+                        {volume === 0 ? (
+                            <VolumeOffIcon style={{ color: '#00d9c5' }} />
+                        ) : (
+                            <VolumeUpIcon style={{ color: '#00d9c5' }} />
+                        )}
+                    </IconButton>
+                    <Volume />
+                </StyledVolumeSpan>
+
+                <StyledProgressSpan
+                    style={{
+                        alignItems: 'center',
+                        flex: '1 3 320px',
+                        justifyContent: 'center'
+                    }}
+                >
+                    <span style={{ fontSize: '12px', margin: '0 10px 0 0' }}>
+                        {time}
+                    </span>
+                    <Progress />
+                    <span style={{ fontSize: '12px', margin: '0 0 0 10px' }}>
+                        {secondsFormatted(
+                            musicKit.player.currentPlaybackDuration
+                        )}
+                    </span>
+                </StyledProgressSpan>
             </>
         );
     };

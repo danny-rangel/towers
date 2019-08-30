@@ -30,7 +30,6 @@ const StyledTab = styled(Tab)`
 `;
 
 const Search = ({ searchSongs, searchUsers, match, users }) => {
-    const [showUserSearch, setShowUserSearch] = useState(false);
     const [showSongSearch, setShowSongSearch] = useState(true);
     const [value, setValue] = useState(0);
 
@@ -46,12 +45,10 @@ const Search = ({ searchSongs, searchUsers, match, users }) => {
     useEffect(() => {
         if (history.location.pathname.slice(8) === 'users') {
             setValue(1);
-            setShowUserSearch(true);
             setShowSongSearch(false);
         } else {
             setValue(0);
             setShowSongSearch(true);
-            setShowUserSearch(false);
         }
     }, [match]);
 

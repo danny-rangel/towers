@@ -6,7 +6,7 @@ import { setVolume } from '../../actions';
 
 const StyledVolume = styled(Slider)`
     && {
-        max-width: 200px;
+        max-width: 100px;
         width: 90%;
         color: #00d9c5;
 

@@ -12,6 +12,7 @@ import {
     viewNotifications
 } from '../actions';
 import socket from '../utils/socketClient';
+import history from '../history';
 
 import StyledDrawer from './styled/Drawer';
 import SearchIcon from '@material-ui/icons/Search';
@@ -21,12 +22,12 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
+import StyledButton from './styled/Button';
 
 const StyledHeader = styled.div`
     height: 60px;
     width: 100%;
-    display: ${props => (props.auth ? 'flex' : 'none')};
+    display: flex;
     align-items: center;
     box-shadow: 0px 1px 0px rgba(165, 164, 164, 0.24);
 `;
@@ -36,7 +37,7 @@ const StyledSpan = styled.span`
     display: flex;
     justify-content: center;
 
-    ${media.small`
+    ${media.medium`
         flex: 1;
     `}
 `;
@@ -47,7 +48,7 @@ const StyledAVISpan = styled.span`
     justify-content: flex-end;
     margin-right: 100px;
 
-    ${media.small`
+    ${media.medium`
         margin-right: 0px;
         justify-content: center;
         flex: 1;
@@ -154,135 +155,184 @@ const Header = ({
     };
 
     return (
-        <StyledHeader auth={auth}>
-            <StyledSpan className="tower">
-                <StyledLink
-                    onClick={newPost ? fetchNewStuff : null}
-                    to={'/home'}
-                    style={{
-                        width: '40px',
-                        height: '40px',
-                        display: 'flex',
-                        alignItems: 'center'
-                    }}
-                >
-                    <IconButton>
-                        <svg className="icon"></svg>
-                    </IconButton>
-                </StyledLink>
-            </StyledSpan>
-            <StyledSpan>
-                <StyledLink to="/search/songs">
-                    <IconButton>
-                        <StyledIcon />
-                    </IconButton>
-                </StyledLink>
-            </StyledSpan>
-            <StyledSpan>
-                <StyledLink
-                    onClick={newNotifications ? clearNewNotifications : null}
-                    to="/notifications"
-                >
-                    <IconButton>
-                        {newNotifications ? (
-                            <StyledNotiActiveIcon />
-                        ) : (
-                            <StyledNotiIcon />
-                        )}
-                    </IconButton>
-                </StyledLink>
-            </StyledSpan>
-            <StyledAVISpan>
-                {auth ? (
-                    <StyledAvatarButton onClick={() => setDrawerOpen(true)}>
-                        <StyledAvatar
-                            alt={auth.username}
-                            src={auth.profileImage}
-                        ></StyledAvatar>
-                    </StyledAvatarButton>
-                ) : (
-                    <div>Loading...</div>
-                )}
-            </StyledAVISpan>
-            {auth ? (
-                <StyledDrawer drawerOpen={drawerOpen} closeDrawer={closeDrawer}>
-                    <List>
-                        <Link
-                            to={`/${auth.username}`}
-                            style={{ textDecoration: 'none', color: '#000000' }}
-                        >
-                            <ListItem button key={auth.username}>
-                                <img
+        <>
+            {history.location.pathname !== '/' ? (
+                <StyledHeader>
+                    {auth ? (
+                        <>
+                            <StyledSpan className="tower">
+                                <StyledLink
+                                    onClick={newPost ? fetchNewStuff : null}
+                                    to={'/home'}
                                     style={{
                                         width: '40px',
                                         height: '40px',
-                                        backgroundColor: 'gray',
-                                        borderRadius: '50%',
-                                        margin: '0 16px'
+                                        display: 'flex',
+                                        alignItems: 'center'
                                     }}
-                                    alt={auth.username}
-                                    src={auth.profileImage}
-                                ></img>
-                                <ListItemText primary={auth.username} />
-                            </ListItem>
-                        </Link>
-                        <Divider />
-                        <ListItem
-                            button
-                            key={'applemusic'}
-                            onClick={() => {
-                                if (authorized) {
-                                    unauthorizeUser();
-                                } else {
-                                    authorizeUser();
-                                }
-                            }}
-                        >
-                            <svg className="apple"></svg>
-                            <ListItemText
-                                primary={
-                                    authorized
-                                        ? 'Sign out of Apple Music'
-                                        : 'Listen with Apple Music'
-                                }
-                            />
-                        </ListItem>
-                        <Link
-                            to={`/about`}
-                            style={{ textDecoration: 'none', color: '#000000' }}
-                        >
-                            <ListItem button key={'about'}>
-                                <ListItemText
-                                    style={{ padding: '0 20px' }}
-                                    primary={'About'}
-                                />
-                            </ListItem>
-                        </Link>
-                        <a
-                            href="/api/logout"
-                            style={{ textDecoration: 'none', color: '#000000' }}
-                        >
-                            <ListItem button key={'logout'}>
-                                <ListItemText
-                                    style={{ padding: '0 20px' }}
-                                    primary={'Sign out'}
-                                />
-                            </ListItem>
-                        </a>
-                    </List>
-                </StyledDrawer>
+                                >
+                                    <svg className="icon"></svg>
+                                </StyledLink>
+                            </StyledSpan>
+                            <StyledSpan>
+                                <StyledLink to="/search/songs">
+                                    <StyledIcon />
+                                </StyledLink>
+                            </StyledSpan>
+                            <StyledSpan>
+                                <StyledLink
+                                    onClick={
+                                        newNotifications
+                                            ? clearNewNotifications
+                                            : null
+                                    }
+                                    to="/notifications"
+                                >
+                                    {newNotifications ? (
+                                        <StyledNotiActiveIcon />
+                                    ) : (
+                                        <StyledNotiIcon />
+                                    )}
+                                </StyledLink>
+                            </StyledSpan>
+                            <StyledAVISpan>
+                                <StyledAvatarButton
+                                    onClick={() => setDrawerOpen(true)}
+                                >
+                                    <StyledAvatar
+                                        alt={auth.username}
+                                        src={auth.profileImage}
+                                    ></StyledAvatar>
+                                </StyledAvatarButton>
+                            </StyledAVISpan>
+
+                            <StyledDrawer
+                                drawerOpen={drawerOpen}
+                                closeDrawer={closeDrawer}
+                            >
+                                <List>
+                                    <Link
+                                        to={`/${auth.username}`}
+                                        style={{
+                                            textDecoration: 'none',
+                                            color: '#000000'
+                                        }}
+                                    >
+                                        <ListItem button key={auth.username}>
+                                            <img
+                                                style={{
+                                                    width: '40px',
+                                                    height: '40px',
+                                                    backgroundColor: 'gray',
+                                                    borderRadius: '50%',
+                                                    margin: '0 16px'
+                                                }}
+                                                alt={auth.username}
+                                                src={auth.profileImage}
+                                            ></img>
+                                            <ListItemText
+                                                primary={auth.username}
+                                            />
+                                        </ListItem>
+                                    </Link>
+                                    <Divider />
+                                    <ListItem
+                                        button
+                                        key={'applemusic'}
+                                        onClick={() => {
+                                            if (authorized) {
+                                                unauthorizeUser();
+                                            } else {
+                                                authorizeUser();
+                                            }
+                                        }}
+                                    >
+                                        <svg className="apple"></svg>
+                                        <ListItemText
+                                            primary={
+                                                authorized
+                                                    ? 'Sign out of Apple Music'
+                                                    : 'Listen with Apple Music'
+                                            }
+                                        />
+                                    </ListItem>
+                                    {/* <Link
+                                to={`/about`}
+                                style={{
+                                    textDecoration: 'none',
+                                    color: '#000000'
+                                }}
+                            >
+                                <ListItem button key={'about'}>
+                                    <ListItemText
+                                        style={{ padding: '0 20px' }}
+                                        primary={'About'}
+                                    />
+                                </ListItem>
+                            </Link> */}
+                                    <a
+                                        href="/api/logout"
+                                        style={{
+                                            textDecoration: 'none',
+                                            color: '#000000'
+                                        }}
+                                    >
+                                        <ListItem button key={'logout'}>
+                                            <ListItemText
+                                                style={{ padding: '0 20px' }}
+                                                primary={'Sign out'}
+                                            />
+                                        </ListItem>
+                                    </a>
+                                </List>
+                            </StyledDrawer>
+                        </>
+                    ) : (
+                        <>
+                            <StyledSpan
+                                className="tower"
+                                style={{
+                                    justifyContent: 'flex-start',
+                                    marginLeft: '40px'
+                                }}
+                            >
+                                <StyledLink
+                                    to={'/'}
+                                    style={{
+                                        width: '105px',
+                                        height: '50px',
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}
+                                >
+                                    <svg className="logo-text"></svg>
+                                </StyledLink>
+                            </StyledSpan>
+                            <StyledButton
+                                width="120px"
+                                margin="0 20px"
+                                backgroundcolor="primary"
+                                href="/auth/google"
+                            >
+                                Log In
+                            </StyledButton>
+                            <StyledButton
+                                width="120px"
+                                margin="0 20px"
+                                backgroundcolor="primary"
+                                href="/auth/google"
+                            >
+                                Sign Up
+                            </StyledButton>
+                        </>
+                    )}
+                </StyledHeader>
             ) : null}
-        </StyledHeader>
+        </>
     );
 };
 
-const mapStateToProps = ({
-    auth,
-    authorized,
-    musicKit,
-    sidebar,
-    newNotifications
-}) => {
+const mapStateToProps = ({ auth, authorized, musicKit, newNotifications }) => {
     return { auth, authorized, musicKit, newNotifications };
 };
 

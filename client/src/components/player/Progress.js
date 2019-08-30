@@ -6,7 +6,7 @@ import ValueLabel from './ValueLabel';
 
 const StyledProgress = styled(Slider)`
     && {
-        max-width: 400px;
+        max-width: 300px;
         width: 90%;
         color: #00d9c5;
 
