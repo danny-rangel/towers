@@ -290,7 +290,7 @@ const Header = ({
                     ) : (
                         <>
                             <StyledSpan
-                                className="tower"
+                                className="tower-text"
                                 style={{
                                     justifyContent: 'flex-start'
                                 }}

@@ -22,7 +22,15 @@
     margin-left: 40px;
 }
 
+.tower-text {
+    margin-left: 40px;
+}
+
 @media only screen and (max-width: 600px) {
+    .tower-text {
+        margin-left: 15px;
+    }
+
     .tower {
         margin-left: 0px;
     }
