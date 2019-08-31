@@ -62,9 +62,9 @@ const Landing = ({ auth }) => {
     return (
         <StyledDiv className="background">
             <StyledText className="friends" style={{ gridArea: 'friends' }}>
-                Good Friends
+                Good Friends.
             </StyledText>
-            <StyledText style={{ gridArea: 'music' }}>Good Music</StyledText>
+            <StyledText style={{ gridArea: 'music' }}>Good Music.</StyledText>
             <StyledPaper>
                 <svg className="logo"></svg>
 
