@@ -58,11 +58,7 @@ const StyledAVISpan = styled.span`
 const StyledAvatar = styled.img`
     width: 40px;
     height: 40px;
-    background-color: gray;
     border-radius: 50%;
-    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
-        0px 4px 5px 0px rgba(0, 0, 0, 0.14),
-        0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 `;
 
 const StyledLink = styled(Link)`
@@ -223,7 +219,6 @@ const Header = ({
                                                 style={{
                                                     width: '40px',
                                                     height: '40px',
-                                                    backgroundColor: 'gray',
                                                     borderRadius: '50%',
                                                     margin: '0 16px'
                                                 }}
@@ -256,20 +251,6 @@ const Header = ({
                                             }
                                         />
                                     </ListItem>
-                                    {/* <Link
-                                to={`/about`}
-                                style={{
-                                    textDecoration: 'none',
-                                    color: '#000000'
-                                }}
-                            >
-                                <ListItem button key={'about'}>
-                                    <ListItemText
-                                        style={{ padding: '0 20px' }}
-                                        primary={'About'}
-                                    />
-                                </ListItem>
-                            </Link> */}
                                     <a
                                         href="/api/logout"
                                         style={{
