@@ -16,7 +16,7 @@ const StyledDiv = styled.div`
         'form form';
     align-items: center;
 
-    ${media.medium`
+    ${media.alt`
         grid-template-rows: 165px 80px 1fr;
         grid-template-columns: 1fr;
         grid-template-areas:
@@ -40,8 +40,8 @@ const StyledPaper = styled(Paper)`
         align-items: center;
         justify-content: center;
 
-        ${media.small`
-            align-self: center;
+        ${media.alt`
+            margin-top: 40px;
         `}
     }
 `;
@@ -50,6 +50,10 @@ const StyledText = styled.h1`
     justify-self: center;
     font-size: 3.2rem;
     color: #000000;
+
+    ${media.alt`
+        font-size: 2.5rem;
+    `}
 `;
 
 const Landing = ({ auth }) => {

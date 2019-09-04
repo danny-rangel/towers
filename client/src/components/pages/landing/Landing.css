@@ -11,7 +11,7 @@
     height: 150px;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 630px) {
     .background {
         background: url('../../../images/mobilebg.svg') 50% 50% no-repeat;
         background-size: cover;
