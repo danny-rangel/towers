@@ -293,6 +293,7 @@ const Header = ({
                                 margin="0 20px"
                                 backgroundcolor="primary"
                                 href="/auth/google"
+                                style={{ flex: '0 1 120px' }}
                             >
                                 Log In
                             </StyledButton>
@@ -301,6 +302,7 @@ const Header = ({
                                 margin="0 20px"
                                 backgroundcolor="primary"
                                 href="/auth/google"
+                                style={{ flex: '0 1 120px' }}
                             >
                                 Sign Up
                             </StyledButton>
