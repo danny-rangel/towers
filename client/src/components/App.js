@@ -21,6 +21,7 @@ import Player from './player/Player';
 import Profile from './pages/profile/Profile';
 import PostDelete from './post/PostDelete';
 import EditProfile from './pages/profile/EditProfile';
+import NewProfile from './pages/profile/NewProfile';
 import EditAVI from './pages/profile/EditAVI';
 import Loader from './styled/Loader';
 import Listener from './pages/profile/Listener';
@@ -55,12 +56,20 @@ const App = ({
         musicKit.volume = 1;
         setVolume(musicKit.volume);
 
+        // if (auth) {
+        //     if (auth.username === '') {
+        //         history.push(`/edit/${auth._id}`);
+        //     }
+        // }
+    }, []);
+
+    useEffect(() => {
         if (auth) {
             if (auth.username === '') {
-                history.push(`/edit/${auth._id}`);
+                history.push(`/new/${auth._id}`);
             }
         }
-    }, []);
+    }, [auth]);
 
     if (loading) {
         return <Loader height="40px" width="40px" />;
@@ -76,6 +85,11 @@ const App = ({
                                 exact
                                 path="/edit/:id"
                                 component={EditProfile}
+                            ></Route>
+                            <Route
+                                exact
+                                path="/new/:id"
+                                component={NewProfile}
                             ></Route>
                             <Route
                                 exact

@@ -43,7 +43,7 @@ const Home = ({
         } else {
             if (auth) {
                 if (auth.username === '') {
-                    history.push(`/edit/${auth._id}`);
+                    history.push(`/new/${auth._id}`);
                 }
             }
             fetchHomePosts();

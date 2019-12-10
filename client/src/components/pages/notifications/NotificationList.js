@@ -40,7 +40,15 @@ const NotificationList = ({ notifications, fetching }) => {
     } else if (!notifications) {
         return null;
     } else {
-        return <StyledPaper>{renderNotifications()}</StyledPaper>;
+        return (
+            <>
+                {notifications.length === 0 ? (
+                    <h3 style={{ margin: '20px' }}>No notifications</h3>
+                ) : (
+                    <StyledPaper>{renderNotifications()}</StyledPaper>
+                )}
+            </>
+        );
     }
 };
 
