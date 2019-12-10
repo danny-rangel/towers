@@ -9,6 +9,7 @@ import {
 import NotificationList from './NotificationList';
 import socket from '../../../utils/socketClient';
 import Wrapper from '../../styled/Wrapper';
+import history from '../../../history';
 
 const Notifications = ({
     notifications,
@@ -16,9 +17,16 @@ const Notifications = ({
     isFetching,
     viewNotifications,
     fetchNotifications,
-    haveNewNotifications
+    haveNewNotifications,
+    auth
 }) => {
     useEffect(() => {
+        if (auth) {
+            if (auth.username === '') {
+                history.push(`/edit/${auth._id}`);
+            }
+        }
+
         const fetchInfo = async () => {
             isFetching(true);
             await viewNotifications();
@@ -44,11 +52,13 @@ const Notifications = ({
     );
 };
 
-const mapStateToProps = ({ notifications, fetching }) => {
-    return { notifications, fetching };
+const mapStateToProps = ({ notifications, fetching, auth }) => {
+    return { notifications, fetching, auth };
 };
 
-export default connect(
-    mapStateToProps,
-    { isFetching, fetchNotifications, viewNotifications, haveNewNotifications }
-)(Notifications);
+export default connect(mapStateToProps, {
+    isFetching,
+    fetchNotifications,
+    viewNotifications,
+    haveNewNotifications
+})(Notifications);

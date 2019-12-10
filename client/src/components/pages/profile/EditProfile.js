@@ -19,7 +19,7 @@ let EditProfile = ({
     fetching,
     handleSubmit,
     handleClose,
-    refetch
+    refetch = () => null
 }) => {
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -136,9 +136,11 @@ EditProfile = reduxForm({
     validate
 })(EditProfile);
 
-EditProfile = connect(
-    mapStateToProps,
-    { fetchUser, isFetching, updateProfile, updateAVI }
-)(EditProfile);
+EditProfile = connect(mapStateToProps, {
+    fetchUser,
+    isFetching,
+    updateProfile,
+    updateAVI
+})(EditProfile);
 
 export default EditProfile;

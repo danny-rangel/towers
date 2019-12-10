@@ -29,7 +29,7 @@ const StyledTab = styled(Tab)`
     }
 `;
 
-const Search = ({ searchSongs, searchUsers, match, users }) => {
+const Search = ({ searchSongs, searchUsers, match, users, auth }) => {
     const [showSongSearch, setShowSongSearch] = useState(true);
     const [value, setValue] = useState(0);
 
@@ -43,6 +43,12 @@ const Search = ({ searchSongs, searchUsers, match, users }) => {
     }
 
     useEffect(() => {
+        if (auth) {
+            if (auth.username === '') {
+                history.push(`/edit/${auth._id}`);
+            }
+        }
+
         if (history.location.pathname.slice(8) === 'users') {
             setValue(1);
             setShowSongSearch(false);
@@ -101,7 +107,4 @@ const mapStateToProps = ({ auth, users }) => {
     return { auth, users };
 };
 
-export default connect(
-    mapStateToProps,
-    { searchSongs, searchUsers }
-)(Search);
+export default connect(mapStateToProps, { searchSongs, searchUsers })(Search);

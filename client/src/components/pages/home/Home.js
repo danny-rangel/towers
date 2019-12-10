@@ -41,6 +41,11 @@ const Home = ({
         if (!auth) {
             history.push('/');
         } else {
+            if (auth) {
+                if (auth.username === '') {
+                    history.push(`/edit/${auth._id}`);
+                }
+            }
             fetchHomePosts();
         }
     }, [auth]);
@@ -84,13 +89,10 @@ const mapStateToProps = ({ posts, auth, fetching, postCount }) => {
     return { posts, auth, fetching, postCount };
 };
 
-export default connect(
-    mapStateToProps,
-    {
-        fetchFollowerPosts,
-        continuefetchFollowerPosts,
-        isFetching,
-        fetchAllFollowerPostsCount,
-        clearPostsState
-    }
-)(Home);
+export default connect(mapStateToProps, {
+    fetchFollowerPosts,
+    continuefetchFollowerPosts,
+    isFetching,
+    fetchAllFollowerPostsCount,
+    clearPostsState
+})(Home);
