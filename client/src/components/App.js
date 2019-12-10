@@ -60,7 +60,7 @@ const App = ({
                 history.push(`/edit/${auth._id}`);
             }
         }
-    }, [auth]);
+    }, []);
 
     if (loading) {
         return <Loader height="40px" width="40px" />;
