@@ -60,7 +60,7 @@ const App = ({
                 history.push(`/edit/${auth._id}`);
             }
         }
-    }, []);
+    }, [auth]);
 
     if (loading) {
         return <Loader height="40px" width="40px" />;
@@ -128,7 +128,9 @@ const mapStateToProps = ({ musicKit, authorized, auth }) => {
     return { musicKit, authorized, auth };
 };
 
-export default connect(
-    mapStateToProps,
-    { fetchUser, fetchMusicInstance, isMusicKitAuthorized, setVolume }
-)(App);
+export default connect(mapStateToProps, {
+    fetchUser,
+    fetchMusicInstance,
+    isMusicKitAuthorized,
+    setVolume
+})(App);
