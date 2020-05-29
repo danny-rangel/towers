@@ -54,7 +54,8 @@ const StyledSpan = styled.span`
 
 const StyledFavoriteIcon = styled(FavoriteIcon)`
     && {
-        color: ${props => (props.isliked ? '#ff0000' : 'rgba(0, 0, 0, 0.54)')};
+        color: ${(props) =>
+            props.isliked ? '#ff0000' : 'rgba(0, 0, 0, 0.54)'};
     }
 `;
 
@@ -75,7 +76,7 @@ const PostItem = ({
     isPlaying,
     isSongLoading,
     deletePost,
-    refetchPosts
+    refetchPosts,
 }) => {
     const [liked, setLiked] = useState(false);
     const [likeButtonPressed, setLikeButtonPressed] = useState(false);
@@ -88,7 +89,7 @@ const PostItem = ({
         return res.data;
     };
 
-    const handleClick = event => {
+    const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
         setPopperOpen(!popperOpen);
     };
@@ -101,7 +102,7 @@ const PostItem = ({
         setOpen(false);
     };
 
-    const selectAndDeletePost = async id => {
+    const selectAndDeletePost = async (id) => {
         await deletePost({ _id: id });
         handleClose();
         refetchPosts();
@@ -110,7 +111,7 @@ const PostItem = ({
     useEffect(() => {
         let isMounted = true;
         if (auth && isMounted) {
-            fetchPostLikes().then(res => {
+            fetchPostLikes().then((res) => {
                 setLiked(res ? res : false);
             });
         }
@@ -126,7 +127,7 @@ const PostItem = ({
         songName,
         artistName,
         albumName,
-        albumArt
+        albumArt,
     }) => {
         let nowPlaying = {
             url: songURL,
@@ -135,19 +136,19 @@ const PostItem = ({
             artist: artistName,
             album: albumName,
             artwork: albumArt,
-            played: Math.floor(Math.random() * 1000 + 1)
+            played: Math.floor(Math.random() * 1000 + 1),
         };
         songToPlay(nowPlaying);
     };
 
-    const collectAndSubmitLike = async likedPost => {
+    const collectAndSubmitLike = async (likedPost) => {
         setLikeButtonPressed(true);
 
         const newLike = {
             postId: likedPost._id,
             likerId: auth._id,
             username: auth.username,
-            profileImage: auth.profileImage
+            profileImage: auth.profileImage,
         };
 
         await likePost(newLike);
@@ -163,7 +164,7 @@ const PostItem = ({
                     post.userId === auth._id ? (
                         <IconButton
                             aria-label="settings"
-                            onClick={e => handleClick(e)}
+                            onClick={(e) => handleClick(e)}
                         >
                             <MoreVertIcon style={{ color: '#00d9c5' }} />
                         </IconButton>
@@ -197,6 +198,11 @@ const PostItem = ({
             </Popper>
             <StyledMedia image={post.albumArt} title={post.songName} />
             <CardContent>
+                <h5
+                    style={{ color: 'rgba(0, 0, 0, 0.7)', marginBottom: '5px' }}
+                >
+                    <i>{post.caption}</i>
+                </h5>
                 <Link to={`/${post.username}`}>
                     <h4>{post.username}</h4>
                 </Link>
@@ -238,13 +244,15 @@ const PostItem = ({
                 <Link to={`/users/${post._id}`}>{post.likes} likes</Link>
             </CardActions>
             <StyledDialog
-                onClick={e => e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()}
                 onClose={handleClose}
                 aria-labelledby="new-post-dialog"
                 open={open}
             >
                 <h4 style={{ padding: '20px' }}>
-                    {`Are you sure you want to delete ${post.songName} by ${post.artistName}?`}
+                    {`Are you sure you want to delete ${post.songName} by ${
+                        post.artistName
+                    }?`}
                 </h4>
                 <StyledSpan>
                     <StyledButton
@@ -273,7 +281,7 @@ const mapStateToProps = ({
     isPlaying,
     auth,
     likePost,
-    isSongLoading
+    isSongLoading,
 }) => {
     return { songPlaying, isPlaying, auth, likePost, isSongLoading };
 };

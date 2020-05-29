@@ -9,7 +9,7 @@ import {
     haveNewNotifications,
     fetchAllFollowerPostsCount,
     fetchFollowerPosts,
-    viewNotifications
+    viewNotifications,
 } from '../actions';
 import socket from '../utils/socketClient';
 import history from '../history';
@@ -107,7 +107,7 @@ const Header = ({
     haveNewNotifications,
     fetchAllFollowerPostsCount,
     fetchFollowerPosts,
-    viewNotifications
+    viewNotifications,
 }) => {
     const [newPost, setNewPost] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -126,18 +126,21 @@ const Header = ({
         setDrawerOpen(false);
     };
 
-    useEffect(() => {
-        if (auth) {
-            haveNewNotifications();
-            socket.on('notification', () => {
+    useEffect(
+        () => {
+            if (auth) {
                 haveNewNotifications();
-            });
+                socket.on('notification', () => {
+                    haveNewNotifications();
+                });
 
-            socket.on('post', () => {
-                setNewPost(true);
-            });
-        }
-    }, [auth]);
+                socket.on('post', () => {
+                    setNewPost(true);
+                });
+            }
+        },
+        [auth]
+    );
 
     const fetchNewStuff = () => {
         fetchAllFollowerPostsCount();
@@ -164,10 +167,10 @@ const Header = ({
                                         width: '40px',
                                         height: '40px',
                                         display: 'flex',
-                                        alignItems: 'center'
+                                        alignItems: 'center',
                                     }}
                                 >
-                                    <svg className="icon"></svg>
+                                    <svg className="icon" />
                                 </StyledLink>
                             </StyledSpan>
                             <StyledSpan>
@@ -198,7 +201,7 @@ const Header = ({
                                     <StyledAvatar
                                         alt={auth.username}
                                         src={auth.profileImage}
-                                    ></StyledAvatar>
+                                    />
                                 </StyledAvatarButton>
                             </StyledAVISpan>
 
@@ -211,7 +214,7 @@ const Header = ({
                                         to={`/${auth.username}`}
                                         style={{
                                             textDecoration: 'none',
-                                            color: '#000000'
+                                            color: '#000000',
                                         }}
                                     >
                                         <ListItem button key={auth.username}>
@@ -220,11 +223,11 @@ const Header = ({
                                                     width: '40px',
                                                     height: '40px',
                                                     borderRadius: '50%',
-                                                    margin: '0 16px'
+                                                    margin: '0 16px',
                                                 }}
                                                 alt={auth.username}
                                                 src={auth.profileImage}
-                                            ></img>
+                                            />
                                             <ListItemText
                                                 primary={auth.username}
                                             />
@@ -242,7 +245,7 @@ const Header = ({
                                             }
                                         }}
                                     >
-                                        <svg className="apple"></svg>
+                                        <svg className="apple" />
                                         <ListItemText
                                             primary={
                                                 authorized
@@ -255,7 +258,7 @@ const Header = ({
                                         href="/api/logout"
                                         style={{
                                             textDecoration: 'none',
-                                            color: '#000000'
+                                            color: '#000000',
                                         }}
                                     >
                                         <ListItem button key={'logout'}>
@@ -273,7 +276,7 @@ const Header = ({
                             <StyledSpan
                                 className="tower-text"
                                 style={{
-                                    justifyContent: 'flex-start'
+                                    justifyContent: 'flex-start',
                                 }}
                             >
                                 <StyledLink
@@ -282,10 +285,10 @@ const Header = ({
                                         width: '105px',
                                         height: '50px',
                                         display: 'flex',
-                                        alignItems: 'center'
+                                        alignItems: 'center',
                                     }}
                                 >
-                                    <svg className="logo-text"></svg>
+                                    <svg className="logo-text" />
                                 </StyledLink>
                             </StyledSpan>
                             <StyledButton
@@ -293,6 +296,7 @@ const Header = ({
                                 margin="0 20px"
                                 backgroundcolor="primary"
                                 href="/auth/google"
+                                fontsize="13px"
                                 style={{ flex: '0 1 120px' }}
                             >
                                 Log In
@@ -302,6 +306,7 @@ const Header = ({
                                 margin="0 20px"
                                 backgroundcolor="primary"
                                 href="/auth/google"
+                                fontsize="13px"
                                 style={{ flex: '0 1 120px' }}
                             >
                                 Sign Up
@@ -325,6 +330,6 @@ export default connect(
         haveNewNotifications,
         fetchAllFollowerPostsCount,
         fetchFollowerPosts,
-        viewNotifications
+        viewNotifications,
     }
 )(Header);
