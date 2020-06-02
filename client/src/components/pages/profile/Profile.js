@@ -10,7 +10,7 @@ import {
     continuefetchUserPosts,
     fetchAllUserPostsCount,
     clearUserState,
-    clearPostsState
+    clearPostsState,
 } from '../../../actions';
 import Loader from '../../styled/Loader';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -22,51 +22,13 @@ import EditAVI from './EditAVI';
 
 const StyledHeader = styled.div`
     width: 100%;
-    /* background-color: #00d9c5; */
-    background: rgba(0, 217, 195, 1);
-    background: -moz-linear-gradient(
-        top,
-        rgba(0, 217, 195, 1) 0%,
-        rgba(0, 217, 195, 1) 1%,
-        rgba(0, 217, 195, 1) 47%,
-        rgba(0, 242, 255, 1) 100%
+    background: rgb(255, 255, 255);
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(240, 242, 245, 1) 100%
     );
-    background: -webkit-gradient(
-        left top,
-        left bottom,
-        color-stop(0%, rgba(0, 217, 195, 1)),
-        color-stop(1%, rgba(0, 217, 195, 1)),
-        color-stop(47%, rgba(0, 217, 195, 1)),
-        color-stop(100%, rgba(0, 242, 255, 1))
-    );
-    background: -webkit-linear-gradient(
-        top,
-        rgba(0, 217, 195, 1) 0%,
-        rgba(0, 217, 195, 1) 1%,
-        rgba(0, 217, 195, 1) 47%,
-        rgba(0, 242, 255, 1) 100%
-    );
-    background: -o-linear-gradient(
-        top,
-        rgba(0, 217, 195, 1) 0%,
-        rgba(0, 217, 195, 1) 1%,
-        rgba(0, 217, 195, 1) 47%,
-        rgba(0, 242, 255, 1) 100%
-    );
-    background: -ms-linear-gradient(
-        top,
-        rgba(0, 217, 195, 1) 0%,
-        rgba(0, 217, 195, 1) 1%,
-        rgba(0, 217, 195, 1) 47%,
-        rgba(0, 242, 255, 1) 100%
-    );
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 217, 195, 1) 0%,
-        rgba(0, 217, 195, 1) 1%,
-        rgba(0, 217, 195, 1) 47%,
-        rgba(0, 242, 255, 1) 100%
-    );
+    border: 1px solid #f0f2f5;
     height: 420px;
     display: flex;
     justify-content: flex-start;
@@ -97,7 +59,7 @@ const StyledAvatar = styled.img`
         0px 4px 5px 0px rgba(0, 0, 0, 0.14),
         0px 1px 10px 0px rgba(0, 0, 0, 0.12);
     bottom: -19%;
-    cursor: ${props =>
+    cursor: ${(props) =>
         props.auth
             ? props.auth._id === props.user._id
                 ? 'pointer'
@@ -128,7 +90,7 @@ const Profile = ({
     fetchAllUserPostsCount,
     postCount,
     clearUserState,
-    clearPostsState
+    clearPostsState,
 }) => {
     const [page, setPage] = useState(0);
     const [open, setOpen] = useState(false);
@@ -170,17 +132,23 @@ const Profile = ({
         setAviOpen(false);
     };
 
-    useEffect(() => {
-        setIsLoading(true);
-        fetchProfileInformation();
-        setIsLoading(false);
-    }, [match.params.username]);
+    useEffect(
+        () => {
+            setIsLoading(true);
+            fetchProfileInformation();
+            setIsLoading(false);
+        },
+        [match.params.username]
+    );
 
-    useEffect(() => {
-        setIsLoading(true);
-        fetchFollowingInformation();
-        setIsLoading(false);
-    }, [auth]);
+    useEffect(
+        () => {
+            setIsLoading(true);
+            fetchFollowingInformation();
+            setIsLoading(false);
+        },
+        [auth]
+    );
 
     const follow = async (user, auth) => {
         let body = {
@@ -189,7 +157,7 @@ const Profile = ({
             personFollowingUsername: auth.username,
             personFollowedUsername: user.username,
             personFollowingImage: auth.profileImage,
-            personFollowedImage: user.profileImage
+            personFollowedImage: user.profileImage,
         };
 
         await followUser(body);
@@ -206,7 +174,7 @@ const Profile = ({
                                 style={{
                                     margin: '40px 0 10px',
                                     fontWeight: '500',
-                                    fontSize: '2.5rem'
+                                    fontSize: '2.5rem',
                                 }}
                             >
                                 {user.username}
@@ -215,7 +183,7 @@ const Profile = ({
                                 style={{
                                     fontWeight: '100',
                                     margin: '10px 0 20px',
-                                    wordWrap: 'break-word'
+                                    wordWrap: 'break-word',
                                 }}
                             >
                                 {user.aboutme}
@@ -273,7 +241,7 @@ const Profile = ({
                                         Edit Profile
                                     </StyledButton>
                                     <StyledDialog
-                                        onClick={e => e.stopPropagation()}
+                                        onClick={(e) => e.stopPropagation()}
                                         onClose={handleClose}
                                         aria-labelledby="new-post-dialog"
                                         open={open}
@@ -313,7 +281,7 @@ const Profile = ({
                                 }
                             />
                             <StyledDialog
-                                onClick={e => e.stopPropagation()}
+                                onClick={(e) => e.stopPropagation()}
                                 onClose={handleAVIClose}
                                 aria-labelledby="new-post-dialog"
                                 open={aviOpen}
@@ -338,7 +306,7 @@ const Profile = ({
                             justifyContent: 'center',
                             alignItems: 'center',
                             margin: '130px auto 100px',
-                            overflow: 'visible'
+                            overflow: 'visible',
                         }}
                         dataLength={posts.length}
                         next={() => {
@@ -382,6 +350,6 @@ export default connect(
         continuefetchUserPosts,
         fetchAllUserPostsCount,
         clearUserState,
-        clearPostsState
+        clearPostsState,
     }
 )(Profile);
